@@ -1,0 +1,30 @@
+.shape {
+    background: $color-main-light;
+    border-radius: 20px;
+    border: 2px solid $color-elem-first;
+    min-width: 380px;
+    max-width: 594px;
+    overflow: hidden;
+    display: inline-flex;
+
+    &__wrapper {
+        padding: 22px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    &__title {
+        text-align: center;
+
+        &_big {
+            margin: 20px 0 30px;
+        }
+    }
+
+    &__link {
+        margin-top: 16px;
+    }
+}
