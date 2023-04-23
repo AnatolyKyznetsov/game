@@ -1,14 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { ButtonProps } from '../interfaces'
 
-class Button extends Component<ButtonProps, Record<string, unknown>> {
-    render() {
-        return (
-            <button className={this.props.buttonClass} type={this.props.type}>
-                {this.props.text}
-            </button>
-        )
-    }
+export function Button(buttonProps: ButtonProps) {
+    return (
+        <button className={'button ' + buttonProps.buttonClass} type={buttonProps.type}>
+            {buttonProps.text}
+        </button>
+    )
 }
-
-export default Button;

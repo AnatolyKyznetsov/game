@@ -1,42 +1,38 @@
-import React, { ChangeEvent, Component } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { InputProps } from '../interfaces'
 
-class Input extends Component<InputProps, Record<string, string>> {
-    constructor(props: InputProps) {
-        super(props)
-
-        this.state = {
-            labelClass: 'label',
-            inputClass: 'label__input',
-            error: ''
-        }
-    }
-
-    handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = (event.target as HTMLInputElement).value;
-        if (value) {
-            this.setState({ inputClass: 'label__input not-empty' })
-        }
-    }
-
-    hasTooltip() {
-        if (this.props.tooltip) {
-            console.log(this.props)
-            return (<span className='tooltip label__tooltip tooltip_left tooltip_bottom' data-text={this.props.tooltip}></span>)
-        }
-    }
-
-    render() {
-        return (
-            <label className={this.state.labelClass}>
-                <input type={this.props.type} className={this.state.inputClass} name={this.props.name} onChange={this.handleChange}/>
-                <div className='label__line'></div>
-                <span className='label__name'>{this.props.label}</span>
-                <p className='text label_message'>{this.state.error}</p>
-                {this.hasTooltip()}
-            </label>
-        )
-    }
+export const INPUT_TOOLTIPS = {
+    name: 'Первая буква должна быть заглавной, без пробелов и без цифр,допустим дефис',
+    login: 'От 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, допустимы дефис и нижнее подчёркивание',
+    phone: 'Без пробелов, состоит из цифр, может начинается с плюса',
+    password: 'От 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра'
 }
 
-export default Input;
+export function Input(inputProps: InputProps) {
+    const [ labelClass, setLabelClass ] = useState('label');
+    const [ inputClass, setInputClass ] = useState('label__input');
+    const [ error, setError ] = useState('');
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = (event.target as HTMLInputElement).value;
+        if (value) {
+            setInputClass('label__input not-empty');
+        }
+    }
+
+    function hasTooltip() {
+        if (inputProps.tooltip) {
+            return (<span className='tooltip label__tooltip tooltip_left tooltip_bottom' data-text={inputProps.tooltip}></span>)
+        }
+    }
+
+    return (
+        <label className={labelClass}>
+            <input type={inputProps.type} className={inputClass} name={inputProps.name} onChange={handleChange}/>
+            <div className='label__line'></div>
+            <span className='label__name'>{inputProps.label}</span>
+            <p className='text label_message'>{error}</p>
+            {hasTooltip()}
+        </label>
+    )
+}

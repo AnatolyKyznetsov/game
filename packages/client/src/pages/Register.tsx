@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import Input from '../components/Input'
-import { INPUT_TOOLTIPS } from '../components/tooltips'
-import Button from '../components/Button'
+import React from 'react';
+import { Input } from '../components/Input'
+import { INPUT_TOOLTIPS } from '../components/Input'
+import { Button } from '../components/Button'
 
-class Register extends Component {
-    render() {
-        return (
-            <div className='shape'>
-                <div className='shape__wrapper'>
-                    <div className='title title_main shape__title shape__title_big'>
-                        Регистрация
-                    </div>
+export function Register() {
+    return (
+        <div className='shape'>
+            <div className='shape__wrapper'>
+                <div className='title title_main shape__title shape__title_big'>
+                    Регистрация
+                </div>
+                <form method='post' className='form'>
                     <Input
                         type='text'
                         name='first_name'
@@ -59,12 +59,10 @@ class Register extends Component {
                         label='Пароль еще раз'
                         tooltip=''
                     />
-                    <Button type='submit' text='Зарегестрироваться' buttonClass='button form__button'/>
-                    <a href='/' className='link shape__link'>Войти</a>
-                </div>
+                    <Button type='submit' text='Зарегестрироваться' buttonClass='form__button'/>
+                </form>
+                <a href='/' className='link shape__link'>Войти</a>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default Register;

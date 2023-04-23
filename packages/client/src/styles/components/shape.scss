@@ -1,5 +1,5 @@
 .shape {
-    background: #fff;
+    background: $color-shape-background;
     border-radius: 20px;
     border: 2px solid $color-elem-first;
     min-width: 380px;
@@ -27,13 +27,4 @@
     &__link {
         margin-top: 16px;
     }
-}
-
-.main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 40px;
-    overflow: hidden;
 }
