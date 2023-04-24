@@ -14,7 +14,7 @@ export function Input(inputProps: InputProps) {
     const [ error, setError ] = useState('');
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = (event.target as HTMLInputElement).value;
+        const value = event.target.value;
         if (value) {
             setInputClass('label__input not-empty');
         }
