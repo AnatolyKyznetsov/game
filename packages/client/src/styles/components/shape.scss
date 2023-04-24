@@ -1,6 +1,6 @@
 .shape {
     background: $color-main-light;
-    border-radius: 20px;
+    border-radius: $radius;
     border: 2px solid $color-elem-first;
     min-width: 380px;
     max-width: 594px;
