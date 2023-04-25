@@ -21,11 +21,11 @@ export class ErrorBoundary extends Component<
         return { hasError: true }
     }
 
-    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error('Ошибка:', error, errorInfo)
     }
 
-    render(): ReactNode {
+    render() {
         if (this.state.hasError) {
             return <h1>Что-то пошло не так.</h1>
         }
