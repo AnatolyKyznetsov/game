@@ -2,7 +2,7 @@ import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Paths } from './utils/paths'
-import { MainPage } from './pages/MainPage/MainPage'
+import { MainPage } from './pages/MainPage'
 
 export const App = () => {
     const location = useLocation()

@@ -60,7 +60,7 @@ export function RegisterPage() {
                             label='Пароль еще раз'
                             tooltip=''
                         />
-                        <Button type='submit' text='Зарегестрироваться' buttonClass='form__button' />
+                        <Button type='submit' text='Зарегистрироваться' buttonClass='form__button' />
                     </form>
                     <a href='/' className='link shape__link'>Войти</a>
                 </div>

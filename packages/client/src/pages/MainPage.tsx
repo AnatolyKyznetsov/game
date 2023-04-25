@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../../components/Button'
-import { Paths } from '../../utils/paths'
+import { Button } from '../components/Button'
+import { Paths } from '../utils/paths'
 import { gsap } from 'gsap'
-import { gameDescription } from '../../utils/constants'
+import { gameDescription } from '../utils/constants'
 
 export const MainPage = () => {
     const description = useRef(null)
