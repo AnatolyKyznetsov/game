@@ -6,7 +6,8 @@ export interface InputProps {
 }
 
 export interface ButtonProps {
-    type: 'button' | 'submit' | 'reset' | undefined,
+    type: 'button' | 'submit' | 'reset',
     text: string,
     buttonClass: string
+    onClick?: () => void
 }

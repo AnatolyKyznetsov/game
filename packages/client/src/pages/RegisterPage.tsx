@@ -3,7 +3,7 @@ import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 
-export function Register() {
+export function RegisterPage() {
     return (
         <main className='main'>
             <div className='shape'>

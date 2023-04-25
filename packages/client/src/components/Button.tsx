@@ -1,10 +1,10 @@
 import React from 'react'
 import { ButtonProps } from '../interfaces'
 
-export function Button(buttonProps: ButtonProps) {
+export function Button({ buttonClass, type, onClick, text }: ButtonProps) {
     return (
-        <button className={'button ' + buttonProps.buttonClass} type={buttonProps.type}>
-            {buttonProps.text}
+        <button className={'button ' + buttonClass} type={type} onClick={onClick}>
+            {text}
         </button>
     )
 }

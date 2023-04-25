@@ -3,7 +3,7 @@ import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 
-export function Login() {
+export function LoginPage() {
     return (
         <div className='shape'>
             <div className='shape__wrapper'>
