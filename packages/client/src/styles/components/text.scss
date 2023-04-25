@@ -6,8 +6,8 @@
 
     &__main {
         @extend .text;
-        display: block;
-        max-width: 80%;
+        display: flex;
+        max-width: 75%;
         font-size: 32px;
         color: $color-text-light;
     }

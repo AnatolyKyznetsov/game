@@ -17,8 +17,8 @@
 
     &__main {
         @extend .title;
-        display: block;
-        max-width: 80%;
+        display: flex;
+        max-width: 75%;
         font-size: 48px;
         color: $color-text-light;
     }
