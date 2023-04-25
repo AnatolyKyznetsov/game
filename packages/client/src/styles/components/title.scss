@@ -1,0 +1,25 @@
+.title {
+    font-weight: 500;
+    line-height: 1.2;
+    color: $color-text-dark;
+
+    &_main {
+        font-size: 28px;
+    }
+
+    &_section {
+        font-size: 22px;
+    }
+
+    &_block {
+        font-size: 18px;
+    }
+
+    &__main {
+        @extend .title;
+        display: block;
+        max-width: 75%;
+        font-size: 48px;
+        color: $color-text-light;
+    }
+}
