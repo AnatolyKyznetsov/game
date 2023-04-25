@@ -11,8 +11,7 @@
     "lint": "lerna run lint",
     "lint:style": "lerna run lint:style --scope=client",
     "format": "lerna run format",
-    "preview": "lerna run preview",
-    "install": "yarn lerna add"
+    "preview": "lerna run preview"
   },
   "license": "MIT",
   "workspaces": [
