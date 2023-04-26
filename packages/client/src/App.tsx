@@ -1,21 +1,12 @@
-import { useEffect } from 'react'
+import { Register } from './pages/Register'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { Paths } from './utils/paths'
 
-function App() {
-    useEffect(() => {
-        const fetchServerData = async () => {
-            const url = `http://localhost:${__SERVER_PORT__}`
-            const response = await fetch(url)
-            const data = await response.json()
-            console.log(data)
-        }
-
-        fetchServerData()
-    }, [])
-    return <div className="App">
-        <main className='main'>
-            Вот тут будет жить ваше приложение :)
-        </main>
-    </div>
+export const App = () => {
+    const location = useLocation()
+    return (
+        <Routes location={location}>
+            <Route path={Paths.register} element={<Register />} />
+        </Routes>
+    )
 }
-
-export default App
