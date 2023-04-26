@@ -42,4 +42,12 @@
             color: $color-elem-first;
         }
     }
+
+    &__start {
+        @extend .button;
+        position: fixed;
+        bottom: 48px;
+        mix-blend-mode: difference;
+        z-index: 999;
+    }
 }

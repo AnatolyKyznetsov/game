@@ -3,7 +3,7 @@ import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 
-export function Register() {
+export function RegisterPage() {
     return (
         <main className='main'>
             <div className='shape'>
@@ -60,7 +60,7 @@ export function Register() {
                             label='Пароль еще раз'
                             tooltip=''
                         />
-                        <Button type='submit' text='Зарегестрироваться' buttonClass='form__button' />
+                        <Button type='submit' text='Зарегистрироваться' buttonClass='form__button' />
                     </form>
                     <a href='/' className='link shape__link'>Войти</a>
                 </div>

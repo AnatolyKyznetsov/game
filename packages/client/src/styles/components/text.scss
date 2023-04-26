@@ -3,4 +3,12 @@
     font-size: 14px;
     line-height: 1.2;
     color: $color-text-dark;
+
+    &__main {
+        @extend .text;
+        display: block;
+        max-width: 75%;
+        font-size: 32px;
+        color: $color-text-light;
+    }
 }

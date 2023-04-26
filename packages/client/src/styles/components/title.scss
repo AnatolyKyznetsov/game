@@ -14,4 +14,12 @@
     &_block {
         font-size: 18px;
     }
+
+    &__main {
+        @extend .title;
+        display: block;
+        max-width: 75%;
+        font-size: 48px;
+        color: $color-text-light;
+    }
 }
