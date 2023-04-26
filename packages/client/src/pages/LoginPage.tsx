@@ -21,27 +21,23 @@ export function LoginPage() {
     })
 
     useEffect(() => {
-        const userInfo = isAuth;
-        if (userInfo && userInfo.userData?.id) {
+        if (isAuth) {
             navigate(Paths.main)
         }
-    })
+    }, [ isAuth ])
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
-            const login = loginRef.current?.value;
-            const password = passwordRef.current?.value;
             signin({
-                login: login as string,
-                password: password as string
+                login: (loginRef.current as HTMLInputElement).value,
+                password: (passwordRef.current as HTMLInputElement).value
             })
 
             dispatch(getUserInfo());
 
-            const userInfo = isAuth;
-            if (userInfo && userInfo.userData?.id) {
+            if (isAuth) {
                 navigate(Paths.main)
             }
         }

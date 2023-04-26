@@ -20,6 +20,8 @@ export const registerUser = createAsyncThunk('user/register', async (data: Signu
     if (response.ok) {
         return await response.json();
     }
+
+    return Promise.reject(`Error ${response.status}`);
 })
 
 export const signinUser = createAsyncThunk('user/signin', async (data: SigninData) => {
@@ -63,4 +65,6 @@ export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
     if (response.ok) {
         return await response.json()
     }
+
+    return Promise.reject(`Error ${response.status}`);
 })
