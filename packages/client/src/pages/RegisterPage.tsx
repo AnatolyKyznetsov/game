@@ -21,7 +21,7 @@ export function RegisterPage() {
         secondName: false
     })
 
-    const handleClick = (e: Event) => {e.preventDefault();
+    const handleClick = () => {
         if (!Object.values(validateFields()).includes(true)) {
             navigator('/')
         }

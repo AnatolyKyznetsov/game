@@ -13,5 +13,5 @@ export interface ButtonProps {
     type: 'button' | 'submit' | 'reset',
     text: string,
     buttonClass: string
-    onClick?: (e: Event) => void
+    onClick?: () => void
 }

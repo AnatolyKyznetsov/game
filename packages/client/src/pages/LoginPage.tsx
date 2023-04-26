@@ -14,8 +14,7 @@ export function LoginPage() {
         password: false
     })
 
-    const handleClick = (e: Event) => {
-        e.preventDefault();
+    const handleClick = () => {
         if (!Object.values(validateFields()).includes(true)) {
             navigator('/')
         }
