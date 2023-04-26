@@ -3,6 +3,7 @@ import { LoginPage } from './pages/LoginPage'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Paths } from './utils/paths'
 import { MainPage } from './pages/MainPage'
+import { Error } from './pages/Error'
 
 export const App = () => {
     const location = useLocation()
@@ -11,6 +12,8 @@ export const App = () => {
             <Route path={Paths.register} element={<RegisterPage />} />
             <Route path={Paths.login} element={<LoginPage />} />
             <Route path={Paths.main} element={<MainPage />} />
+            <Route path={Paths.notFound} element={<Error title="404" />} />
+            <Route path={Paths.error} element={<Error title="500" />} />
         </Routes>
     )
 }
