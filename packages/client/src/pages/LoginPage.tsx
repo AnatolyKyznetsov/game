@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react'
+import React, { createRef, FormEvent, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
@@ -14,7 +14,8 @@ export function LoginPage() {
         password: false
     })
 
-    const handleClick = () => {
+    const handleClick = (e: FormEvent) => {
+        e.preventDefault();
         if (!Object.values(validateFields()).includes(true)) {
             navigator('/')
         }
