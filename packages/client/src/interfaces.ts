@@ -1,4 +1,4 @@
-import { RefObject } from 'react'
+import { FormEvent, RefObject } from 'react'
 
 export interface InputProps {
     type: string,
@@ -13,5 +13,5 @@ export interface ButtonProps {
     type: 'button' | 'submit' | 'reset',
     text: string,
     buttonClass: string
-    onClick?: () => void
+    onClick?: (e: FormEvent) => void
 }
