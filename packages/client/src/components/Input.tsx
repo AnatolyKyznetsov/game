@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, ForwardedRef, forwardRef, useState } from 'react'
 import { InputProps } from '../interfaces'
+import { Validator } from '../utils/Validator'
 
 export const INPUT_TOOLTIPS = {
     name: 'Первая буква должна быть заглавной, без пробелов и без цифр,допустим дефис',
@@ -8,15 +9,29 @@ export const INPUT_TOOLTIPS = {
     password: 'От 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра'
 }
 
-export function Input(inputProps: InputProps) {
-    const [ labelClass, setLabelClass ] = useState('label');
+export const Input = forwardRef((inputProps: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const [ value, setValue ] = useState('');
     const [ inputClass, setInputClass ] = useState('label__input');
-    const [ error, setError ] = useState('');
+    const [ error, setError ] = useState(inputProps.error);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         if (value) {
             setInputClass('label__input not-empty');
+            setValue(value);
+        }
+    }
+
+    const handleBlur = () => {
+        const validation = Validator(value, inputProps.name);
+        if (!validation && inputProps.tooltip) {
+            setError(true);
+        }
+    }
+
+    const handleFocus = () => {
+        if (error) {
+            setError(false);
         }
     }
 
@@ -26,13 +41,16 @@ export function Input(inputProps: InputProps) {
         }
     }
 
+    const labelClass = error ? 'label error' : 'label'
     return (
         <label className={labelClass}>
-            <input type={inputProps.type} className={inputClass} name={inputProps.name} onChange={handleChange}/>
+            <input type={inputProps.type} className={inputClass} name={inputProps.name}
+                onChange={handleChange} onBlur={handleBlur} onFocus={handleFocus}
+                ref={ref}/>
             <div className='label__line'></div>
             <span className='label__name'>{inputProps.label}</span>
-            <p className='text label_message'>{error}</p>
+            <p className='text label__message'>{error ? 'Неверно заполнено поле' : ''}</p>
             {hasTooltip()}
         </label>
     )
-}
+})
