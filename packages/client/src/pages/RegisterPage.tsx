@@ -101,7 +101,7 @@ export function RegisterPage() {
                             label='Пароль еще раз'
                             tooltip=''
                         />
-                        <Button type='button' text='Зарегестрироваться'
+                        <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button' onClick={handleClick}/>
                     </form>
                     <a href='/login' className='link shape__link'>Войти</a>
