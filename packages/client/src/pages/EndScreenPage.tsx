@@ -41,5 +41,3 @@ export const EndScreenPage = () => {
         </main>
     )
 }
-
-//newline
