@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-interface ErrorProps {
+interface ErrorPageProps {
     title: string
 }
 
-export const Error: FC<ErrorProps> = ({ title }) => {
+export const ErrorPage: FC<ErrorPageProps> = ({ title }) => {
     const navigate = useNavigate()
 
     const handleBack = () => {
