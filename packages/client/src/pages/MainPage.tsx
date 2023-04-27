@@ -45,3 +45,5 @@ export const MainPage = () => {
         </main>
     )
 }
+
+/* newline */

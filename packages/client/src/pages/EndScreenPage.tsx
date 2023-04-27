@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Paths } from '../utils/paths'
 import { Button } from '../components/Button'
 
-export const EndScreenPage= () => {
+export const EndScreenPage = () => {
     const title = useRef(null)
     const [ isActiveButton, setIsActiveButton ] = useState(false)
     const navigate = useNavigate()
@@ -41,3 +41,5 @@ export const EndScreenPage= () => {
         </main>
     )
 }
+
+//newline
