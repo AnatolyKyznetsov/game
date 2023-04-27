@@ -11,3 +11,8 @@ export interface ButtonProps {
     buttonClass: string
     onClick?: () => void
 }
+
+export interface ParticipantProps {
+    name: string,
+    score: string
+}
