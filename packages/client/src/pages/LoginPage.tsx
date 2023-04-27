@@ -1,14 +1,14 @@
-import React, { createRef, FormEvent, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigate } from 'react-router-dom'
-import { Validator } from '../utils/Validator'
+import { validator } from '../utils/validator'
 
 export function LoginPage() {
     const navigator = useNavigate();
-    const loginRef = createRef<HTMLInputElement>();
-    const passwordRef = createRef<HTMLInputElement>();
+    const loginRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false
@@ -23,8 +23,8 @@ export function LoginPage() {
 
     const validateFields = () => {
         const newErrorFields = {
-            login: !Validator(loginRef.current?.value, 'login'),
-            password: !Validator(passwordRef.current?.value, 'password')
+            login: !validator(loginRef.current?.value, 'login'),
+            password: !validator(passwordRef.current?.value, 'password')
         }
         setErrorFields(newErrorFields);
 

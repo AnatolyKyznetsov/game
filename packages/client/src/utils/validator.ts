@@ -1,4 +1,4 @@
-export function Validator(string: string | undefined, type: string): boolean {
+export function validator(string: string | undefined, type: string, secondString?: string | undefined) {
     let reg;
     let result;
     switch (type){
@@ -36,7 +36,7 @@ export function Validator(string: string | undefined, type: string): boolean {
         if (string) {
             result = string.match(reg);
         }
-        if (!result || result.length !== 1) return false
+        if (!result || result.length !== 1 || string !== secondString) return false
         break
     case 'message':
         if (string && string.length < 1) return false

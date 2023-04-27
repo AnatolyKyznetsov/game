@@ -1,6 +1,6 @@
-import React, { ChangeEvent, ForwardedRef, forwardRef, useState } from 'react'
+import React, { ForwardedRef, forwardRef, RefObject, useState } from 'react'
 import { InputProps } from '../interfaces'
-import { Validator } from '../utils/Validator'
+import { validator } from '../utils/validator'
 
 export const INPUT_TOOLTIPS = {
     name: 'Первая буква должна быть заглавной, без пробелов и без цифр,допустим дефис',
@@ -10,20 +10,18 @@ export const INPUT_TOOLTIPS = {
 }
 
 export const Input = forwardRef((inputProps: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
-    const [ value, setValue ] = useState('');
     const [ inputClass, setInputClass ] = useState('label__input');
     const [ error, setError ] = useState(inputProps.error);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
+    const handleChange = () => {
+        const value = (ref as RefObject<HTMLInputElement>).current?.value;
         if (value) {
             setInputClass('label__input not-empty');
-            setValue(value);
         }
     }
 
     const handleBlur = () => {
-        const validation = Validator(value, inputProps.name);
+        const validation = validator((ref as RefObject<HTMLInputElement>).current?.value, inputProps.name);
         if (!validation && inputProps.tooltip) {
             setError(true);
         }

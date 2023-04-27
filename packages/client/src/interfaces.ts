@@ -1,12 +1,11 @@
-import { FormEvent, RefObject } from 'react'
+import { FormEvent } from 'react'
 
 export interface InputProps {
     type: string,
     name: string,
     label: string
     tooltip: string,
-    error?: boolean,
-    ref?: RefObject<HTMLInputElement>
+    error?: boolean
 }
 
 export interface ButtonProps {

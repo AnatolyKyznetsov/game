@@ -1,18 +1,19 @@
-import React, { createRef, FormEvent, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { useNavigate } from 'react-router-dom'
-import { Validator } from '../utils/Validator'
+import { validator } from '../utils/validator'
 
 export function RegisterPage() {
     const navigator = useNavigate()
-    const firstNameRef = createRef<HTMLInputElement>();
-    const secondNameRef = createRef<HTMLInputElement>();
-    const phoneRef = createRef<HTMLInputElement>();
-    const loginRef = createRef<HTMLInputElement>();
-    const passwordRef = createRef<HTMLInputElement>();
-    const emailRef = createRef<HTMLInputElement>();
+    const firstNameRef = useRef<HTMLInputElement>(null);
+    const secondNameRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+    const loginRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const passwordAgainRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false,
@@ -23,7 +24,6 @@ export function RegisterPage() {
 
     const handleClick = (e: FormEvent) => {
         e.preventDefault();
-        console.log('dddd')
         if (!Object.values(validateFields()).includes(true)) {
             navigator('/')
         }
@@ -31,11 +31,11 @@ export function RegisterPage() {
 
     const validateFields = () => {
         const newErrorFields = {
-            login: !Validator(loginRef.current?.value, 'login'),
-            password: !Validator(passwordRef.current?.value, 'password'),
-            phone: !Validator(phoneRef.current?.value, 'phone'),
-            firstName: !Validator(firstNameRef.current?.value, 'first_name'),
-            secondName: !Validator(secondNameRef.current?.value, 'second_name')
+            login: !validator(loginRef.current?.value, 'login'),
+            password: !validator(passwordRef.current?.value, 'password', passwordAgainRef.current?.value),
+            phone: !validator(phoneRef.current?.value, 'phone'),
+            firstName: !validator(firstNameRef.current?.value, 'first_name'),
+            secondName: !validator(secondNameRef.current?.value, 'second_name')
         }
         setErrorFields(newErrorFields);
 
@@ -102,6 +102,7 @@ export function RegisterPage() {
                             name='password'
                             label='Пароль еще раз'
                             tooltip=''
+                            ref={passwordAgainRef}
                         />
                         <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button' onClick={handleClick}/>
