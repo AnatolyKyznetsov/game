@@ -6,4 +6,9 @@
     min-height: 100vh;
     padding: 40px;
     overflow: hidden;
+
+    &__logo {
+        max-width: 100%;
+        height: auto;
+    }
 }

@@ -11,3 +11,16 @@ export interface ButtonProps {
     buttonClass: string
     onClick?: () => void
 }
+
+export interface MenuItemProps {
+    title: string,
+    url?: string,
+    isActive?: boolean,
+    index?: number,
+    clickHandeler?: () => void,
+    mouseEnterHandeler?: (e: React.MouseEvent) => void,
+}
+
+export interface MenuProps {
+    items: MenuItemProps[]
+}
