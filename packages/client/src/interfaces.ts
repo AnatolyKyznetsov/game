@@ -12,6 +12,5 @@ export interface ButtonProps {
     type: 'button' | 'submit' | 'reset',
     text: string,
     buttonClass: string,
-    onSubmit?: (e: FormEvent) => void
     onClick?: (e: FormEvent) => void
 }

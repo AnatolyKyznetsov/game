@@ -4,6 +4,7 @@ import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
+import { Paths } from '../utils/paths'
 
 export function LoginPage() {
     const navigator = useNavigate();
@@ -14,10 +15,10 @@ export function LoginPage() {
         password: false
     })
 
-    const handleClick = (e: FormEvent) => {
+    const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         if (!Object.values(validateFields()).includes(true)) {
-            navigator('/')
+            navigator(Paths.main)
         }
     }
 
@@ -38,7 +39,7 @@ export function LoginPage() {
                     <div className='title title_main shape__title shape__title_big'>
                         Вход
                     </div>
-                    <form method='post' className='form'>
+                    <form method='post' className='form' onSubmit={onSubmitForm}>
                         <Input
                             type='text'
                             name='login'
@@ -55,10 +56,9 @@ export function LoginPage() {
                             ref={passwordRef}
                             error={errorFields.password}
                         />
-                        <Button type='submit' text='Войти' buttonClass='form__button'
-                            onSubmit={handleClick}/>
+                        <Button type='submit' text='Войти' buttonClass='form__button'/>
                     </form>
-                    <Link to='/register' className='link shape__link'>Еще не зарегестрированы?</Link>
+                    <Link to={Paths.register} className='link shape__link'>Еще не зарегестрированы?</Link>
                 </div>
             </div>
         </main>
