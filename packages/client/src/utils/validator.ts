@@ -1,4 +1,4 @@
-export function validator(string: string | undefined, type: string, secondString?: string | undefined) {
+export function validator(string: string | undefined, type: string, secondString?: string) {
     let reg;
     let result;
     switch (type){
