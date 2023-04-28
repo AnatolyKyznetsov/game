@@ -2,7 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 
 export function RegisterPage() {
@@ -105,9 +105,9 @@ export function RegisterPage() {
                             ref={passwordAgainRef}
                         />
                         <Button type='submit' text='Зарегестрироваться'
-                            buttonClass='form__button' onClick={handleClick}/>
+                            buttonClass='form__button' onSubmit={handleClick}/>
                     </form>
-                    <a href='/login' className='link shape__link'>Войти</a>
+                    <Link to='/login' className='link shape__link'>Войти</Link>
                 </div>
             </div>
         </main>

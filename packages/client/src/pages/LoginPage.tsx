@@ -2,7 +2,7 @@ import React, { FormEvent, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 
 export function LoginPage() {
@@ -56,9 +56,9 @@ export function LoginPage() {
                             error={errorFields.password}
                         />
                         <Button type='submit' text='Войти' buttonClass='form__button'
-                            onClick={handleClick}/>
+                            onSubmit={handleClick}/>
                     </form>
-                    <a href='/register' className='link shape__link'>Еще не зарегестрированы?</a>
+                    <Link to='/register' className='link shape__link'>Еще не зарегестрированы?</Link>
                 </div>
             </div>
         </main>

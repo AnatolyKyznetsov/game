@@ -32,7 +32,7 @@ export function validator(string: string | undefined, type: string, secondString
         if (!result || result.length !== 1) return false
         break
     case 'password':
-        reg = '^(?=.*[0-9])(?=.*[a-zA-Z])(?:[a-zA-Z0-9_-]+){8,40}$';
+        reg = '(?=.*[A-Z|А-Я])(?=.*[\\\\d])[\\\\w|А-Я|а-я]{8,40}';
         if (string) {
             result = string.match(reg);
         }
