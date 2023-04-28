@@ -13,14 +13,16 @@ export function RegisterPage() {
     const phoneRef = useRef<HTMLInputElement>(null);
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const passwordAgainRef = useRef<HTMLInputElement>(null);
+    const passwordRepeatRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false,
         phone: false,
         firstName: false,
-        secondName: false
+        secondName: false,
+        email: false,
+        passwordRepeat: false
     })
 
     const onSubmitForm = (e: FormEvent) => {
@@ -33,11 +35,14 @@ export function RegisterPage() {
     const validateFields = () => {
         const newErrorFields = {
             login: !validator(loginRef.current?.value, 'login'),
-            password: !validator(passwordRef.current?.value, 'password', passwordAgainRef.current?.value),
+            password: !validator(passwordRef.current?.value, 'password'),
             phone: !validator(phoneRef.current?.value, 'phone'),
             firstName: !validator(firstNameRef.current?.value, 'first_name'),
-            secondName: !validator(secondNameRef.current?.value, 'second_name')
+            secondName: !validator(secondNameRef.current?.value, 'second_name'),
+            email: !validator(emailRef.current?.value, 'email'),
+            passwordRepeat: !validator(passwordRef.current?.value, 'passwordRepeat', passwordRepeatRef.current?.value)
         }
+        console.log(newErrorFields)
         setErrorFields(newErrorFields);
 
         return newErrorFields
@@ -79,8 +84,9 @@ export function RegisterPage() {
                             type='text'
                             name='email'
                             label='Почта'
-                            tooltip=''
+                            tooltip={INPUT_TOOLTIPS.email}
                             ref={emailRef}
+                            error={errorFields.email}
                         />
                         <Input
                             type='text'
@@ -100,10 +106,11 @@ export function RegisterPage() {
                         />
                         <Input
                             type='password'
-                            name='password'
+                            name='passwordRepeat'
                             label='Пароль еще раз'
                             tooltip=''
-                            ref={passwordAgainRef}
+                            ref={passwordRepeatRef}
+                            error={errorFields.passwordRepeat}
                         />
                         <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button'/>

@@ -21,10 +21,8 @@ export function validator(string: string | undefined, type: string, secondString
         return result.test(string);
     case 'password':
         result = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z])(?:[a-zA-Z0-9_-]+){8,40}$');
-        if (secondString) {
-            return result.test(string) && string === secondString;
-        } else {
-            return result.test(string);
-        }
+        return result.test(string);
+    case 'passwordRepeat':
+        return string === secondString
     }
 }
