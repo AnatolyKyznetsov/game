@@ -1,27 +1,24 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button } from '../components/Button'
-import { Paths } from '../utils/paths'
 import { gsap } from 'gsap'
-import { gameDescription } from '../utils/constants'
+import { useNavigate } from 'react-router-dom'
+import { Paths } from '../utils/paths'
+import { Button } from '../components/Button'
 
-export const MainPage = () => {
-    const description = useRef(null)
+export const EndScreenPage = () => {
     const title = useRef(null)
     const [ isActiveButton, setIsActiveButton ] = useState(false)
     const navigate = useNavigate()
 
-    const handleStartButton = () => {
-        navigate(Paths.register)
+    const handleEndButton = () => {
+        navigate(Paths.main)
     }
-
     useEffect(() => {
         const context = gsap.context(() => {
-            gsap.to([ description.current, title.current ], {
+            gsap.to(title.current, {
                 startAt: {
                     y: '80vh'
                 },
-                duration: 6,
+                duration: 7,
                 ease: 'elastic',
                 y: '-=90vh',
                 onComplete: () => setIsActiveButton(true),
@@ -35,12 +32,11 @@ export const MainPage = () => {
 
     return (
         <main className='main'>
-            <h1 className='title__main' ref={title}>The Lost Vikings</h1>
-            <p className='text__main' ref={description}>{gameDescription}</p>
+            <h1 className='title__main' ref={title}>The End</h1>
             {isActiveButton && <Button
-                onClick={handleStartButton}
+                onClick={handleEndButton}
                 type='button'
-                text='Начать'
+                text='Начать с начала'
                 buttonClass='button__start' />}
         </main>
     )
