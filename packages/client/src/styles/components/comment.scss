@@ -1,0 +1,23 @@
+.comment {
+    display: flex;
+    padding: 8px;
+    gap: 16px;
+    align-items: center;
+    width: 80%;
+    background: $color-elem-first;
+    box-sizing: border-box;
+    border-radius: 16px;
+
+    &__box {
+        display: flex;
+        padding: 2px;
+        gap: 32px;
+
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+}

@@ -22,4 +22,13 @@
         font-size: 48px;
         color: $color-text-light;
     }
+
+    &__comment {
+        @extend .title;
+        display: flex;
+        color: $color-text-light;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
 }
