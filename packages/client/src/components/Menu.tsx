@@ -63,7 +63,15 @@ export const Menu = ({ items }: MenuProps) => {
             {items.map((item, key) => {
                 if (item.url || item.clickHandeler) {
                     return (
-                        <MenuItem key={item.id} index={key} isActive={key === activeIndex} title={item.title} url={item.url} clickHandeler={item.clickHandeler} mouseEnterHandeler={handleMouseEneter} />
+                        <MenuItem
+                            key={item.id}
+                            index={key}
+                            isActive={key === activeIndex}
+                            url={item.url}
+                            title={item.title}
+                            clickHandeler={item.clickHandeler}
+                            mouseEnterHandeler={handleMouseEneter}
+                        />
                     )
                 }
             })}
