@@ -1,10 +1,9 @@
 import React from 'react'
 import { Paths } from '../utils/paths'
-import { MenuItemProps } from '../interfaces'
 import { Menu } from '../components/Menu'
 
 export const StartPage = () => {
-    const menuItems: MenuItemProps[] = [
+    const menuItems = [
         { title: 'Новая игра', url: Paths.game },
         { title: 'Форум', url: Paths.feed },
         { title: 'Профиль', url: Paths.profile },
@@ -13,7 +12,7 @@ export const StartPage = () => {
 
     return (
         <main className='main'>
-            <img className="main__logo" src="/images/logo.png" alt="" />
+            <img className="main__logo" src="/images/logo.png" alt="Логотип." />
             <Menu items={menuItems} />
         </main>
     )

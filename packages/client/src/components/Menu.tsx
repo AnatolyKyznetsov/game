@@ -2,10 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MenuProps } from '../interfaces'
 import { MenuItem } from './MenuItem';
+import { v4 as makeId } from 'uuid'
 
 export const Menu = ({ items }: MenuProps) => {
     const navigate = useNavigate();
     const [ activeIndex, setActiveIndex ] = useState(0);
+    const id = makeId();
 
     const handleKeyPressArrow = useCallback(
         (e: KeyboardEvent) => {
@@ -63,7 +65,7 @@ export const Menu = ({ items }: MenuProps) => {
             {items.map((item, key) => {
                 if (item.url || item.clickHandeler) {
                     return (
-                        <MenuItem key={key} index={key} isActive={key === activeIndex} title={item.title} url={item.url} clickHandeler={item.clickHandeler} mouseEnterHandeler={handleMouseEneter} />
+                        <MenuItem key={id} index={key} isActive={key === activeIndex} title={item.title} url={item.url} clickHandeler={item.clickHandeler} mouseEnterHandeler={handleMouseEneter} />
                     )
                 }
             })}
