@@ -13,6 +13,7 @@ export interface ButtonProps {
 }
 
 export interface MenuItemProps {
+    id?: string,
     title: string,
     url?: string,
     isActive?: boolean,
