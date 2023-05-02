@@ -7,7 +7,7 @@ import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 
 export function LoginPage() {
-    const navigator = useNavigate();
+    const navigate = useNavigate();
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [ errorFields, setErrorFields ] = useState({
@@ -17,19 +17,20 @@ export function LoginPage() {
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
-        if (!Object.values(validateFields()).includes(true)) {
-            navigator(Paths.main)
+        const fieldsValidated = validateFields();
+        if (fieldsValidated) {
+            navigate(Paths.main)
         }
     }
 
-    const validateFields = () => {
+    const validateFields = (): boolean => {
         const newErrorFields = {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password')
         }
         setErrorFields(newErrorFields);
 
-        return newErrorFields
+        return !Object.values(validateFields()).includes(true)
     }
 
     return (

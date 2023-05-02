@@ -10,17 +10,18 @@ export const INPUT_TOOLTIPS = {
     email: 'Почта может включать цифры и буквы'
 }
 
-export const Input = forwardRef((inputProps: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const { type, name, label, tooltip, error } = props;
     const [ inputClass, setInputClass ] = useState('label__input');
-    const [ error, setError ] = useState(inputProps.error);
+    const [ inputError, setInputError ] = useState(error);
 
     useEffect(() => {
-        setError(inputProps.error)
+        setInputError(error)
 
         return () => {
-            setError(false)
+            setInputError(false)
         }
-    }, [ inputProps.error ]);
+    }, [ error ]);
 
     const handleChange = () => {
         const value = (ref as RefObject<HTMLInputElement>).current?.value;
@@ -31,38 +32,38 @@ export const Input = forwardRef((inputProps: InputProps, ref: ForwardedRef<HTMLI
     }
 
     const handleBlur = () => {
-        if (inputProps.name === 'passwordRepeat') {
+        if (name === 'passwordRepeat') {
             return
         }
 
-        const validation = validator((ref as RefObject<HTMLInputElement>).current?.value, inputProps.name);
+        const validation = validator((ref as RefObject<HTMLInputElement>).current?.value, name);
         if (!validation) {
-            setError(true);
+            setInputError(true);
         }
     }
 
     const removeError = () => {
-        if (error) {
-            setError(false);
+        if (inputError) {
+            setInputError(false);
         }
     }
 
-    const hasTooltip = () => {
-        if (inputProps.tooltip) {
-            return (<span className='tooltip label__tooltip tooltip_left tooltip_bottom' data-text={inputProps.tooltip}></span>)
+    const addTooltip = () => {
+        if (tooltip) {
+            return (<span className='tooltip label__tooltip tooltip_left tooltip_bottom' data-text={tooltip}></span>)
         }
     }
 
-    const labelClass = error ? 'label error' : 'label';
+    const labelClass = inputError ? 'label error' : 'label';
     return (
         <label className={labelClass}>
-            <input type={inputProps.type} className={inputClass} name={inputProps.name}
+            <input type={type} className={inputClass} name={name}
                 onChange={handleChange} onBlur={handleBlur} onFocus={removeError}
                 ref={ref}/>
             <div className='label__line'></div>
-            <span className='label__name'>{inputProps.label}</span>
-            <p className='text label__message'>{error ? (inputProps.name === 'passwordRepeat' ? 'Пароли должны совпадать' : 'Неверно заполнено поле') : ''}</p>
-            {hasTooltip()}
+            <span className='label__name'>{label}</span>
+            <p className='text label__message'>{inputError ? (name === 'passwordRepeat' ? 'Пароли должны совпадать' : 'Неверно заполнено поле') : ''}</p>
+            {addTooltip()}
         </label>
     )
 })

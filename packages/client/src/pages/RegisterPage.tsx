@@ -7,7 +7,7 @@ import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 
 export function RegisterPage() {
-    const navigator = useNavigate()
+    const navigate = useNavigate()
     const firstNameRef = useRef<HTMLInputElement>(null);
     const secondNameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
@@ -27,12 +27,13 @@ export function RegisterPage() {
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
-        if (!Object.values(validateFields()).includes(true)) {
-            navigator(Paths.main);
+        const fieldsValidated = validateFields();
+        if (fieldsValidated) {
+            navigate(Paths.main);
         }
     }
 
-    const validateFields = () => {
+    const validateFields = (): boolean => {
         const newErrorFields = {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password'),
@@ -42,10 +43,10 @@ export function RegisterPage() {
             email: !validator(emailRef.current?.value, 'email'),
             passwordRepeat: !validator(passwordRef.current?.value, 'passwordRepeat', passwordRepeatRef.current?.value)
         }
-        console.log(newErrorFields)
+
         setErrorFields(newErrorFields);
 
-        return newErrorFields
+        return !Object.values(validateFields()).includes(true)
     }
 
     return (
@@ -108,7 +109,6 @@ export function RegisterPage() {
                             type='password'
                             name='passwordRepeat'
                             label='Пароль еще раз'
-                            tooltip=''
                             ref={passwordRepeatRef}
                             error={errorFields.passwordRepeat}
                         />

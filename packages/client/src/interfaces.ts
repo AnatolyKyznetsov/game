@@ -4,7 +4,7 @@ export interface InputProps {
     type: string,
     name: string,
     label: string
-    tooltip: string,
+    tooltip?: string,
     error?: boolean
 }
 
