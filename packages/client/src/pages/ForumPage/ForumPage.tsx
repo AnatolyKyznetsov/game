@@ -24,6 +24,7 @@ export const ForumPage = () => {
         setComments([ ...comments, comment ])
         setCommentText('')
     }
+
     return (
         <main className="main__feed">
             <section className='content'>
@@ -45,9 +46,7 @@ export const ForumPage = () => {
                     className='textarea__feed'
                     placeholder='Написать комментарий'
                     name='comment'
-                    value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
-
+                    onBlur={(e) => setCommentText(e.target.value)}
                 />
                 {commentText && <Button buttonClass='button__feed' type='button' onClick={handleSendComment} text='Отправить' />}
             </footer>

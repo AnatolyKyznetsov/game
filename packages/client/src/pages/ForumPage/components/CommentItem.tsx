@@ -17,14 +17,14 @@ export const CommentItem = ({
     text,
     date }: CommentItemProps) => {
          
-    const formatedDate = getDateToLocale(date)
+    const formattedDate = getDateToLocale(date)
     return (
         <section className='comment'>
             <div className='avatar' />
             <div className='comment__wrapper'>
                 <div className='comment__box'>
                     <span>{login}</span>
-                    <span>{formatedDate}</span>
+                    <span>{formattedDate}</span>
                 </div>
                 <p className='text__comment'>{text}</p>
             </div>
