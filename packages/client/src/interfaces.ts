@@ -18,8 +18,8 @@ export interface MenuItemProps {
     url?: string,
     isActive?: boolean,
     index?: number,
-    clickHandeler?: () => void,
-    mouseEnterHandeler?: (e: React.MouseEvent) => void,
+    clickHandler?: () => void,
+    mouseEnterHandler?: (e: React.MouseEvent) => void,
 }
 
 export interface MenuProps {

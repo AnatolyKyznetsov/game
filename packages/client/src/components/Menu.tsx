@@ -20,31 +20,25 @@ export const Menu = ({ items }: MenuProps) => {
         [ items.length ]
     )
 
-    const handleKeyPressEnter = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
-                const item = items[activeIndex];
+    const handleKeyPressEnter = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            const item = items[activeIndex];
 
-                if (item.url) {
-                    navigate(item.url);
-                } else if (item.clickHandeler) {
-                    item.clickHandeler();
-                }
+            if (item.url) {
+                navigate(item.url);
+            } else if (item.clickHandler) {
+                item.clickHandler();
             }
-        },
-        [ activeIndex ]
-    );
+        }
+    }
 
-    const handleMouseEneter = useCallback(
-        (e: React.MouseEvent) => {
-            const target = e.target as HTMLElement;
+    const handleMouseEnter = (e: React.MouseEvent) => {
+        const target = e.target;
 
-            if (target.dataset.index) {
-                setActiveIndex(Number(target.dataset.index));
-            }
-        },
-        [ activeIndex ]
-    )
+        if (target instanceof HTMLElement && target.dataset.index) {
+            setActiveIndex(Number(target.dataset.index));
+        }
+    }
 
     useEffect(() => {
         if (items.length) {
@@ -56,12 +50,12 @@ export const Menu = ({ items }: MenuProps) => {
             window.removeEventListener('keydown', handleKeyPressArrow);
             window.removeEventListener('keydown', handleKeyPressEnter);
         }
-    }, [ activeIndex ]);
+    }, []);
 
     return (
         <nav className='menu'>
             {items.map((item, key) => {
-                if (item.url || item.clickHandeler) {
+                if (item.url || item.clickHandler) {
                     return (
                         <MenuItem
                             key={item.id}
@@ -69,8 +63,8 @@ export const Menu = ({ items }: MenuProps) => {
                             isActive={key === activeIndex}
                             url={item.url}
                             title={item.title}
-                            clickHandeler={item.clickHandeler}
-                            mouseEnterHandeler={handleMouseEneter}
+                            clickHandler={item.clickHandler}
+                            mouseEnterHandler={handleMouseEnter}
                         />
                     )
                 }
