@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser } from './userThunks'
+import { registerUser } from './actions'
 
 export interface User {
     userData: UserData
