@@ -6,4 +6,10 @@
     min-height: 100vh;
     padding: 40px;
     overflow: hidden;
+
+    &__feed {
+        @extend .main;
+        align-items: flex-start;
+        gap: 16px;
+    }
 }
