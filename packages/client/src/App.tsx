@@ -5,6 +5,7 @@ import { Paths } from './utils/paths'
 import { MainPage } from './pages/MainPage'
 import { ErrorPage } from './pages/ErrorPage'
 import { ForumPage } from './pages/ForumPage/ForumPage'
+import { EndScreenPage } from './pages/EndScreenPage'
 
 export const App = () => {
     const location = useLocation()
@@ -12,6 +13,7 @@ export const App = () => {
         <Routes location={location}>
             <Route path={Paths.register} element={<RegisterPage />} />
             <Route path={Paths.login} element={<LoginPage />} />
+            <Route path={Paths.endScreen} element={<EndScreenPage />} />
             <Route path={Paths.feed} element={<ForumPage />} />
             <Route path={Paths.main} element={<MainPage />} />
             <Route path={Paths.notFound} element={<ErrorPage title="404" />} />
