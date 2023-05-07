@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { Urls } from '../utils/api'
-import { request } from '../utils/request'
+import { createSlice } from '@reduxjs/toolkit'
+import { registerUser } from './userThunks'
 
 export interface User {
     userData: UserData
@@ -16,21 +15,6 @@ export interface UserData {
     phone: string
     avatar: string
 }
-
-type SignupData = Omit<UserData, 'id' | 'display_name' | 'avatar'>
-
-export const registerUser = createAsyncThunk('user/register', async (data: SignupData) => {
-    const { baseUrl, signup } = Urls
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    }
-    const response = request(`${baseUrl}${signup}`, options)
-    return response
-})
 
 const initialState: User = {
     userData: {

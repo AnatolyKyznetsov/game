@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { User } from './userSlice'
+import { UserData } from '../userSlice/userSlice'
 
 export interface Chat {
     id: number | null
@@ -10,7 +10,7 @@ export interface Chat {
 }
 
 export interface LastMessage {
-    user: Omit<User, 'id' | 'display_name'>
+    user: Omit<UserData, 'id' | 'display_name'>
     time: string
     content: string
 }

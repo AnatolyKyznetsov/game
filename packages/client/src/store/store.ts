@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { userReducer } from './userSlice'
-import { leaderBoardReducer } from './leaderBoardSlice'
-import { forumReducer } from './forumSlice'
+import { userReducer } from './slices/userSlice/userSlice'
+import { leaderBoardReducer } from './slices/leaderBoardSlice/leaderBoardSlice'
+import { forumReducer } from './slices/forumSlice/forumSlice'
 
 export const store = configureStore({
     reducer: {
