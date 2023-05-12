@@ -11,4 +11,10 @@
         max-width: 100%;
         height: auto;
     }
+
+    &__feed {
+        @extend .main;
+        align-items: flex-start;
+        gap: 16px;
+    }
 }

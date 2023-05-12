@@ -11,4 +11,14 @@
         font-size: 32px;
         color: $color-text-light;
     }
+
+    &__comment {
+        display: block;
+        @extend .text;
+        max-width: 100%;
+        color: $color-text-dark;
+        word-wrap: break-word;
+        overflow-y: auto;
+        max-height: 120px;
+    }
 }
