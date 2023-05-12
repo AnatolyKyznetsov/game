@@ -1,4 +1,5 @@
 .title {
+    text-transform: uppercase;
     font-weight: 500;
     line-height: 1.2;
     color: $color-text-dark;
@@ -21,5 +22,14 @@
         max-width: 75%;
         font-size: 48px;
         color: $color-text-light;
+    }
+
+    &__comment {
+        @extend .title;
+        display: flex;
+        color: $color-text-light;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
     }
 }

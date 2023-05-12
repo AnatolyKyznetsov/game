@@ -11,3 +11,5 @@ tmp
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+lerna-debug.log*

@@ -1,7 +1,7 @@
 .button {
     font-size: 14px;
     font-weight: 500;
-    font-family: $font;
+    font-family: $font-second;
     height: 36px;
     width: 100%;
     max-width: 337px;
@@ -49,5 +49,9 @@
         bottom: 48px;
         mix-blend-mode: difference;
         z-index: 999;
+    }
+
+    &__feed {
+        width: 20%;
     }
 }
