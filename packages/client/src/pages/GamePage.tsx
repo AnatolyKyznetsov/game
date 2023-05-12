@@ -1,16 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Game } from '../engine/Game';
 
 export const GamePage = () => {
     const refCanvas = useRef<HTMLCanvasElement>(null);
+    let game: Game | null = null;
 
     const init = () => {
-        if (!refCanvas.current) {
+        if (!refCanvas.current || game) {
             return;
         }
 
         const ctx = refCanvas.current.getContext('2d');
-        const game = new Game(ctx as CanvasRenderingContext2D);
+        game = new Game(ctx as CanvasRenderingContext2D);
 
         let last = performance.now();
 
@@ -18,7 +19,7 @@ export const GamePage = () => {
             const delay = now - last;
             last = now;
 
-            game.draw(delay);
+            game!.draw(delay);
 
             requestAnimationFrame(animate);
         }
@@ -27,11 +28,7 @@ export const GamePage = () => {
     }
 
     useEffect(() => {
-        window.addEventListener('load', init);
-
-        return () => {
-            window.removeEventListener('load', init);
-        }
+        init();
     }, []);
 
     return (
