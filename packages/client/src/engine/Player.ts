@@ -1,96 +1,291 @@
 import { Game } from './Game';
+import { PosAndSize, Moving, Position, Size, CameraBox } from './interfaces';
 
-type Keys = string[];
+export abstract class Player {
+    public screen: Position;
 
-export class Player {
-    private game: Game;
-    private width: number;
-    private height: number;
-    private posX: number;
-    private posY: number;
-    private speed: number;
-    private maxSpeed: number;
-    private velocity: number;
-    private weight: number;
-    private image: HTMLImageElement;
+    protected game: Game;
+    private moving: Moving;
 
-    constructor(game: Game) {
+    protected size: Size;
+    protected position: Position;
+
+    protected maxSpeed: number;
+    protected spritePath: string;
+
+    protected velocity: Position;
+    protected gravity: number;
+    protected bottomIndent: number;
+
+    protected canMoveY: boolean;
+    protected isActivePlayer: boolean;
+
+    protected firstAbilityInProgress: boolean;
+    protected secondAbilityInProgress: boolean;
+    protected sprite?: CanvasImageSource;
+
+    private cameraBox: CameraBox;
+
+    constructor(game: Game, posAndSize: PosAndSize) {
         this.game = game;
-        this.width = 72;
-        this.height = 72;
-        this.posX = 0;
-        this.posY = this.game.height - this.height;
-        this.image = game.image;
 
-        this.speed = 0;
-        this.maxSpeed = 10;
-
-        this.velocity = 0;
-        this.weight = 1;
-    }
-
-    private move(keys: Keys) {
-        const width = this.game.width - this.width;
-        const height = this.game.height - this.height;
-
-        if ((keys.includes('ArrowRight') || keys.includes('ArrowLeft')) && this.canMoveX()) {
-            this.posX += this.speed;
-        } else if ((keys.includes('ArrowUp') || keys.includes('ArrowDown')) && this.canMoveY()) {
-            this.posY += this.speed;
+        this.screen = {
+            x: this.game.getStartPointX(),
+            y: this.game.getStartPointY(),
         }
 
-        if (keys.includes('ArrowRight') || keys.includes('ArrowDown')) {
-            this.speed = this.maxSpeed;
-        } else if (keys.includes('ArrowLeft') || keys.includes('ArrowUp')) {
-            this.speed = -this.maxSpeed;
+        this.size = {
+            width: posAndSize.width,
+            height: posAndSize.height,
+        }
+
+        this.firstAbilityInProgress = false;
+        this.secondAbilityInProgress = false;
+
+        this.position = { x: posAndSize.x , y: posAndSize.y };
+
+        this.maxSpeed = 4;
+        this.velocity = { x: 0, y: 0 }
+        this.gravity = .5;
+
+        this.spritePath = '';
+
+        this.moving = {
+            left: false,
+            right: false,
+            up: false,
+            down: false,
+        }
+
+        this.canMoveY = false;
+
+        this.cameraBox = {
+            x: 0,
+            y: 0,
+            width: this.game.screen.width / 1.2,
+            height: 500,
+            bottomIndent: 10
+        }
+
+        this.bottomIndent = .01;
+
+        this.isActivePlayer = false;
+
+        this.addEvents();
+    }
+
+    protected abstract firstAbility(): void
+
+    protected abstract secondAbility(): void
+
+    private checkActivePlayer(): void {
+        if (this.game.activePlayer === this) {
+            this.isActivePlayer = true;
         } else {
-            this.speed = 0;
+            this.isActivePlayer = false;
+
+            this.moving = {
+                left: false,
+                right: false,
+                up: false,
+                down: false,
+            }
+
+            this.velocity.x = 0
+            this.firstAbilityInProgress = false;
+            this.secondAbilityInProgress = false;
+        }
+    }
+
+    private addEvents(): void {
+        this.game.eventBus.on('moveRight', (isMoveing: boolean) => {
+            if (this.isActivePlayer) {
+                this.moving.right = isMoveing;
+            }
+        });
+
+        this.game.eventBus.on('moveLeft', (isMoveing: boolean) => {
+            if (this.isActivePlayer) {
+                this.moving.left = isMoveing;
+            }
+        });
+
+        this.game.eventBus.on('moveUp', (isMoveing: boolean) => {
+            if (this.isActivePlayer) {
+                this.moving.up = isMoveing;
+            }
+        });
+
+        this.game.eventBus.on('moveDown', (isMoveing: boolean) => {
+            if (this.isActivePlayer) {
+                this.moving.down = isMoveing;
+            }
+        });
+
+        this.game.eventBus.on('firstAbility', () => {
+            if (this.isActivePlayer) {
+                this.firstAbilityInProgress = true;
+            }
+        });
+
+        this.game.eventBus.on('secondAbility', () => {
+            if (this.isActivePlayer) {
+                this.secondAbilityInProgress = true;
+            }
+        });
+    }
+
+    private move(): void {
+        if (this.moving.right) {
+            this.velocity.x = this.maxSpeed;
+            this.position.x += this.velocity.x;
+        } else if (this.moving.up && this.canMoveY) {
+            this.velocity.y = -this.maxSpeed;
+            this.position.y += this.velocity.y;
+        } else if (this.moving.down && this.canMoveY) {
+            this.velocity.y = this.maxSpeed;
+            this.position.y += this.velocity.y;
+        } else if (this.moving.left) {
+            this.velocity.x = -this.maxSpeed;
+            this.position.x += this.velocity.x;
+        }
+    }
+
+    private collision(block: PosAndSize) {
+        return (
+            this.position.y + this.size.height >= block.y &&
+            this.position.y <= block.y + block.height &&
+            this.position.x <= block.x + block.width &&
+            this.position.x + this.size.width >= block.x
+        )
+    }
+
+    private collisionStairs(): void {
+        for (let i = 0; i < this.game.map.data.stairs.length; i++) {
+            const block = this.game.map.data.stairs[i];
+
+            this.canMoveY = this.collision(block);
+
+            if (this.canMoveY) {
+                break;
+            }
+        }
+    }
+
+    private сollisionDetectionVertical() {
+        for (let i = 0; i < this.game.map.data.platforms.length; i++) {
+            const block = this.game.map.data.platforms[i];
+
+            if (this.collision(block)) {
+
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0;
+
+                    this.position.y = block.y - this.size.height - this.bottomIndent;
+                    break;
+                }
+
+                if (this.velocity.y < 0) {
+                    this.velocity.y = 0;
+
+                    this.position.y = block.y + block.height + this.bottomIndent;
+                    break;
+                }
+            }
+        }
+    }
+
+    private сollisionDetectionHorizontal() {
+        for (let i = 0; i < this.game.map.data.platforms.length; i++) {
+            const block = this.game.map.data.platforms[i];
+
+            if (this.collision(block)) {
+
+                if (this.velocity.x > 0) {
+                    this.velocity.x = 0;
+
+                    this.position.x -= this.maxSpeed;
+                    break;
+                }
+
+                if (this.velocity.x < 0) {
+                    this.velocity.x = 0;
+
+                    this.position.x += this.maxSpeed;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    private applyGraivty(): void {
+        if (this.canMoveY) {
+            return;
         }
 
-        if (this.posX < 0) {
-            this.posX = 0;
-        } else if (this.posY < 0) {
-            this.posY = 0;
+        this.velocity.y += this.gravity;
+        this.velocity.y = this.velocity.y > 18 ? 18 : this.velocity.y;
+        this.position.y += this.velocity.y;
+    }
+
+    private moveCameraBox(): void {
+        this.cameraBox.x = this.position.x - this.cameraBox.width / 2 + this.size.width / 2;
+        this.cameraBox.y = this.position.y - this.cameraBox.height + this.size.height + this.cameraBox.bottomIndent;
+
+        if (this.isActivePlayer) {
+            this.game.ctx.fillStyle = 'rgba(0,0,0,0)';
+            this.game.ctx.fillRect(this.cameraBox.x, this.cameraBox.y, this.cameraBox.width, this.cameraBox.height);
         }
 
-        if (this.posX > width) {
-            this.posX = width;
-        } else if (this.posY > height) {
-            this.posY = height;
+        this.shouldMoveCamera();
+    }
+
+    private shouldMoveCamera(): void {
+        if ((this.cameraBox.x + this.cameraBox.width < this.game.size.width &&
+            this.cameraBox.x + this.cameraBox.width > this.screen.x + this.game.screen.width) ||
+            (this.cameraBox.x > 0 && this.cameraBox.x < this.screen.x)) {
+            this.game.eventBus.emit('moveCameraX', this.velocity.x);
+        }
+
+        if ((this.cameraBox.y + this.cameraBox.height < this.game.size.height &&
+            this.cameraBox.y + this.cameraBox.height > this.screen.y + this.game.screen.height) ||
+            (this.cameraBox.y > 0 && this.cameraBox.y < this.screen.y)) {
+            this.game.eventBus.emit('moveCameraY', this.velocity.y);
+        }
+
+        if (this.isActivePlayer) {
+            if (this.cameraBox.y + this.cameraBox.height - this.cameraBox.bottomIndent + this.bottomIndent === this.game.currentLvl.size.height &&
+                this.screen.y + this.game.screen.height < this.game.currentLvl.size.height + this.cameraBox.bottomIndent) {
+                this.game.eventBus.emit('moveCameraY', 2);
+            }
         }
     }
 
-    // private jump(keys: Keys) {
-    //     if (keys.includes('ArrowUp') && this.onGround()) {
-    //         this.velocity -= 20;
-    //     }
+    public update(): void {
+        this.checkActivePlayer();
+        this.moveCameraBox();
+        this.move();
 
-    //     this.posY += this.velocity;
+        this.firstAbility();
+        this.secondAbility();
 
-    //     if (!this.onGround()) {
-    //         this.velocity += this.weight;
-    //     } else {
-    //         this.velocity = 0;
-    //     }
-    // }
-
-    public update(keys: Keys) {
-        this.move(keys);
+        this.сollisionDetectionHorizontal();
+        this.applyGraivty();
+        this.сollisionDetectionVertical();
+        this.collisionStairs();
     }
 
-    public draw(ctx: CanvasRenderingContext2D) {
-        ctx.drawImage(this.image, 0, 0, this.width, this.height, this.posX, this.posY, this.width, this.height);
-    }
+    public draw(): void {
+        if (!this.sprite) {
+            this.sprite = this.game.loadImage(this.spritePath);
 
-    private onGround() {
-        return this.posY >= this.game.height - this.height;
-    }
+            return;
+        }
 
-    private canMoveY() {
-        return true;
-    }
+        this.game.ctx.fillStyle = 'green';
+        this.game.ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
 
-    private canMoveX() {
-        return true;
+        // this.game.ctx.drawImage(this.sprite, 0, 0, this.size.width, this.size.height, this.position.x, this.position.y, this.size.width, this.size.height);
     }
 }

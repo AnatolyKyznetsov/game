@@ -1,27 +1,62 @@
-export class Control {
-    public keys: string[];
-    private usedKeys: string[];
+import { Game } from './Game';
 
-    constructor() {
-        this.keys = [];
-        this.usedKeys = [ 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight' ];
+export class Control {
+    private game: Game;
+
+    constructor(game: Game) {
+        this.game = game;
 
         this.addEvents();
     }
 
-    isUsedKey(e: KeyboardEvent) {
-        return this.usedKeys.find(item => item === e.key);
+    private moveEvents(e: KeyboardEvent, isMoveing: boolean): void {
+        switch(e.key) {
+        case 'ArrowRight':
+            this.game.eventBus.emit('moveRight', isMoveing);
+            break;
+        case 'ArrowLeft':
+            this.game.eventBus.emit('moveLeft', isMoveing);
+            break;
+        case 'ArrowUp':
+            this.game.eventBus.emit('moveUp', isMoveing);
+            break;
+        case 'ArrowDown':
+            this.game.eventBus.emit('moveDown', isMoveing);
+            break;
+        }
     }
 
-    addEvents() {
+    private changePlayerEvents(e: KeyboardEvent): void {
+        switch(e.code) {
+        case 'KeyQ':
+            this.game.eventBus.emit('prevPlayer');
+            break;
+        case 'KeyW':
+            this.game.eventBus.emit('nextPlayer');
+            break;
+        }
+    }
+
+    private abilitiesEvents(e: KeyboardEvent): void {
+        switch(e.code) {
+        case 'KeyA':
+            this.game.eventBus.emit('firstAbility');
+            break;
+        case 'KeyS':
+            this.game.eventBus.emit('secondAbility');
+            break;
+        }
+    }
+
+    private addEvents(): void {
         window.addEventListener('keydown', e => {
-            if (this.isUsedKey(e) && this.keys.indexOf(e.key) === -1) {
-                this.keys.push(e.key);
-            }
+            this.moveEvents(e, true);
         });
 
         window.addEventListener('keyup', e => {
-            this.keys.splice(this.keys.indexOf(e.key), 1);
+            this.moveEvents(e, false);
+            this.changePlayerEvents(e);
+            this.abilitiesEvents(e);
         });
     }
 }
