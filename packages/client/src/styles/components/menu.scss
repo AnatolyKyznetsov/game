@@ -1,0 +1,40 @@
+.menu {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    &__link {
+        font-family: $font-second;
+        line-height: 1.5;
+        font-size: 28px;
+        text-transform: uppercase;
+        position: relative;
+
+        &_active {
+            color: $color-elem-first-hover;
+
+            &::after,
+            &::before {
+                content: '';
+                width: 41px;
+                height: 41px;
+                background: url('/images/axes.svg') no-repeat center;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &::after {
+                right: -50px;
+            }
+
+            &::before {
+                left: -50px;
+            }
+        }
+    }
+}

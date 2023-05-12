@@ -7,6 +7,11 @@
     padding: 40px;
     overflow: hidden;
 
+    &__logo {
+        max-width: 100%;
+        height: auto;
+    }
+
     &__feed {
         @extend .main;
         align-items: flex-start;

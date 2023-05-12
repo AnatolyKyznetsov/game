@@ -14,3 +14,17 @@ export interface ButtonProps {
     buttonClass: string,
     onClick?: (e: FormEvent) => void
 }
+
+export interface MenuItemProps {
+    id?: string,
+    title: string,
+    url?: string,
+    isActive?: boolean,
+    index?: number,
+    clickHandler?: () => void,
+    mouseEnterHandler?: (e: React.MouseEvent) => void,
+}
+
+export interface MenuProps {
+    items: MenuItemProps[]
+}
