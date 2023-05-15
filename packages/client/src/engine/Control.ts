@@ -9,19 +9,19 @@ export class Control {
         this.addEvents();
     }
 
-    private moveEvents(e: KeyboardEvent, isMoveing: boolean): void {
+    private moveEvents(e: KeyboardEvent, isMoving: boolean): void {
         switch(e.key) {
         case 'ArrowRight':
-            this.game.eventBus.emit('moveRight', isMoveing);
+            this.game.eventBus.emit('moveRight', isMoving);
             break;
         case 'ArrowLeft':
-            this.game.eventBus.emit('moveLeft', isMoveing);
+            this.game.eventBus.emit('moveLeft', isMoving);
             break;
         case 'ArrowUp':
-            this.game.eventBus.emit('moveUp', isMoveing);
+            this.game.eventBus.emit('moveUp', isMoving);
             break;
         case 'ArrowDown':
-            this.game.eventBus.emit('moveDown', isMoveing);
+            this.game.eventBus.emit('moveDown', isMoving);
             break;
         }
     }

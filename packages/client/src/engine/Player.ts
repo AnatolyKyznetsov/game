@@ -98,27 +98,27 @@ export abstract class Player {
     }
 
     private addEvents(): void {
-        this.game.eventBus.on('moveRight', (isMoveing: boolean) => {
+        this.game.eventBus.on('moveRight', (isMoving: boolean) => {
             if (this.isActivePlayer) {
-                this.moving.right = isMoveing;
+                this.moving.right = isMoving;
             }
         });
 
-        this.game.eventBus.on('moveLeft', (isMoveing: boolean) => {
+        this.game.eventBus.on('moveLeft', (isMoving: boolean) => {
             if (this.isActivePlayer) {
-                this.moving.left = isMoveing;
+                this.moving.left = isMoving;
             }
         });
 
-        this.game.eventBus.on('moveUp', (isMoveing: boolean) => {
+        this.game.eventBus.on('moveUp', (isMoving: boolean) => {
             if (this.isActivePlayer) {
-                this.moving.up = isMoveing;
+                this.moving.up = isMoving;
             }
         });
 
-        this.game.eventBus.on('moveDown', (isMoveing: boolean) => {
+        this.game.eventBus.on('moveDown', (isMoving: boolean) => {
             if (this.isActivePlayer) {
-                this.moving.down = isMoveing;
+                this.moving.down = isMoving;
             }
         });
 
