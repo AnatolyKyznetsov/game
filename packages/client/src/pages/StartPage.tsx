@@ -2,6 +2,7 @@ import React from 'react'
 import { Paths } from '../utils/paths'
 import { Menu } from '../components/Menu'
 import { v4 as makeId } from 'uuid'
+import { FullscreenButton } from '../components/FullscreenButton'
 
 export const StartPage = () => {
     const menuItems = [
@@ -17,6 +18,7 @@ export const StartPage = () => {
         <main className='main'>
             <img className="main__logo" src="/images/logo.png" alt="Логотип." />
             <Menu items={menuItems} />
+            <FullscreenButton />
         </main>
     )
 }
