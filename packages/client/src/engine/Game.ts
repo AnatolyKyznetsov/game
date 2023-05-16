@@ -21,7 +21,7 @@ export class Game {
     public eventBus: EventBus;
     public activePlayer: Player;
     public currentLvl: LvlData;
-    private players: Player[];
+    public players: Player[];
     private control: Control;
     private currentLvlIndex: number;
     private activePlayerIndex: number;
@@ -114,6 +114,7 @@ export class Game {
         this.activePlayer = this.players[this.activePlayerIndex];
         this.ctx.translate(this.prevPlayer.screen.x - this.activePlayer.screen.x, this.prevPlayer.screen.y - this.activePlayer.screen.y);
         this.needChangePlayer = false;
+        this.eventBus.emit('update');
     }
 
     public update(): void {

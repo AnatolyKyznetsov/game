@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+import { Player } from './engine/Player'
 
 export interface InputProps {
     type: string,

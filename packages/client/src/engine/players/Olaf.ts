@@ -12,6 +12,9 @@ export class Olaf extends Player {
         });
 
         this.spritePath = '/images/sprites/olaf.png';
+        this.avatarPos = '-25px -10px';
+
+        this.healPoints = 2;
     }
 
     protected firstAbility(): void {

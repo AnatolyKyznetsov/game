@@ -1,7 +1,9 @@
 import { Game } from './Game';
 import { PosAndSize, Moving, Position, Size, CameraBox } from './interfaces';
+import { v4 as makeId } from 'uuid'
 
 export abstract class Player {
+    public id: string;
     public screen: Position;
 
     protected game: Game;
@@ -9,16 +11,17 @@ export abstract class Player {
 
     protected size: Size;
     protected position: Position;
+    public spritePath: string;
+    public avatarPos: string;
 
     protected maxSpeed: number;
-    protected spritePath: string;
 
     protected velocity: Position;
     protected gravity: number;
     protected bottomIndent: number;
 
     protected canMoveY: boolean;
-    protected isActivePlayer: boolean;
+    public isActivePlayer: boolean;
 
     protected firstAbilityInProgress: boolean;
     protected secondAbilityInProgress: boolean;
@@ -26,8 +29,12 @@ export abstract class Player {
 
     private cameraBox: CameraBox;
 
+    public healPoints: number;
+    public armorPoints: number;
+
     constructor(game: Game, posAndSize: PosAndSize) {
         this.game = game;
+        this.id = makeId();
 
         this.screen = {
             x: this.game.getStartPointX(),
@@ -49,6 +56,7 @@ export abstract class Player {
         this.gravity = .5;
 
         this.spritePath = '';
+        this.avatarPos = '';
 
         this.moving = {
             left: false,
@@ -69,7 +77,10 @@ export abstract class Player {
 
         this.bottomIndent = .01;
 
-        this.isActivePlayer = false;
+        this.isActivePlayer = true;
+
+        this.healPoints = 3;
+        this.armorPoints = 0;
 
         this.addEvents();
     }
@@ -286,6 +297,6 @@ export abstract class Player {
         this.game.ctx.fillStyle = 'green';
         this.game.ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
 
-        // this.game.ctx.drawImage(this.sprite, 0, 0, this.size.width, this.size.height, this.position.x, this.position.y, this.size.width, this.size.height);
+        this.game.ctx.drawImage(this.sprite, 0, 0, this.size.width, this.size.height, this.position.x, this.position.y, this.size.width, this.size.height);
     }
 }
