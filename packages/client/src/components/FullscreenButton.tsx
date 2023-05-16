@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export function FullscreenButton() {
-    const [ fullscreenOn, setFullScreenOn ] = useState(false);
+    const [ fullscreenOn, setFullscreenOn ] = useState(false);
 
-    const toggleFullscreen = useCallback(
-        () => {
-            if (fullscreenOn) {
-                document.exitFullscreen();
-            } else {
-                document.documentElement.requestFullscreen();
-            }
-        },
-        [ fullscreenOn ]
-    )
+    const toggleFullscreen = () => {
+        if (fullscreenOn) {
+            document.exitFullscreen();
+        } else {
+            document.documentElement.requestFullscreen();
+        }
+    }
 
     const fullscreenState = () => {
-        setFullScreenOn(document.fullscreenElement === document.documentElement)
+        setFullscreenOn(document.fullscreenElement === document.documentElement)
     }
 
     useEffect(() => {
