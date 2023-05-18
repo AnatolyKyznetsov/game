@@ -29,3 +29,12 @@ export interface MenuItemProps {
 export interface MenuProps {
     items: MenuItemProps[]
 }
+
+export interface PlayersStatusProps {
+    players: Player[],
+    stopTimer: boolean
+}
+
+export interface PlayersStatusItemProps {
+    player: Player,
+}

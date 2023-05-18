@@ -9,8 +9,8 @@ export abstract class Player {
     protected game: Game;
     private moving: Moving;
 
-    protected size: Size;
-    protected position: Position;
+    public size: Size;
+    public position: Position;
     public spritePath: string;
     public avatarPos: string;
 
@@ -31,6 +31,8 @@ export abstract class Player {
 
     public healPoints: number;
     public armorPoints: number;
+
+    public isDead: boolean;
 
     constructor(game: Game, posAndSize: PosAndSize) {
         this.game = game;
@@ -81,6 +83,8 @@ export abstract class Player {
 
         this.healPoints = 3;
         this.armorPoints = 0;
+
+        this.isDead = false
 
         this.addEvents();
     }
@@ -271,6 +275,22 @@ export abstract class Player {
                 this.game.eventBus.emit('moveCameraY', 2);
             }
         }
+    }
+
+    public getDamage(dmg: number): void {
+        if (this.armorPoints) {
+            dmg--;
+            this.armorPoints = 0;
+        }
+
+        this.healPoints = this.healPoints - dmg < 0 ? 0 : this.healPoints - dmg;
+
+        if (this.healPoints === 0) {
+            this.isDead = true;
+            this.game.eventBus.emit('nextPlayer');
+        }
+
+        this.game.eventBus.emit('update');
     }
 
     public update(): void {

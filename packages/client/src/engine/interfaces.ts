@@ -15,10 +15,18 @@ export interface Moving {
     down: boolean,
 }
 
+export interface Direction {
+    direction: string
+}
+
+export interface Damage {
+    damage: number
+}
+
 export interface Players<T> {
     eric: T,
     baelog: T,
-    olaf: T
+    olaf: T,
 }
 
 export interface LvlData {
@@ -26,12 +34,22 @@ export interface LvlData {
     size: Size,
     startPoint: Position,
     playersPosition: Players<Position>,
-    platforms: PosAndSize[];
-    stairs: PosAndSize[];
+    platforms: PosAndSize[],
+    stairs: PosAndSize[],
+    turrets: TurretsItem[],
 }
 
 export interface CameraBox extends PosAndSize {
     bottomIndent: number,
+}
+
+export interface BullestItem extends PosAndSize {
+    image: string,
+}
+
+export interface TurretsItem extends Damage, Direction, Position, Size {
+    bullet: BullestItem,
+    image: string,
 }
 
 export interface PosAndSize extends Position, Size { }

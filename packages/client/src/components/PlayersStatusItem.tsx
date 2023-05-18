@@ -1,10 +1,6 @@
 import React, { ReactNode } from 'react'
-import { Player } from '../engine/Player'
 import { v4 as makeId } from 'uuid'
-
-interface PlayersStatusItemProps {
-    player: Player,
-}
+import { PlayersStatusItemProps } from '../interfaces'
 
 export function PlayersStatusItem({ player }: PlayersStatusItemProps ) {
     const creatHealPoints = (num: number) => {
@@ -14,14 +10,13 @@ export function PlayersStatusItem({ player }: PlayersStatusItemProps ) {
             content.push(<li key={makeId()} className="heal-points__item"></li>);
         }
 
-        return content
+        return content;
     }
 
     return (
         <div className={`players__item ${player.isActivePlayer ? 'players__item_active' : ''}` }>
             <ul className="inventory">
-                {/* inventory__item_focus */}
-                <li className="inventory__item"></li>
+                <li className="inventory__item"></li> {/* inventory__item_focus */}
                 <li className="inventory__item"></li>
                 <li className="inventory__item"></li>
                 <li className="inventory__item"></li>

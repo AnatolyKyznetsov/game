@@ -5,9 +5,8 @@ import { Player } from '../engine/Player';
 
 export const GamePage = () => {
     let game: Game | null = null;
-
+    const [ stopTimer, setStopTimer ] = useState(false);
     const [ players, setPlayers ] = useState<Player[]>([]);
-
     const refCanvas = useRef<HTMLCanvasElement>(null);
 
     const init = () => {
@@ -20,6 +19,10 @@ export const GamePage = () => {
 
         game.eventBus.on('update', () => {
             setPlayers([ ...game!.players ]);
+        });
+
+        game.eventBus.on('gameOver', () => {
+            setStopTimer(true);
         });
 
         game.eventBus.emit('update');
@@ -47,7 +50,7 @@ export const GamePage = () => {
             <canvas ref={refCanvas} width={window.innerWidth} height={window.innerHeight}>
                 Необходимо включить поддержку JavaScript в вашем браузере
             </canvas>
-            <PlayersStatus players={players} />
+            <PlayersStatus players={players} stopTimer={stopTimer} />
         </div>
     )
 }
