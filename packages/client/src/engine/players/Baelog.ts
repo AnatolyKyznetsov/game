@@ -12,6 +12,7 @@ export class Baelog extends Player {
         });
 
         this.spritePath = '/images/sprites/baelog.png';
+        this.avatarPos = '-26px -20px';
     }
 
     protected firstAbility(): void {

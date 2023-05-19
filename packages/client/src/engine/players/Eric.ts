@@ -12,7 +12,10 @@ export class Eric extends Player {
         });
 
         this.spritePath = '/images/sprites/eric.png';
+        this.avatarPos = '-15px -7px';
         this.maxSpeed += 1;
+
+        this.armorPoints = 1;
     }
 
     protected firstAbility(): void {

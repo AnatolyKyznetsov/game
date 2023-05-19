@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+import { Player } from './engine/Player'
 
 export interface InputProps {
     type: string,
@@ -27,4 +28,13 @@ export interface MenuItemProps {
 
 export interface MenuProps {
     items: MenuItemProps[]
+}
+
+export interface PlayersStatusProps {
+    players: Player[],
+    stopTimer: boolean
+}
+
+export interface PlayersStatusItemProps {
+    player: Player,
 }

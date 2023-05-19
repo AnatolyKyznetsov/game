@@ -6,6 +6,7 @@ import { Eric } from './players/Eric';
 import { Baelog } from './players/Baelog';
 import { Olaf } from './players/Olaf';
 import { LvlData, Size } from './interfaces';
+import { Turrets } from './Turrets';
 
 import lvl_1 from '../lvlMaps/lvl_1.json';
 
@@ -21,14 +22,16 @@ export class Game {
     public eventBus: EventBus;
     public activePlayer: Player;
     public currentLvl: LvlData;
-    private players: Player[];
+    public players: Player[];
+    public turrets: Turrets[];
     private control: Control;
     private currentLvlIndex: number;
     private activePlayerIndex: number;
     private drawnOnce: boolean;
     private lvlBackground?: CanvasImageSource;
-    private prevPlayer?: Player;
-    private needChangePlayer: boolean;
+    private prevPlayer: Player;
+    private needChangePlayer: 'next' | 'prev' | null;
+    private gameOver: boolean;
 
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx;
@@ -65,12 +68,21 @@ export class Game {
             })
         ];
 
+        this.prevPlayer = this.players[0];
+
+        this.turrets = [];
+
         this.activePlayerIndex = 0;
         this.activePlayer = this.players[this.activePlayerIndex];
 
         this.drawnOnce = false;
+        this.gameOver = false;
 
-        this.needChangePlayer = false;
+        this.needChangePlayer = null;
+
+        this.currentLvl.turrets.forEach(item => {
+            this.turrets.push(new Turrets(this, item));
+        });
 
         this.addEvents();
     }
@@ -83,6 +95,11 @@ export class Game {
         return this.currentLvl.startPoint.y - window.innerHeight > 0 ? this.currentLvl.startPoint.y - window.innerHeight : 0;
     }
 
+    public closeToScope(x: number, y: number): boolean {
+        return this.activePlayer.screen.x + this.screen.width > x - this.screen.width / 2 &&
+        this.activePlayer.screen.y + this.screen.height > y - this.screen.height / 2;
+    }
+
     private addEvents(): void {
         this.eventBus.on('moveCameraX', (speed: number) => {
             this.moveCamera(speed, 'x');
@@ -93,14 +110,24 @@ export class Game {
         });
 
         this.eventBus.on('prevPlayer', () => {
-            this.needChangePlayer = true;
-            this.activePlayerIndex = this.activePlayerIndex - 1 < 0 ? this.players.length - 1 : this.activePlayerIndex - 1;
+            this.needChangePlayer = 'prev';
+            this.prevPlayer = this.activePlayer;
+            this.prevPlayerIndex();
         });
 
         this.eventBus.on('nextPlayer', () => {
-            this.needChangePlayer = true;
-            this.activePlayerIndex = this.activePlayerIndex + 1 > this.players.length - 1 ? 0 : this.activePlayerIndex + 1;
+            this.needChangePlayer = 'next';
+            this.prevPlayer = this.activePlayer;
+            this.nextPlayerIndex();
         });
+    }
+
+    private prevPlayerIndex(): void {
+        this.activePlayerIndex = this.activePlayerIndex - 1 < 0 ? this.players.length - 1 : this.activePlayerIndex - 1;
+    }
+
+    private nextPlayerIndex(): void {
+        this.activePlayerIndex = this.activePlayerIndex + 1 > this.players.length - 1 ? 0 : this.activePlayerIndex + 1;
     }
 
     private moveCamera(speed: number, axis: 'x' | 'y') {
@@ -110,19 +137,44 @@ export class Game {
     }
 
     private changePlayer(): void {
-        this.prevPlayer = this.activePlayer;
         this.activePlayer = this.players[this.activePlayerIndex];
-        this.ctx.translate(this.prevPlayer.screen.x - this.activePlayer.screen.x, this.prevPlayer.screen.y - this.activePlayer.screen.y);
-        this.needChangePlayer = false;
+
+        if (this.activePlayer.isDead) {
+            if (this.needChangePlayer === 'next') {
+                this.nextPlayerIndex();
+            } else if (this.needChangePlayer === 'prev') {
+                this.prevPlayerIndex();
+            }
+
+        } else {
+            this.ctx.translate(this.prevPlayer.screen.x - this.activePlayer.screen.x, this.prevPlayer.screen.y - this.activePlayer.screen.y);
+            this.needChangePlayer = null;
+            this.eventBus.emit('update');
+        }
+
+        if (this.players.every(e => e.isDead)) {
+            this.gameOver = true;
+        }
     }
 
     public update(): void {
+        if (this.gameOver) {
+            this.eventBus.emit('gameOver');
+            console.log('GAME OVER');
+
+            return;
+        }
+
         if (this.needChangePlayer) {
             this.changePlayer();
         }
 
         this.players.forEach(player => {
             player.update();
+        });
+
+        this.turrets.forEach(turret => {
+            turret.update();
         });
     }
 
@@ -144,7 +196,7 @@ export class Game {
     }
 
     public draw(delay: number): void {
-        this.ctx.clearRect(0, 0, this.size.width, this.size.height);
+        this.ctx.clearRect(this.activePlayer.screen.x, this.activePlayer.screen.y, this.screen.width, this.screen.height);
 
         if (!this.lvlBackground && this.currentLvl.background) {
             this.lvlBackground = this.loadImage(this.currentLvl.background);
@@ -158,12 +210,17 @@ export class Game {
 
         if (!this.drawnOnce) {
             this.firstDraw();
+
         }
 
         this.map.draw();
 
         this.players.forEach(player => {
             player.draw();
+        });
+
+        this.turrets.forEach(turret => {
+            turret.draw();
         });
 
         this.update();
