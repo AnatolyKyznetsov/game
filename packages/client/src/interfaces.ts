@@ -13,6 +13,7 @@ export interface ButtonProps {
 }
 
 export interface ParticipantProps {
+    id: string,
     name: string,
     score: string
 }

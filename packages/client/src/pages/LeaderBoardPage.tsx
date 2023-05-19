@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { ParticipantItem } from '../components/ParticipantItem'
+import { ParticipantProps } from '../interfaces'
+import { Link } from 'react-router-dom'
+import { Paths } from '../utils/paths'
 
 export function LeaderBoardPage() {
     const [ leaders, setLeaders ] = useState([]);
-    function getLeaders(participants: Record<string, string>[]) {
-        return participants.map(participant => <ParticipantItem name={participant.name} score={participant.score} />)
+    function getLeaders(participants: ParticipantProps[]) {
+        return participants.map(participant => <ParticipantItem id={participant.id} name={participant.name} score={participant.score} />)
     }
 
     return (
@@ -15,7 +18,7 @@ export function LeaderBoardPage() {
                         Таблица лидеров
                     </div>
                     {getLeaders(leaders)}
-                    <a href={'/'} className='link shape__link'>Назад к игре</a>
+                    <Link to={Paths.main} className='link shape__link'>Назад к игре</Link>
                 </div>
             </div>
         </main>
