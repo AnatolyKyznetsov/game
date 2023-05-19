@@ -9,3 +9,14 @@ export const gameDescription = `Томатор,
 в родную деревню, и расправиться с тем, кто заставил их бегать как 
 угорелых через пространство и время. Помоги героям вернуться к родным 
 или отправиться в Вальхаллу!`
+
+export const tempUserData = {
+    'id': 123,
+    'first_name': 'Petya',
+    'second_name': 'Pupkin',
+    'display_name': 'Petya Pupkin',
+    'login': 'userLogin',
+    'email': 'my@email.com',
+    'phone': '89223332211',
+    'avatar': '/path/to/avatar.jpg'
+}

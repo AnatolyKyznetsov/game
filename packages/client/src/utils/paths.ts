@@ -7,6 +7,7 @@ export enum Paths {
     startScreen = '/start-screen',
     endScreen = '/end-screen',
     leaderBoard = '/leader-board',
+    game = '/game',
     notFound = '*',
     error = '/error',
 }

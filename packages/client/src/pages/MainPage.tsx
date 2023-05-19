@@ -21,11 +21,11 @@ export const MainPage = () => {
                 startAt: {
                     y: '80vh'
                 },
-                duration: 7,
-                ease: 'none',
-                y: '-=150vh',
-                onRepeat: () => setIsActiveButton(true),
-                repeat: -1,
+                duration: 6,
+                ease: 'elastic',
+                y: '-=90vh',
+                onComplete: () => setIsActiveButton(true),
+                repeat: 0,
                 overwrite: true,
             })
         })

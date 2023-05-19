@@ -1,0 +1,107 @@
+{
+    "background": "/images/test_lvl_bg.jpg", 
+    "size": {
+        "width": 3000,
+        "height": 2000
+    },
+    "startPoint": {
+        "x": 0, 
+        "y": 2010
+    },
+    "playersPosition": {
+        "eric": {
+            "x": 20, 
+            "y": 1921
+        },
+        "baelog": {
+            "x": 120, 
+            "y": 1912
+        },
+        "olaf": {
+            "x": 220, 
+            "y": 1929
+        }
+    },
+    "platforms": [
+        {
+            "x": 0,
+            "y": 0,
+            "width": 3000,
+            "height": 10
+        },
+        {
+            "x": 0,
+            "y": 2000,
+            "width": 3000,
+            "height": 10
+        },
+        {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 2000
+        },
+        {
+            "x": 2990,
+            "y": 0,
+            "width": 10,
+            "height": 2000
+        },
+        {
+            "x": 130,
+            "y": 1300,
+            "width": 2640,
+            "height": 10
+        },
+        {
+            "x": 2870,
+            "y": 1300,
+            "width": 130,
+            "height": 10
+        },
+        {
+            "x": 240,
+            "y": 600,
+            "width": 2760,
+            "height": 10
+        }
+    ],
+    "stairs": [
+        {
+            "x": 2770,
+            "y": 1290,
+            "width": 100,
+            "height": 710
+        },
+        {
+            "x": 140,
+            "y": 590,
+            "width": 100,
+            "height": 710
+        },
+        {
+            "x": 2770,
+            "y": 0,
+            "width": 100,
+            "height": 600
+        }
+    ],
+    "turrets": [
+        {
+            "x": 1500,
+            "y": 1950,
+            "width": 50,
+            "height": 50,
+            "direction": "left",
+            "damage": 1,
+            "image": "",
+            "bullet": {
+                "x": 6,
+                "y": 6,
+                "width": 30,
+                "height": 10,
+                "image": ""
+            }
+        }
+    ]
+}

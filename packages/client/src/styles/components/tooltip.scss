@@ -27,6 +27,7 @@
 
     &::before {
         content: '?';
+        font-family: $font;
         color: $color-text-light;
         background: $color-additional-first;
         font-weight: 500;
