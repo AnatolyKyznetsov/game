@@ -3,7 +3,7 @@ import { v4 as makeId } from 'uuid'
 import { PlayersStatusItemProps } from '../interfaces'
 
 export function PlayersStatusItem({ player }: PlayersStatusItemProps ) {
-    const creatHealPoints = (num: number) => {
+    const createHealPoints = (num: number) => {
         const content: ReactNode[] = [];
 
         for (let i = 0; i < num; i++) {
@@ -27,7 +27,7 @@ export function PlayersStatusItem({ player }: PlayersStatusItemProps ) {
                     backgroundPosition: player.avatarPos
                 }}></div>
                 <ul className="heal-points">
-                    {creatHealPoints(player.healPoints)}
+                    {createHealPoints(player.healPoints)}
                     {player.armorPoints === 1 ? <li className="heal-points__item heal-points__item_armor"></li> : ''}
                 </ul>
             </div>
