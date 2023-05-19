@@ -38,3 +38,9 @@ export interface PlayersStatusProps {
 export interface PlayersStatusItemProps {
     player: Player,
 }
+
+export interface ParticipantProps {
+    id: string,
+    name: string,
+    score: string
+}
