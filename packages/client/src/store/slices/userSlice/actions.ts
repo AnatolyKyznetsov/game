@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { Urls } from '../../../utils/api'
 import { request } from '../../../utils/request'
 import { UserData } from './userSlice'
+import { SigninData } from '../../../interfaces'
 
 type SignupData = Omit<UserData, 'id' | 'display_name' | 'avatar'>
 
@@ -16,4 +17,41 @@ export const registerUser = createAsyncThunk('user/register', async (data: Signu
     }
     const response = request(`${baseUrl}${signup}`, options)
     return response
+})
+
+export const signinUser = createAsyncThunk('user/signin', async (data: SigninData) => {
+    const { baseUrl, signin } = Urls;
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+
+    return request(`${baseUrl}${signin}`, options)
+})
+
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+    const { baseUrl, logout } = Urls;
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return request(`${baseUrl}${logout}`, options)
+})
+
+export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
+    const { baseUrl, userInfo } = Urls;
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return request(`${baseUrl}${userInfo}`, options)
 })

@@ -1,24 +1,41 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
+import { useAuthorization } from '../utils/authorizationHook'
+import { useAppDispatch } from '../store/hooks'
+import { getUserInfo } from '../store/slices/userSlice/actions'
 
 export function LoginPage() {
     const navigate = useNavigate();
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const { isAuth, signin, user } = useAuthorization();
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false
+    })
+
+    useEffect(() => {
+        if (isAuth.userData.id) {
+            navigate(Paths.main);
+        }
     })
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
+            const login = loginRef.current?.value;
+            const password = passwordRef.current?.value;
+            signin({
+                login: login as string,
+                password: password as string
+            })
+            user();
             navigate(Paths.main)
         }
     }
@@ -30,7 +47,7 @@ export function LoginPage() {
         }
         setErrorFields(newErrorFields);
 
-        return !Object.values(validateFields()).includes(true)
+        return !Object.values(newErrorFields).includes(true)
     }
 
     return (

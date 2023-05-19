@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser } from './actions'
+import { getUserInfo, logoutUser, registerUser, signinUser } from './actions'
 
 export interface User {
     userData: UserData
@@ -38,10 +38,21 @@ const userSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(registerUser.fulfilled, (state, { payload }) => {
-            const { id } = payload
-            state.userData.id = id
-        })
+        builder
+            .addCase(registerUser.fulfilled, (state, { payload }) => {
+                const { id } = payload
+                state.userData.id = id
+            })
+            .addCase(signinUser.fulfilled, (state, { payload }) => {
+                const { id } = payload;
+                state.userData.id = id;
+            })
+            .addCase(logoutUser.fulfilled, (state, { payload }) => {
+                state.userData.id = null;
+            })
+            .addCase(getUserInfo.fulfilled, (state, { payload }) => {
+                state.userData = payload;
+            })
     }
 })
 

@@ -1,13 +1,15 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
+import { useAuthorization } from '../utils/authorizationHook'
 
 export function RegisterPage() {
     const navigate = useNavigate()
+    const { isAuth } = useAuthorization();
     const firstNameRef = useRef<HTMLInputElement>(null);
     const secondNameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
@@ -23,6 +25,12 @@ export function RegisterPage() {
         secondName: false,
         email: false,
         passwordRepeat: false
+    })
+
+    useEffect(() => {
+        if (isAuth.userData.id) {
+            navigate(Paths.main);
+        }
     })
 
     const onSubmitForm = (e: FormEvent) => {

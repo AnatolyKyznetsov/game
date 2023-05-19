@@ -38,3 +38,8 @@ export interface PlayersStatusProps {
 export interface PlayersStatusItemProps {
     player: Player,
 }
+
+export interface SigninData {
+    login: string,
+    password:string
+}
