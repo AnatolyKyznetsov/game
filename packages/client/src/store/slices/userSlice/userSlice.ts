@@ -13,7 +13,8 @@ export interface UserData {
     login: string
     email: string
     phone: string
-    avatar: string
+    avatar: string,
+    password?: string
 }
 
 const initialState: User = {
@@ -43,11 +44,7 @@ const userSlice = createSlice({
                 const { id } = payload
                 state.userData.id = id
             })
-            .addCase(signinUser.fulfilled, (state, { payload }) => {
-                const { id } = payload;
-                state.userData.id = id;
-            })
-            .addCase(logoutUser.fulfilled, (state, { payload }) => {
+            .addCase(logoutUser.fulfilled, (state) => {
                 state.userData.id = null;
             })
             .addCase(getUserInfo.fulfilled, (state, { payload }) => {

@@ -15,8 +15,10 @@ export const registerUser = createAsyncThunk('user/register', async (data: Signu
         },
         body: JSON.stringify(data)
     }
-    const response = request(`${baseUrl}${signup}`, options)
-    return response
+    const response = await request(`${baseUrl}${signup}`, options);
+    if (response.ok) {
+        return response.json();
+    }
 })
 
 export const signinUser = createAsyncThunk('user/signin', async (data: SigninData) => {
@@ -29,7 +31,7 @@ export const signinUser = createAsyncThunk('user/signin', async (data: SigninDat
         body: JSON.stringify(data)
     }
 
-    return request(`${baseUrl}${signin}`, options)
+    await request(`${baseUrl}${signin}`, options)
 })
 
 export const logoutUser = createAsyncThunk('user/logout', async () => {
@@ -41,7 +43,7 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
         }
     }
 
-    return request(`${baseUrl}${logout}`, options)
+    await request(`${baseUrl}${logout}`, options);
 })
 
 export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
@@ -53,5 +55,8 @@ export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
         }
     }
 
-    return request(`${baseUrl}${userInfo}`, options)
+    const response = await request(`${baseUrl}${userInfo}`, options);
+    if (response.ok) {
+        return response.json()
+    }
 })

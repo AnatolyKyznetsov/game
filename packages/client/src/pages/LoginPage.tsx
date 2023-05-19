@@ -11,17 +11,19 @@ import { getUserInfo } from '../store/slices/userSlice/actions'
 
 export function LoginPage() {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const { isAuth, signin, user } = useAuthorization();
+    const { isAuth, signin } = useAuthorization();
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false
     })
 
     useEffect(() => {
-        if (isAuth.userData.id) {
-            navigate(Paths.main);
+        const userInfo = isAuth;
+        if (userInfo && userInfo.userData?.id) {
+            navigate(Paths.main)
         }
     })
 
@@ -35,8 +37,13 @@ export function LoginPage() {
                 login: login as string,
                 password: password as string
             })
-            user();
-            navigate(Paths.main)
+
+            dispatch(getUserInfo());
+
+            const userInfo = isAuth;
+            if (userInfo && userInfo.userData?.id) {
+                navigate(Paths.main)
+            }
         }
     }
 

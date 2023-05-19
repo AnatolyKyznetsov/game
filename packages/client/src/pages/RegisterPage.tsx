@@ -6,9 +6,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../utils/authorizationHook'
+import { useAppDispatch } from '../store/hooks'
+import { getUserInfo, registerUser } from '../store/slices/userSlice/actions'
 
 export function RegisterPage() {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch();
     const { isAuth } = useAuthorization();
     const firstNameRef = useRef<HTMLInputElement>(null);
     const secondNameRef = useRef<HTMLInputElement>(null);
@@ -28,8 +31,9 @@ export function RegisterPage() {
     })
 
     useEffect(() => {
-        if (isAuth.userData.id) {
-            navigate(Paths.main);
+        const userInfo = isAuth;
+        if (userInfo && userInfo.userData?.id) {
+            navigate(Paths.main)
         }
     })
 
@@ -37,7 +41,21 @@ export function RegisterPage() {
         e.preventDefault();
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
-            navigate(Paths.main);
+            dispatch(registerUser({
+                email: emailRef.current?.value as string,
+                first_name: firstNameRef.current?.value as string,
+                login: loginRef.current?.value as string,
+                phone: phoneRef.current?.value as string,
+                second_name: secondNameRef.current?.value as string,
+                password: passwordRef.current?.value as string
+            }))
+
+            dispatch(getUserInfo());
+
+            const userInfo = isAuth;
+            if (userInfo && userInfo.userData?.id) {
+                navigate(Paths.main)
+            }
         }
     }
 
@@ -54,7 +72,7 @@ export function RegisterPage() {
 
         setErrorFields(newErrorFields);
 
-        return !Object.values(validateFields()).includes(true)
+        return !Object.values(newErrorFields).includes(true)
     }
 
     return (
