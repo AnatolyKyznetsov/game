@@ -7,6 +7,17 @@
     overflow: hidden;
     display: inline-flex;
 
+    &__participant {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        border-radius: $radius;
+        border: 2px solid $color-elem-first;
+        padding: 10px;
+        margin: 5px;
+    }
+
     &__wrapper {
         padding: 22px;
         width: 100%;

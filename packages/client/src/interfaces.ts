@@ -43,3 +43,9 @@ export interface SigninData {
     login: string,
     password:string
 }
+  
+export interface ParticipantProps {
+    id: string,
+    name: string,
+    score: string
+}
