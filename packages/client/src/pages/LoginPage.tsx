@@ -1,11 +1,11 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
-import { useAuthorization } from '../utils/useAuthorization'
+import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch } from '../store/hooks'
 import { getUserInfo } from '../store/slices/userSlice/actions'
 
@@ -20,12 +20,6 @@ export function LoginPage() {
         password: false
     })
 
-    useEffect(() => {
-        if (isAuth) {
-            navigate(Paths.main)
-        }
-    }, [ isAuth ])
-
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         const fieldsValidated = validateFields();
@@ -33,13 +27,13 @@ export function LoginPage() {
             signin({
                 login: (loginRef.current as HTMLInputElement).value,
                 password: (passwordRef.current as HTMLInputElement).value
+            }).then(() => {
+                dispatch(getUserInfo());
+
+                if (isAuth) {
+                    navigate(Paths.main)
+                }
             })
-
-            dispatch(getUserInfo());
-
-            if (isAuth) {
-                navigate(Paths.main)
-            }
         }
     }
 

@@ -6,8 +6,8 @@ export const useAuthorization = () => {
     const isAuth = useAppSelector((state) => state.user.isAuth);
     const dispatch = useAppDispatch();
 
-    const signin = (data: SigninData) => {
-        dispatch(signinUser(data));
+    const signin = async (data: SigninData) => {
+        await dispatch(signinUser(data));
     }
 
     const logout = () => {

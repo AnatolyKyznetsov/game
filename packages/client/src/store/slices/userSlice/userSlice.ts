@@ -51,7 +51,7 @@ const userSlice = createSlice({
                 state.isAuth = true;
             })
             .addCase(logoutUser.fulfilled, (state) => {
-                state.isAuth = true;
+                state.isAuth = false;
             })
             .addCase(getUserInfo.fulfilled, (state, { payload }) => {
                 state.userData = payload;
