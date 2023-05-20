@@ -5,7 +5,7 @@ import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
-import { useAuthorization } from '../utils/authorizationHook'
+import { useAuthorization } from '../utils/useAuthorization'
 import { useAppDispatch } from '../store/hooks'
 import { getUserInfo } from '../store/slices/userSlice/actions'
 
