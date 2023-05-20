@@ -17,27 +17,6 @@ export const ProfilePage: FC = () => {
     const { first_name, second_name, login, email, phone, display_name } =
         userData
 
-    // useEffect(() => {
-    //     fetch('https://ya-praktikum.tech/api/v2/auth/signin', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             login: 'Y24NN1',
-    //             password: '190604Ndt',
-    //         }),
-    //         credentials: 'include',
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }, [])
-
     useEffect(() => {
         dispatch(getUser())
     }, [ dispatch ])
