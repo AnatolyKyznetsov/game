@@ -1,9 +1,11 @@
+import React from 'react'
 import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Paths } from './utils/paths'
 import { MainPage } from './pages/MainPage'
 import { ErrorPage } from './pages/ErrorPage'
+import { LeaderBoardPage } from './pages/LeaderBoardPage'
 import { GamePage } from './pages/GamePage'
 import { StartPage } from './pages/StartPage'
 import { ForumPage } from './pages/ForumPage/ForumPage'
@@ -22,6 +24,7 @@ export const App = () => {
             <Route path={Paths.startScreen} element={<StartPage />} />
             <Route path={Paths.notFound} element={<ErrorPage title="404" />} />
             <Route path={Paths.error} element={<ErrorPage title="500" />} />
+            <Route path={Paths.leaderBoard} element={<LeaderBoardPage />} />
         </Routes>
     )
 }

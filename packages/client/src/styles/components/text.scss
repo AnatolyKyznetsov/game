@@ -12,6 +12,9 @@
         color: $color-text-light;
     }
 
+    &__big {
+        font-size: 18px;
+      
     &__comment {
         display: block;
         @extend .text;
