@@ -4,9 +4,10 @@ import { Player } from './engine/Player'
 export interface InputProps {
     type: string,
     name: string,
-    label: string
+    label: string,
     tooltip?: string,
-    error?: boolean
+    error?: boolean,
+    defaultValue?: string | number | readonly string[]
 }
 
 export interface ButtonProps {
