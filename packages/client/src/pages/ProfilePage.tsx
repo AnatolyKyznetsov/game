@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { ButtonBack } from '../components/ButtonBack'
 import { Paths } from '../utils/paths'
@@ -8,21 +8,23 @@ import {
     selectIsLoadingUser,
     selectUserData,
 } from '../store/selectors/userSelectors'
-import { getUser } from '../store/slices/userSlice/actions'
+import { getUserInfo, logoutUser } from '../store/slices/userSlice/actions'
 
 export const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const userData = useAppSelector(selectUserData)
     const isLoading = useAppSelector(selectIsLoadingUser)
     const { first_name, second_name, login, email, phone, display_name } =
         userData
 
     useEffect(() => {
-        dispatch(getUser())
+        dispatch(getUserInfo())
     }, [ dispatch ])
 
     const handleLogout = () => {
-        console.log('logout')
+        dispatch(logoutUser())
+        navigate(Paths.main)
     }
 
     if (isLoading) {

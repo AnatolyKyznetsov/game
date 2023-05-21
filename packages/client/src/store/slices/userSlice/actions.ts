@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { Urls } from '../../../utils/api'
 import { request } from '../../../utils/request'
 import { UserData } from '../../../types/user'
+import { SigninData } from '../../../interfaces'
 
 type SignupData = Omit<UserData, 'id' | 'display_name' | 'avatar'>
 type ChangeUserData = Omit<UserData, 'id' | 'avatar'>
@@ -30,7 +31,7 @@ export const registerUser = createAsyncThunk(
     }
 )
 
-export const getUser = createAsyncThunk('user/get_user', async () => {
+export const getUserInfo = createAsyncThunk('user/get_user', async () => {
     const { baseUrl, userInfo } = Urls
     const options = {
         method: 'GET',
@@ -45,6 +46,36 @@ export const getUser = createAsyncThunk('user/get_user', async () => {
     } else {
         throw new Error('Get user request failed')
     }
+})
+
+export const signinUser = createAsyncThunk(
+    'user/signin',
+    async (data: SigninData) => {
+        const { baseUrl, signin } = Urls
+        const options = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }
+
+        await request(`${baseUrl}${signin}`, options)
+    }
+)
+
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+    const { baseUrl, logout } = Urls
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    await request(`${baseUrl}${logout}`, options)
 })
 
 export const changeUser = createAsyncThunk(

@@ -7,4 +7,5 @@ export type UserData = {
     email: string
     phone: string
     avatar: string
+    password?: string
 }

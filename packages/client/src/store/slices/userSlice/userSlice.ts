@@ -3,17 +3,20 @@ import {
     changeAvatar,
     changePassword,
     changeUser,
-    getUser,
+    getUserInfo,
     registerUser,
+    logoutUser,
+    signinUser,
 } from './actions'
 import { UserData } from '../../../types/user'
-
 interface User {
+    isAuth: boolean
     userData: UserData
     isLoading: boolean
 }
 
 const initialState: User = {
+    isAuth: false,
     userData: {
         id: null,
         first_name: '',
@@ -51,17 +54,39 @@ const userSlice = createSlice({
             state.isLoading = false
         },
 
-        [getUser.fulfilled.type]: (
+        [signinUser.fulfilled.type]: (state: User) => {
+            state.isLoading = false
+            state.isAuth = true
+        },
+        [signinUser.pending.type]: (state: User) => {
+            state.isLoading = true
+        },
+        [signinUser.rejected.type]: (state: User) => {
+            state.isLoading = false
+        },
+
+        [logoutUser.fulfilled.type]: (state: User) => {
+            state.isLoading = false
+            state.isAuth = false
+        },
+        [logoutUser.pending.type]: (state: User) => {
+            state.isLoading = true
+        },
+        [logoutUser.rejected.type]: (state: User) => {
+            state.isLoading = false
+        },
+
+        [getUserInfo.fulfilled.type]: (
             state: User,
             action: PayloadAction<UserData>
         ) => {
             state.isLoading = false
             state.userData = action.payload
         },
-        [getUser.pending.type]: (state: User) => {
+        [getUserInfo.pending.type]: (state: User) => {
             state.isLoading = true
         },
-        [getUser.rejected.type]: (state: User) => {
+        [getUserInfo.rejected.type]: (state: User) => {
             state.isLoading = false
         },
 

@@ -10,7 +10,7 @@ import {
     selectIsLoadingUser,
     selectUserData,
 } from '../store/selectors/userSelectors'
-import { changeUser, getUser } from '../store/slices/userSlice/actions'
+import { changeUser, getUserInfo } from '../store/slices/userSlice/actions'
 
 export const EditProfilePage = () => {
     const navigate = useNavigate()
@@ -78,7 +78,7 @@ export const EditProfilePage = () => {
     }
 
     useEffect(() => {
-        dispatch(getUser())
+        dispatch(getUserInfo())
     }, [ dispatch ])
 
     if (isLoading) {
