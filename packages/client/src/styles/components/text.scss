@@ -14,15 +14,15 @@
 
     &__big {
         font-size: 18px;
-
-        &__comment {
-            display: block;
-            @extend .text;
-            max-width: 100%;
-            color: $color-text-dark;
-            word-wrap: break-word;
-            overflow-y: auto;
-            max-height: 120px;
-        }
+    }
+      
+    &__comment {
+        display: block;
+        @extend .text;
+        max-width: 100%;
+        color: $color-text-dark;
+        word-wrap: break-word;
+        overflow-y: auto;
+        max-height: 120px;
     }
 }

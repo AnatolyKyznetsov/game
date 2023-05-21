@@ -3,6 +3,8 @@ export enum Paths {
     login = '/login',
     register = '/register',
     profile = '/profile',
+    editProfile = '/edit-profile',
+    editPassword = '/edit-password',
     feed = '/feed',
     startScreen = '/start-screen',
     endScreen = '/end-screen',

@@ -1,10 +1,10 @@
 export interface RequestOptions {
     method: string
-    headers: {
+    headers?: {
         Authorization?: string
         'Content-Type': string
-    },
-    body?: string
+    }
+    body?: string | FormData
 }
 
 export const request = async (url: string, options?: RequestOptions) => {

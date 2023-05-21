@@ -11,7 +11,7 @@ export const INPUT_TOOLTIPS = {
 }
 
 export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
-    const { type, name, label, tooltip, error } = props;
+    const { type, name, label, tooltip, error, defaultValue } = props;
     const [ inputClass, setInputClass ] = useState('label__input');
     const [ inputError, setInputError ] = useState(error);
 
@@ -23,10 +23,18 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputE
         }
     }, [ error ]);
 
+    useEffect(() => {
+        if (defaultValue) {
+            setInputClass('label__input not-empty');
+        }
+    }, [ defaultValue ])
+
     const handleChange = () => {
         const value = (ref as RefObject<HTMLInputElement>).current?.value;
         if (value) {
             setInputClass('label__input not-empty');
+        } else {
+            setInputClass('label__input');
         }
         removeError();
     }
@@ -59,6 +67,7 @@ export const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputE
         <label className={labelClass}>
             <input type={type} className={inputClass} name={name}
                 onChange={handleChange} onBlur={handleBlur} onFocus={removeError}
+                defaultValue={defaultValue}
                 ref={ref}/>
             <div className='label__line'></div>
             <span className='label__name'>{label}</span>

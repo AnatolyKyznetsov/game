@@ -1,74 +1,32 @@
 .avatar {
-    overflow: hidden;
-    flex-shrink: 0;
-    background: $color-additional-third;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100%;
-    line-height: 1;
-    font-weight: 500;
-    user-select: none;
-    font-size: 18px;
-    width: 40px;
-    height: 40px;
     position: relative;
+    width: 100px;
+    height: 100px;
 
-    &__load {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    &__image {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-
-        &::before {
-            content: 'Поменять аватар';
+        border-radius: 50%;
+        background-color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        cursor: pointer;
+    
+        img {
             width: 100%;
             height: 100%;
-            background: #{HexToRGBA($color-main-dark, 0.7)};
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            inset: 0;
-            font-weight: 500;
-            font-size: 13px;
-            line-height: 1.2;
-            text-align: center;
-            padding: 8px;
-            color: $color-text-light;
-            opacity: 0;
-            transition: $transition;
-        }
-
-        &:hover {
-            &::before {
-                opacity: 1;
-            }
+            object-fit: cover;
         }
     }
-
-    &_big {
-        font-size: 61px;
-        width: 109px;
-        height: 109px;
-    }
-
-    &__img {
-        max-height: 100%;
-        width: auto;
-
-        & + .avatar__letter {
-            display: none;
-        }
-    }
-
-    &__input {
-        position: absolute;
-        width: 0;
-        height: 0;
-        opacity: 0;
-        pointer-events: none;
+    
+    &__placeholder {
+        font-size: 40px;
+        color: #aaa;
     }
 }
+

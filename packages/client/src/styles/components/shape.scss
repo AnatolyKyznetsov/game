@@ -7,6 +7,7 @@
     overflow: hidden;
     display: inline-flex;
 
+
     &__participant {
         display: flex;
         flex-direction: row;
@@ -16,6 +17,24 @@
         border: 2px solid $color-elem-first;
         padding: 10px;
         margin: 5px;
+    }
+
+    &__back {
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid $color-elem-first;
+        transition: $transition;
+        cursor: pointer;
+
+        .icon {
+            pointer-events: none;
+        }
+
+        &:hover {
+            background: $color-additional-first;
+        }
     }
 
     &__wrapper {
