@@ -81,81 +81,81 @@ export const EditProfilePage = () => {
         dispatch(getUser())
     }, [ dispatch ])
 
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
     return (
         <main className="main">
             <div className="shape">
                 <ButtonBack />
                 <div className="shape__wrapper">
-                    {isLoading ? (
-                        <div>Loading...</div>
-                    ) : (
-                        <div className="profile">
-                            <form
-                                className="form"
-                                method="post"
-                                onSubmit={onSubmitForm}>
-                                <Input
-                                    type="text"
-                                    name="first_name"
-                                    label="Имя"
-                                    tooltip={INPUT_TOOLTIPS.name}
-                                    ref={firstNameRef}
-                                    error={errorFields.firstName}
-                                    defaultValue={first_name}
-                                />
-                                <Input
-                                    type="text"
-                                    name="second_name"
-                                    label="Фамилия"
-                                    tooltip={INPUT_TOOLTIPS.name}
-                                    ref={secondNameRef}
-                                    error={errorFields.secondName}
-                                    defaultValue={second_name}
-                                />
-                                <Input
-                                    type="text"
-                                    name="display_name"
-                                    label="Имя в чате"
-                                    tooltip={INPUT_TOOLTIPS.login}
-                                    ref={displayNameRef}
-                                    error={errorFields.displayName}
-                                    defaultValue={display_name}
-                                />
-                                <Input
-                                    type="text"
-                                    name="login"
-                                    label="Логин"
-                                    tooltip={INPUT_TOOLTIPS.login}
-                                    ref={loginRef}
-                                    error={errorFields.login}
-                                    defaultValue={login}
-                                />
-                                <Input
-                                    type="text"
-                                    name="email"
-                                    label=" Почта"
-                                    tooltip={INPUT_TOOLTIPS.email}
-                                    ref={emailRef}
-                                    error={errorFields.email}
-                                    defaultValue={email}
-                                />
-                                <Input
-                                    type="text"
-                                    name="phone"
-                                    label="Телефон"
-                                    tooltip={INPUT_TOOLTIPS.phone}
-                                    ref={phoneRef}
-                                    error={errorFields.phone}
-                                    defaultValue={phone}
-                                />
-                                <Button
-                                    type="submit"
-                                    text="Сохранить"
-                                    buttonClass="form__button"
-                                />
-                            </form>
-                        </div>
-                    )}
+                    <div className="profile">
+                        <form
+                            className="form"
+                            method="post"
+                            onSubmit={onSubmitForm}>
+                            <Input
+                                type="text"
+                                name="first_name"
+                                label="Имя"
+                                tooltip={INPUT_TOOLTIPS.name}
+                                ref={firstNameRef}
+                                error={errorFields.firstName}
+                                defaultValue={first_name}
+                            />
+                            <Input
+                                type="text"
+                                name="second_name"
+                                label="Фамилия"
+                                tooltip={INPUT_TOOLTIPS.name}
+                                ref={secondNameRef}
+                                error={errorFields.secondName}
+                                defaultValue={second_name}
+                            />
+                            <Input
+                                type="text"
+                                name="display_name"
+                                label="Имя в чате"
+                                tooltip={INPUT_TOOLTIPS.login}
+                                ref={displayNameRef}
+                                error={errorFields.displayName}
+                                defaultValue={display_name}
+                            />
+                            <Input
+                                type="text"
+                                name="login"
+                                label="Логин"
+                                tooltip={INPUT_TOOLTIPS.login}
+                                ref={loginRef}
+                                error={errorFields.login}
+                                defaultValue={login}
+                            />
+                            <Input
+                                type="text"
+                                name="email"
+                                label=" Почта"
+                                tooltip={INPUT_TOOLTIPS.email}
+                                ref={emailRef}
+                                error={errorFields.email}
+                                defaultValue={email}
+                            />
+                            <Input
+                                type="text"
+                                name="phone"
+                                label="Телефон"
+                                tooltip={INPUT_TOOLTIPS.phone}
+                                ref={phoneRef}
+                                error={errorFields.phone}
+                                defaultValue={phone}
+                            />
+                            <Button
+                                type="submit"
+                                text="Сохранить"
+                                buttonClass="form__button"
+                            />
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>
