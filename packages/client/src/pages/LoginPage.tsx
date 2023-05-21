@@ -5,11 +5,16 @@ import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
+import { useAuthorization } from '../hooks/useAuthorization'
+import { useAppDispatch } from '../store/hooks'
+import { getUserInfo } from '../store/slices/userSlice/actions'
 
 export function LoginPage() {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const { isAuth, signin } = useAuthorization();
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false
@@ -19,7 +24,16 @@ export function LoginPage() {
         e.preventDefault();
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
-            navigate(Paths.main)
+            signin({
+                login: loginRef.current?.value as string,
+                password: passwordRef.current?.value as string
+            }).then(() => {
+                dispatch(getUserInfo());
+
+                if (isAuth) {
+                    navigate(Paths.main)
+                }
+            })
         }
     }
 
@@ -30,7 +44,7 @@ export function LoginPage() {
         }
         setErrorFields(newErrorFields);
 
-        return !Object.values(validateFields()).includes(true)
+        return !Object.values(newErrorFields).includes(true)
     }
 
     return (

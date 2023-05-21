@@ -8,13 +8,5 @@ export interface RequestOptions {
 }
 
 export const request = async (url: string, options?: RequestOptions) => {
-    const response = await fetch(url, options)
-    return checkResponse(response)
-}
-
-const checkResponse = (response: Response) => {
-    if (response.ok) {
-        return response.json()
-    }
-    return Promise.reject(`Error ${response.status}`)
+    return await fetch(url, options)
 }
