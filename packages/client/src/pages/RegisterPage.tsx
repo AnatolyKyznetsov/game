@@ -35,12 +35,12 @@ export function RegisterPage() {
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
             dispatch(registerUser({
-                email: (emailRef.current as HTMLInputElement).value,
-                first_name: (firstNameRef.current as HTMLInputElement).value,
-                login: (loginRef.current as HTMLInputElement).value,
-                phone: (phoneRef.current as HTMLInputElement).value,
-                second_name: (secondNameRef.current as HTMLInputElement).value,
-                password: (passwordRef.current as HTMLInputElement).value
+                email: emailRef.current?.value as string,
+                first_name: firstNameRef.current?.value as string,
+                login: loginRef.current?.value as string,
+                phone: phoneRef.current?.value as string,
+                second_name: secondNameRef.current?.value as string,
+                password: passwordRef.current?.value as string
             })).then(() => {
                 dispatch(getUserInfo());
 

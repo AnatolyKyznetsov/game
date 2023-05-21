@@ -25,8 +25,8 @@ export function LoginPage() {
         const fieldsValidated = validateFields();
         if (fieldsValidated) {
             signin({
-                login: (loginRef.current as HTMLInputElement).value,
-                password: (passwordRef.current as HTMLInputElement).value
+                login: loginRef.current?.value as string,
+                password: passwordRef.current?.value as string
             }).then(() => {
                 dispatch(getUserInfo());
 
