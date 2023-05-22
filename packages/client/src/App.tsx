@@ -28,8 +28,8 @@ export const App = () => {
             <Route path={Paths.profile} element={<ProfilePage />} />
             <Route path={Paths.editProfile} element={<EditProfilePage />} />
             <Route path={Paths.editPassword} element={<EditPasswordPage />} />
-            <Route path={Paths.notFound} element={<ErrorPage title="404" />} />
-            <Route path={Paths.error} element={<ErrorPage title="500" />} />
+            <Route path={Paths.notFound} element={<ErrorPage title="404" text="Не туда попали." />} />
+            <Route path={Paths.error} element={<ErrorPage title="500" text="Ошибка сервера, мы уже фиксим." />} />
             <Route path={Paths.leaderBoard} element={<LeaderBoardPage />} />
         </Routes>
     )
