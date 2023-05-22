@@ -10,12 +10,20 @@
         max-width: 75%;
         font-size: 32px;
         color: $color-text-light;
+        opacity: .7;
+        padding-bottom: 120px;
+
+        @media screen and (max-width: 768px) {
+            & {
+                font-size: 24px;
+            }
+        }
     }
 
     &__big {
         font-size: 18px;
     }
-      
+
     &__comment {
         display: block;
         @extend .text;

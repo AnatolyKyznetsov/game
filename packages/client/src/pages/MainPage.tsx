@@ -12,7 +12,7 @@ export const MainPage = () => {
     const navigate = useNavigate()
 
     const handleStartButton = () => {
-        navigate(Paths.register)
+        navigate(Paths.login)
     }
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export const MainPage = () => {
                 },
                 duration: 6,
                 ease: 'elastic',
-                y: '-=90vh',
+                y: '-=75vh',
                 onComplete: () => setIsActiveButton(true),
                 repeat: 0,
                 overwrite: true,
@@ -35,7 +35,7 @@ export const MainPage = () => {
 
     return (
         <main className='main'>
-            <h1 className='title__main' ref={title}>The Lost Vikings</h1>
+            <img className="main__logo" src="/images/logo.png" alt="Логотип." />
             <p className='text__main' ref={description}>{gameDescription}</p>
             {isActiveButton && <Button
                 onClick={handleStartButton}
