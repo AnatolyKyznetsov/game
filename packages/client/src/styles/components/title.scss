@@ -32,4 +32,11 @@
         justify-content: space-between;
         gap: 16px;
     }
+
+    &_error {
+        font-weight: 500;
+        font-size: 60px;
+        margin-bottom: 20px;
+        color: $color-text-dark;
+    }
 }
