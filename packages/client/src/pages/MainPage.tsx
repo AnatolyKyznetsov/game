@@ -12,7 +12,7 @@ export const MainPage = () => {
     const navigate = useNavigate()
 
     const handleStartButton = () => {
-        navigate(Paths.login)
+        navigate(Paths.startScreen)
     }
 
     useEffect(() => {
