@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
@@ -30,6 +30,12 @@ export function RegisterPage() {
         passwordRepeat: false
     })
 
+    useEffect(() => {
+        if (isAuth) {
+            navigate(Paths.startScreen)
+        }
+    }, [ isAuth ])
+
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
         const fieldsValidated = validateFields();
@@ -43,10 +49,6 @@ export function RegisterPage() {
                 password: passwordRef.current?.value as string
             })).then(() => {
                 dispatch(getUserInfo());
-
-                if (isAuth) {
-                    navigate(Paths.main)
-                }
             })
         }
     }
