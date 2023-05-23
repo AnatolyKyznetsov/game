@@ -38,9 +38,7 @@ export function RegisterPage() {
         }
 
         if (error && !errorMessage && !isFieldsEmpty()) {
-            if (error.includes('409')) {
-                setErrorMessage('Пользователь с такими данными уже существует');
-            }
+            setErrorMessage(error)
         } else {
             setErrorMessage('');
         }
@@ -147,10 +145,10 @@ export function RegisterPage() {
                             ref={passwordRepeatRef}
                             error={errorFields.passwordRepeat}
                         />
-                        <p className='text error label__error'>{errorMessage}</p>
                         <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button'/>
                     </form>
+                    <p className='text error label__error'>{errorMessage}</p>
                     <Link to={Paths.login} className='link shape__link'>Войти</Link>
                 </div>
             </div>

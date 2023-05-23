@@ -28,9 +28,7 @@ export function LoginPage() {
         }
 
         if (error && !errorMessage && !isFieldsEmpty()) {
-            if (error.includes('401')) {
-                setErrorMessage('Неверное имя польователя или пароль');
-            }
+            setErrorMessage(error)
         } else {
             setErrorMessage('');
         }
@@ -87,9 +85,9 @@ export function LoginPage() {
                             ref={passwordRef}
                             error={errorFields.password}
                         />
-                        <p className='text error label__error'>{errorMessage}</p>
                         <Button type='submit' text='Войти' buttonClass='form__button'/>
                     </form>
+                    <p className='text error label__error'>{errorMessage}</p>
                     <Link to={Paths.register} className='link shape__link'>Еще не зарегестрированы?</Link>
                 </div>
             </div>

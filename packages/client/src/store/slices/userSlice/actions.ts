@@ -26,7 +26,9 @@ export const registerUser = createAsyncThunk(
         if (response.ok) {
             return await response.json()
         } else {
-            throw new Error('Register user request failed with status ' + response.status)
+            await response.json().then(result => {
+                throw new Error(result.reason)
+            })
         }
     }
 )
@@ -60,8 +62,10 @@ export const signinUser = createAsyncThunk('user/signin',async (data: SigninData
     }
 
     const response = await request(`${baseUrl}${signin}`, options);
-    if (!response.ok && response.status > 400) {
-        throw new Error('Login request failed with status ' + response.status);
+    if (!response.ok) {
+        await response.json().then(result => {
+            throw new Error(result.reason)
+        })
     }
 })
 
