@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { UserData } from '../userSlice/userSlice'
+import { UserData } from '../../../types/user';
 
 export interface Chat {
     id: number | null
