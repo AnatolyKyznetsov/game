@@ -7,18 +7,13 @@ export const Menu = ({ items }: MenuProps) => {
     const navigate = useNavigate();
     const [ activeIndex, setActiveIndex ] = useState(0);
 
-    const handleKeyPressArrow = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === 'ArrowDown') {
-                setActiveIndex(prev =>
-                    prev < items.length - 1 ? prev + 1 : 0
-                );
-            } else if (e.key === 'ArrowUp') {
-                setActiveIndex(prev => (prev ? prev - 1 : items.length - 1));
-            }
-        },
-        [ items.length ]
-    )
+    const handleKeyPressArrow = (e: KeyboardEvent) => {
+        if (e.key === 'ArrowDown') {
+            setActiveIndex(prev => prev < items.length - 1 ? prev + 1 : 0);
+        } else if (e.key === 'ArrowUp') {
+            setActiveIndex(prev => prev ? prev - 1 : items.length - 1);
+        }
+    }
 
     const handleKeyPressEnter = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
@@ -50,7 +45,7 @@ export const Menu = ({ items }: MenuProps) => {
             window.removeEventListener('keydown', handleKeyPressArrow);
             window.removeEventListener('keydown', handleKeyPressEnter);
         }
-    }, []);
+    }, [ items.length , activeIndex ]);
 
     return (
         <nav className='menu'>

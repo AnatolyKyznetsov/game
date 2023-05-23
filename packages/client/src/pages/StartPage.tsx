@@ -3,13 +3,24 @@ import { Paths } from '../utils/paths'
 import { Menu } from '../components/Menu'
 import { v4 as makeId } from 'uuid'
 import { FullscreenButton } from '../components/FullscreenButton'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../store/hooks'
+import { logoutUser } from '../store/slices/userSlice/actions'
 
 export const StartPage = () => {
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        dispatch(logoutUser())
+        navigate(Paths.main)
+    }
+
     const menuItems = [
         { title: 'Новая игра', url: Paths.game },
         { title: 'Форум', url: Paths.feed },
         { title: 'Профиль', url: Paths.profile },
-        { title: 'Выход', url: Paths.login }
+        { title: 'Выход', clickHandler: handleLogout }
     ].map(item => {
         return { ...item, id: makeId() }
     });
