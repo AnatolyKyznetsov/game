@@ -48,22 +48,22 @@ export const getUserInfo = createAsyncThunk('user/get_user', async () => {
     }
 })
 
-export const signinUser = createAsyncThunk(
-    'user/signin',
-    async (data: SigninData) => {
-        const { baseUrl, signin } = Urls
-        const options = {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }
-
-        await request(`${baseUrl}${signin}`, options)
+export const signinUser = createAsyncThunk('user/signin',async (data: SigninData) => {
+    const { baseUrl, signin } = Urls
+    const options = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     }
-)
+
+    const response = await request(`${baseUrl}${signin}`, options);
+    if (!response.ok && response.status > 400) {
+        throw new Error('Login request failed with status ' + response.status);
+    }
+})
 
 export const logoutUser = createAsyncThunk('user/logout', async () => {
     const { baseUrl, logout } = Urls
