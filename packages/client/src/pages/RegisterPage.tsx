@@ -37,7 +37,7 @@ export function RegisterPage() {
             navigate(Paths.startScreen)
         }
 
-        if (error && !errorMessage && !isFieldsEmpty()) {
+        if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
             setErrorMessage(error)
         } else {
             setErrorMessage('');
@@ -46,7 +46,11 @@ export function RegisterPage() {
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
-        const fieldsValidated = validateFields();
+        const errorFields = getErrorFields();
+        setErrorFields(errorFields);
+
+        const fieldsValidated = !Object.values(errorFields).includes(true);
+
         if (fieldsValidated) {
             dispatch(registerUser({
                 email: emailRef.current?.value as string,
@@ -61,13 +65,8 @@ export function RegisterPage() {
         }
     }
 
-    const isFieldsEmpty = (): boolean => {
-        return !(emailRef.current?.value && firstNameRef.current?.value && phoneRef.current?.value &&
-            loginRef.current?.value && secondNameRef.current?.value && passwordRef.current?.value)
-    }
-
-    const validateFields = (): boolean => {
-        const newErrorFields = {
+    const getErrorFields = () => {
+        return {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password'),
             phone: !validator(phoneRef.current?.value, 'phone'),
@@ -76,10 +75,6 @@ export function RegisterPage() {
             email: !validator(emailRef.current?.value, 'email'),
             passwordRepeat: !validator(passwordRef.current?.value, 'passwordRepeat', passwordRepeatRef.current?.value)
         }
-
-        setErrorFields(newErrorFields);
-
-        return !Object.values(newErrorFields).includes(true)
     }
 
     return (

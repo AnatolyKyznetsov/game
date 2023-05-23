@@ -27,7 +27,7 @@ export function LoginPage() {
             navigate(Paths.startScreen)
         }
 
-        if (error && !errorMessage && !isFieldsEmpty()) {
+        if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
             setErrorMessage(error)
         } else {
             setErrorMessage('');
@@ -36,7 +36,10 @@ export function LoginPage() {
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
-        const fieldsValidated = validateFields();
+        const errorFields = getErrorFields();
+        setErrorFields(errorFields);
+
+        const fieldsValidated = !Object.values(errorFields).includes(true);
         if (fieldsValidated) {
             signin({
                 login: loginRef.current?.value as string,
@@ -47,18 +50,11 @@ export function LoginPage() {
         }
     }
 
-    const isFieldsEmpty = (): boolean => {
-        return !(loginRef.current?.value && passwordRef.current?.value)
-    }
-
-    const validateFields = (): boolean => {
-        const newErrorFields = {
+    const getErrorFields = () => {
+        return {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password')
         }
-        setErrorFields(newErrorFields);
-
-        return !Object.values(newErrorFields).includes(true)
     }
 
     return (
