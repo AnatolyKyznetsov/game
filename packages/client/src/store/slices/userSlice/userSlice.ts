@@ -12,7 +12,8 @@ import { UserData } from '../../../types/user'
 interface User {
     isAuth: boolean
     userData: UserData
-    isLoading: boolean
+    isLoading: boolean,
+    error: string
 }
 
 const initialState: User = {
@@ -28,6 +29,7 @@ const initialState: User = {
         avatar: '',
     },
     isLoading: false,
+    error: ''
 }
 
 const userSlice = createSlice({
@@ -46,23 +48,29 @@ const userSlice = createSlice({
             state.isLoading = false
             const { id } = action.payload
             state.userData.id = id
+            state.error = '';
         },
         [registerUser.pending.type]: (state: User) => {
             state.isLoading = true
+            state.error = '';
         },
-        [registerUser.rejected.type]: (state: User) => {
+        [registerUser.rejected.type]: (state: User, action) => {
             state.isLoading = false
+            state.error = action.error.message;
         },
 
         [signinUser.fulfilled.type]: (state: User) => {
             state.isLoading = false
             state.isAuth = true
+            state.error = '';
         },
         [signinUser.pending.type]: (state: User) => {
             state.isLoading = true
+            state.error = '';
         },
-        [signinUser.rejected.type]: (state: User) => {
+        [signinUser.rejected.type]: (state: User, action) => {
             state.isLoading = false
+            state.error = action.error.message;
         },
 
         [logoutUser.fulfilled.type]: (state: User) => {

@@ -6,13 +6,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo, registerUser } from '../store/slices/userSlice/actions'
 
 export function RegisterPage() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const { isAuth } = useAuthorization();
+    const error = useAppSelector(state => state.user.error);
+    const [ errorMessage, setErrorMessage ] = useState('');
     const firstNameRef = useRef<HTMLInputElement>(null);
     const secondNameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
@@ -34,7 +36,15 @@ export function RegisterPage() {
         if (isAuth) {
             navigate(Paths.startScreen)
         }
-    }, [ isAuth ])
+
+        if (error && !errorMessage && !isFieldsEmpty()) {
+            if (error.includes('409')) {
+                setErrorMessage('Пользователь с такими данными уже существует');
+            }
+        } else {
+            setErrorMessage('');
+        }
+    }, [ error, isAuth, errorFields ])
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
@@ -51,6 +61,11 @@ export function RegisterPage() {
                 dispatch(getUserInfo());
             })
         }
+    }
+
+    const isFieldsEmpty = (): boolean => {
+        return !(emailRef.current?.value && firstNameRef.current?.value && phoneRef.current?.value &&
+            loginRef.current?.value && secondNameRef.current?.value && passwordRef.current?.value)
     }
 
     const validateFields = (): boolean => {
@@ -132,6 +147,7 @@ export function RegisterPage() {
                             ref={passwordRepeatRef}
                             error={errorFields.passwordRepeat}
                         />
+                        <p className='text error label__error'>{errorMessage}</p>
                         <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button'/>
                     </form>

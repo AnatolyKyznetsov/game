@@ -26,7 +26,7 @@ export const registerUser = createAsyncThunk(
         if (response.ok) {
             return await response.json()
         } else {
-            throw new Error('Register user request failed')
+            throw new Error('Register user request failed with status ' + response.status)
         }
     }
 )

@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo } from '../store/slices/userSlice/actions'
 
 export function LoginPage() {
@@ -14,6 +14,8 @@ export function LoginPage() {
     const dispatch = useAppDispatch();
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const error = useAppSelector(state => state.user.error);
+    const [ errorMessage, setErrorMessage ] = useState('');
     const { isAuth, signin } = useAuthorization();
     const [ errorFields, setErrorFields ] = useState({
         login: false,
@@ -24,7 +26,15 @@ export function LoginPage() {
         if (isAuth) {
             navigate(Paths.startScreen)
         }
-    }, [ isAuth ])
+
+        if (error && !errorMessage && !isFieldsEmpty()) {
+            if (error.includes('401')) {
+                setErrorMessage('Неверное имя польователя или пароль');
+            }
+        } else {
+            setErrorMessage('');
+        }
+    }, [ error, isAuth, errorFields ])
 
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
@@ -37,6 +47,10 @@ export function LoginPage() {
                 dispatch(getUserInfo());
             })
         }
+    }
+
+    const isFieldsEmpty = (): boolean => {
+        return !(loginRef.current?.value && passwordRef.current?.value)
     }
 
     const validateFields = (): boolean => {
@@ -73,6 +87,7 @@ export function LoginPage() {
                             ref={passwordRef}
                             error={errorFields.password}
                         />
+                        <p className='text error label__error'>{errorMessage}</p>
                         <Button type='submit' text='Войти' buttonClass='form__button'/>
                     </form>
                     <Link to={Paths.register} className='link shape__link'>Еще не зарегестрированы?</Link>
