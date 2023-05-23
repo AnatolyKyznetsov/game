@@ -2,22 +2,28 @@
     display: flex;
     padding: 8px;
     gap: 16px;
-    align-items: center;
-    width: 80%;
+    width: 100%;
     background: $color-elem-first;
     box-sizing: border-box;
     border-radius: 16px;
+    min-height: 120px;
 
     &__box {
         display: flex;
         padding: 2px;
-        gap: 32px;
-
+        gap: 8px;
+        &>span {
+            font-size: 12px;
+        }
     }
 
     &__wrapper {
         display: flex;
         flex-direction: column;
         gap: 12px;
+        background: $color-elem-second;
+        padding: 8px;
+        width: 100%;
+        border-radius: 16px;
     }
 }

@@ -15,8 +15,8 @@ export const tempUserData = {
     'first_name': 'Petya',
     'second_name': 'Pupkin',
     'display_name': 'Petya Pupkin',
-    'login': 'userLogin',
+    'login': 'Petya',
     'email': 'my@email.com',
     'phone': '89223332211',
-    'avatar': '/path/to/avatar.jpg'
+    'avatar': '/images/avatar-test.png'
 }
