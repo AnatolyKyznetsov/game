@@ -51,6 +51,8 @@
     }
 
     &__feed {
-        width: 20%;
+        font-size: 12px;
+        width: max-content;
+        padding: 4px;
     }
 }

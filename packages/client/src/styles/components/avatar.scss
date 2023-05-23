@@ -48,10 +48,18 @@
             }
         }
     }
-    
+
     &__placeholder {
         font-size: 40px;
         color: #aaa;
     }
-}
 
+    &__message {
+        @extend .avatar;
+        width: 48px;
+        height: 48px;
+        position: relative;
+        font-size: 8px;
+        align-self: center;
+    }
+}
