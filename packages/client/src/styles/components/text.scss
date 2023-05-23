@@ -25,4 +25,11 @@
         overflow-y: auto;
         max-height: 120px;
     }
+
+    &_error {
+        font-weight: 500;
+        font-size: 20px;
+        margin-bottom: 40px;
+        color: $color-text-dark;
+    }
 }
