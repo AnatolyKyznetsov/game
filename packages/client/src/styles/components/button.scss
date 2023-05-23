@@ -47,11 +47,12 @@
         @extend .button;
         position: fixed;
         bottom: 48px;
-        mix-blend-mode: difference;
         z-index: 999;
     }
 
     &__feed {
-        width: 20%;
+        font-size: 12px;
+        width: max-content;
+        padding: 4px;
     }
 }

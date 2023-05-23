@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 interface ErrorPageProps {
     title: string
+    text?: string
 }
 
-export const ErrorPage: FC<ErrorPageProps> = ({ title }) => {
+export const ErrorPage: FC<ErrorPageProps> = ({ title, text }) => {
     const navigate = useNavigate()
 
     const handleBack = () => {
@@ -14,10 +15,15 @@ export const ErrorPage: FC<ErrorPageProps> = ({ title }) => {
 
     return (
         <main className="main">
-            <h1 className="title__main">{title}</h1>
-            <button className="button" onClick={handleBack}>
-                Назад
-            </button>
+            <div className="shape">
+                <div className="shape__wrapper">
+                    <h1 className="title title_error">{title}</h1>
+                    <p className="text text_error">{text}</p>
+                    <button className="button" onClick={handleBack}>
+                        Назад
+                    </button>
+                </div>
+            </div>
         </main>
     )
 }

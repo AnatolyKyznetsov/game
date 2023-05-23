@@ -11,6 +11,7 @@ import {
     selectUserData,
 } from '../store/selectors/userSelectors'
 import { changeUser, getUserInfo } from '../store/slices/userSlice/actions'
+import { Loader } from '../components/Loader'
 
 export const EditProfilePage = () => {
     const navigate = useNavigate()
@@ -82,7 +83,7 @@ export const EditProfilePage = () => {
     }, [ dispatch ])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div className='main'><Loader /></div> 
     }
 
     return (
