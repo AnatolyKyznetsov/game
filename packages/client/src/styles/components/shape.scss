@@ -17,6 +17,20 @@
         border: 2px solid $color-elem-first;
         padding: 10px;
         margin: 5px;
+
+        &-title {
+            @extend .shape__participant;
+            border: none;
+        }
+    }
+
+    &__participant-info {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__leaders {
+        min-width: 100px;
     }
 
     &__back {
