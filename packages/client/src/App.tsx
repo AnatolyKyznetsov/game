@@ -13,6 +13,7 @@ import { EndScreenPage } from './pages/EndScreenPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { EditProfilePage } from './pages/EditProfilePage'
 import { EditPasswordPage } from './pages/EditPasswordPage'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 export const App = () => {
     const location = useLocation()
@@ -24,7 +25,7 @@ export const App = () => {
             <Route path={Paths.feed} element={<ForumPage />} />
             <Route path={Paths.main} element={<MainPage />} />
             <Route path={Paths.game} element={<GamePage />} />
-            <Route path={Paths.startScreen} element={<StartPage />} />
+            <Route path={Paths.startScreen} element={<ProtectedRoute component={<StartPage />} />} />
             <Route path={Paths.profile} element={<ProfilePage />} />
             <Route path={Paths.editProfile} element={<EditProfilePage />} />
             <Route path={Paths.editPassword} element={<EditPasswordPage />} />
