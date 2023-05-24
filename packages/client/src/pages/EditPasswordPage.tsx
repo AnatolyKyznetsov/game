@@ -14,6 +14,7 @@ export const EditPasswordPage = () => {
     const oldPasswordRef = useRef<HTMLInputElement>(null)
     const newPasswordRef = useRef<HTMLInputElement>(null)
     const repeatPasswordRef = useRef<HTMLInputElement>(null)
+    const [ errorMessage, setErrorMessage ] = useState('')
 
     const [ errorFields, setErrorFields ] = useState({
         oldPassword: false,
@@ -36,6 +37,8 @@ export const EditPasswordPage = () => {
                 .then((res) => {
                     if (res.success) {
                         navigate(Paths.profile)
+                    } else {
+                        setErrorMessage(res.reason)
                     }
                 })
         }
@@ -97,6 +100,7 @@ export const EditPasswordPage = () => {
                                 text="Сохранить"
                                 buttonClass="form__button"
                             />
+                            <p className='text error label__error'>{errorMessage}</p>
                         </form>
                     </div>
                 </div>

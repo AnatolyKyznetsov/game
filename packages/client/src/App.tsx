@@ -21,9 +21,14 @@ export const App = () => {
         <Routes location={location}>
             <Route path={Paths.register} element={<RegisterPage />} />
             <Route path={Paths.login} element={<LoginPage />} />
-            <Route path={Paths.endScreen} element={
+            <Route path={Paths.endScreenSuccess} element={
                 <RequiredAuth>
-                    <EndScreenPage />
+                    <EndScreenPage title="Поздравляем!" text="Ваше время 05:12" buttonText="Далее" />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.endScreenFail} element={
+                <RequiredAuth>
+                    <EndScreenPage title="Game over" buttonText="Начать с начала" />
                 </RequiredAuth>
             }/>
             <Route path={Paths.feed} element={

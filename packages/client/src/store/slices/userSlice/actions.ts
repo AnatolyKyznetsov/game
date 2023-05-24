@@ -101,7 +101,7 @@ export const changeUser = createAsyncThunk(
                 success: true,
             }
         } else {
-            throw new Error('Change user request failed')
+            return await response.json()
         }
     }
 )
@@ -142,7 +142,7 @@ export const changePassword = createAsyncThunk(
         if (response.ok) {
             return { success: true }
         } else {
-            throw new Error('Change password request failed')
+            return await response.json()
         }
     }
 )

@@ -27,6 +27,8 @@ export const EditProfilePage = () => {
     const { first_name, second_name, display_name, login, email, phone } =
         userData
 
+    const [ errorMessage, setErrorMessage ] = useState('')
+
     const [ errorFields, setErrorFields ] = useState({
         firstName: false,
         secondName: false,
@@ -55,6 +57,8 @@ export const EditProfilePage = () => {
                 .then(res => {
                     if (res.success) {
                         navigate(Paths.profile)
+                    } else {
+                        setErrorMessage(res.reason)
                     }
                 })
         }
@@ -83,7 +87,7 @@ export const EditProfilePage = () => {
     }, [ dispatch ])
 
     if (isLoading) {
-        return <div className='main'><Loader /></div> 
+        return <div className='main'><Loader /></div>
     }
 
     return (
@@ -155,6 +159,7 @@ export const EditProfilePage = () => {
                                 text="Сохранить"
                                 buttonClass="form__button"
                             />
+                            <p className='text error label__error'>{errorMessage}</p>
                         </form>
                     </div>
                 </div>
