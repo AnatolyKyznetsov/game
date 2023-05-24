@@ -82,6 +82,13 @@
         top: 22px;
     }
 
+    &__error {
+        margin-top: 10px;
+        position: relative;
+        text-align: center;
+        color: $color-warning;
+    }
+
     &.error {
         .label__line {
             &::before {

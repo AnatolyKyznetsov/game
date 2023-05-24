@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { Input } from '../components/Input'
 import { INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
@@ -6,13 +6,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
-import { useAppDispatch } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo, registerUser } from '../store/slices/userSlice/actions'
 
 export function RegisterPage() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const { isAuth } = useAuthorization();
+    const error = useAppSelector(state => state.user.error);
+    const [ errorMessage, setErrorMessage ] = useState('');
     const firstNameRef = useRef<HTMLInputElement>(null);
     const secondNameRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
@@ -30,9 +32,25 @@ export function RegisterPage() {
         passwordRepeat: false
     })
 
+    useEffect(() => {
+        if (isAuth) {
+            navigate(Paths.startScreen)
+        }
+
+        if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
+            setErrorMessage(error)
+        } else {
+            setErrorMessage('');
+        }
+    }, [ error, isAuth, errorFields ])
+
     const onSubmitForm = (e: FormEvent) => {
         e.preventDefault();
-        const fieldsValidated = validateFields();
+        const errorFields = getErrorFields();
+        setErrorFields(errorFields);
+
+        const fieldsValidated = !Object.values(errorFields).includes(true);
+
         if (fieldsValidated) {
             dispatch(registerUser({
                 email: emailRef.current?.value as string,
@@ -43,16 +61,12 @@ export function RegisterPage() {
                 password: passwordRef.current?.value as string
             })).then(() => {
                 dispatch(getUserInfo());
-
-                if (isAuth) {
-                    navigate(Paths.main)
-                }
             })
         }
     }
 
-    const validateFields = (): boolean => {
-        const newErrorFields = {
+    const getErrorFields = () => {
+        return {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password'),
             phone: !validator(phoneRef.current?.value, 'phone'),
@@ -61,10 +75,6 @@ export function RegisterPage() {
             email: !validator(emailRef.current?.value, 'email'),
             passwordRepeat: !validator(passwordRef.current?.value, 'passwordRepeat', passwordRepeatRef.current?.value)
         }
-
-        setErrorFields(newErrorFields);
-
-        return !Object.values(newErrorFields).includes(true)
     }
 
     return (
@@ -133,6 +143,7 @@ export function RegisterPage() {
                         <Button type='submit' text='Зарегестрироваться'
                             buttonClass='form__button'/>
                     </form>
+                    <p className='text error label__error'>{errorMessage}</p>
                     <Link to={Paths.login} className='link shape__link'>Войти</Link>
                 </div>
             </div>

@@ -13,7 +13,7 @@ import { EndScreenPage } from './pages/EndScreenPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { EditProfilePage } from './pages/EditProfilePage'
 import { EditPasswordPage } from './pages/EditPasswordPage'
-import { ProtectedRoute } from './components/ProtectedRoute'
+import { RequiredAuth } from './components/RequiredAuth';
 
 export const App = () => {
     const location = useLocation()
@@ -21,17 +21,49 @@ export const App = () => {
         <Routes location={location}>
             <Route path={Paths.register} element={<RegisterPage />} />
             <Route path={Paths.login} element={<LoginPage />} />
-            <Route path={Paths.endScreen} element={<EndScreenPage />} />
-            <Route path={Paths.feed} element={<ForumPage />} />
+            <Route path={Paths.endScreen} element={
+                <RequiredAuth>
+                    <EndScreenPage />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.feed} element={
+                <RequiredAuth>
+                    <ForumPage />
+                </RequiredAuth>
+            }/>
             <Route path={Paths.main} element={<MainPage />} />
-            <Route path={Paths.game} element={<GamePage />} />
-            <Route path={Paths.startScreen} element={<ProtectedRoute component={<StartPage />} />} />
-            <Route path={Paths.profile} element={<ProfilePage />} />
-            <Route path={Paths.editProfile} element={<EditProfilePage />} />
-            <Route path={Paths.editPassword} element={<EditPasswordPage />} />
+            <Route path={Paths.game} element={
+                <RequiredAuth>
+                    <GamePage />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.startScreen} element={
+                <RequiredAuth>
+                    <StartPage />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.profile} element={
+                <RequiredAuth>
+                    <ProfilePage />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.editProfile} element={
+                <RequiredAuth>
+                    <EditProfilePage />
+                </RequiredAuth>
+            }/>
+            <Route path={Paths.editPassword} element={
+                <RequiredAuth>
+                    <EditPasswordPage />
+                </RequiredAuth>
+            }/>
             <Route path={Paths.notFound} element={<ErrorPage title="404" text="Не туда попали." />} />
             <Route path={Paths.error} element={<ErrorPage title="500" text="Ошибка сервера, мы уже фиксим." />} />
-            <Route path={Paths.leaderBoard} element={<LeaderBoardPage />} />
+            <Route path={Paths.leaderBoard} element={
+                <RequiredAuth>
+                    <LeaderBoardPage />
+                </RequiredAuth>
+            }/>
         </Routes>
     )
 }
