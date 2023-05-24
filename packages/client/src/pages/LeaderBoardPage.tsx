@@ -4,12 +4,13 @@ import { ParticipantProps } from '../interfaces'
 import { Link } from 'react-router-dom'
 import { Paths } from '../utils/paths'
 import { tempLeaders } from '../utils/constants';
+import { v4 as makeId } from 'uuid'
 
 export function LeaderBoardPage() {
     const [ leaders, setLeaders ] = useState(tempLeaders);
     function getLeaders(participants: ParticipantProps[]) {
         return participants.map(participant =>
-            <ParticipantItem id={participant.id} name={participant.name}
+            <ParticipantItem key={makeId()} id={participant.id} name={participant.name}
                 time={participant.time} level={participant.level}/>)
     }
 
@@ -26,7 +27,7 @@ export function LeaderBoardPage() {
                         <div className='text text__big shape__leaders'>Уровень</div>
                     </div>
                     {getLeaders(leaders)}
-                    <Link to={Paths.main} className='link shape__link'>Назад к игре</Link>
+                    <Link to={Paths.startScreen} className='link shape__link'>Назад к игре</Link>
                 </div>
             </div>
         </main>

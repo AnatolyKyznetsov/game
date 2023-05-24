@@ -21,8 +21,7 @@ export const MainPage = () => {
                 startAt: {
                     y: '80vh'
                 },
-                duration: 6,
-                ease: 'elastic',
+                duration: 1,
                 y: '-=75vh',
                 onComplete: () => setIsActiveButton(true),
                 repeat: 0,
