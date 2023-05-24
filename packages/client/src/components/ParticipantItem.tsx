@@ -1,10 +1,11 @@
 import { ParticipantProps } from '../interfaces'
 
-export function ParticipantItem({ id, name, score }: ParticipantProps) {
+export function ParticipantItem({ id, name, time, level }: ParticipantProps) {
     return (
         <div className='shape__participant' id={id}>
-            <div className='text text__big'>{name}</div>
-            <div className='text text__big'>{score}</div>
+            <div className='text text__big shape__leaders'>{name}</div>
+            <div className='text text__big shape__leaders'>{time}</div>
+            <div className='text text__big shape__leaders'>{level}</div>
         </div>
     )
 }
