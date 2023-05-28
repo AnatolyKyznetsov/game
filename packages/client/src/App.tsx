@@ -17,6 +17,7 @@ import { RequiredAuth } from './components/RequiredAuth';
 
 export const App = () => {
     const location = useLocation()
+
     return (
         <Routes location={location}>
             <Route path={Paths.register} element={<RegisterPage />} />
