@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
 import { Route, Routes, useLocation } from 'react-router-dom'
@@ -17,19 +17,6 @@ import { RequiredAuth } from './components/RequiredAuth';
 
 export const App = () => {
     const location = useLocation()
-
-    useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/serviceWorker.ts')
-                .then(() => {
-                    console.log('Service Worker registered')
-                })
-                .catch(error => {
-                    console.error('Error registering Service Worker:', error)
-                })
-        }
-    }, [])
 
     return (
         <Routes location={location}>
