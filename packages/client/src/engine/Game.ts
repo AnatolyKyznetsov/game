@@ -8,12 +8,6 @@ import { Olaf } from './players/Olaf';
 import { LvlData, Size } from './interfaces';
 import { Turrets } from './Turrets';
 
-import lvl_1 from '../lvlMaps/lvl_1.json';
-
-const lvls = [
-    lvl_1,
-]
-
 export class Game {
     public size: Size;
     public screen: Size;
@@ -33,15 +27,15 @@ export class Game {
     private needChangePlayer: 'next' | 'prev' | null;
     private gameOver: boolean;
 
-    constructor(ctx: CanvasRenderingContext2D) {
+    constructor(ctx: CanvasRenderingContext2D, lvls: LvlData[]) {
         this.ctx = ctx;
 
         this.currentLvlIndex = 0;
         this.currentLvl = lvls[this.currentLvlIndex];
 
         this.size = {
-            width: this.currentLvl.size.width,
-            height: this.currentLvl.size.height,
+            width: this.currentLvl?.size.width,
+            height: this.currentLvl?.size.height,
         }
 
         this.screen = {
@@ -55,16 +49,16 @@ export class Game {
 
         this.players = [
             new Eric(this, {
-                x: this.currentLvl.playersPosition.eric.x,
-                y: this.currentLvl.playersPosition.eric.y
+                x: this.currentLvl?.playersPosition.eric.x,
+                y: this.currentLvl?.playersPosition.eric.y
             }),
             new Baelog(this, {
-                x: this.currentLvl.playersPosition.baelog.x,
-                y: this.currentLvl.playersPosition.baelog.y
+                x: this.currentLvl?.playersPosition.baelog.x,
+                y: this.currentLvl?.playersPosition.baelog.y
             }),
             new Olaf(this, {
-                x: this.currentLvl.playersPosition.olaf.x,
-                y: this.currentLvl.playersPosition.olaf.y
+                x: this.currentLvl?.playersPosition.olaf.x,
+                y: this.currentLvl?.playersPosition.olaf.y
             })
         ];
 
@@ -80,7 +74,7 @@ export class Game {
 
         this.needChangePlayer = null;
 
-        this.currentLvl.turrets.forEach(item => {
+        this.currentLvl?.turrets.forEach(item => {
             this.turrets.push(new Turrets(this, item));
         });
 
@@ -88,11 +82,11 @@ export class Game {
     }
 
     public getStartPointX(): number {
-        return this.currentLvl.startPoint.x - window.innerWidth > 0 ? this.currentLvl.startPoint.x - window.innerWidth : 0;
+        return this.currentLvl?.startPoint.x - window.innerWidth > 0 ? this.currentLvl.startPoint.x - window.innerWidth : 0;
     }
 
     public getStartPointY(): number {
-        return this.currentLvl.startPoint.y - window.innerHeight > 0 ? this.currentLvl.startPoint.y - window.innerHeight : 0;
+        return this.currentLvl?.startPoint.y - window.innerHeight > 0 ? this.currentLvl.startPoint.y - window.innerHeight : 0;
     }
 
     public closeToScope(x: number, y: number): boolean {
