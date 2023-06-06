@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { App } from './App'
-import './styles/style.scss'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+import './styles/style.scss'
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -20,7 +20,8 @@ if ('serviceWorker' in navigator) {
     })
 }
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.hydrateRoot(
+    document.getElementById('root') as HTMLElement,
     <React.StrictMode>
         <ErrorBoundary>
             <BrowserRouter>
