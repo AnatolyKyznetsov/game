@@ -3,11 +3,14 @@ import { ParticipantItem } from '../components/ParticipantItem'
 import { ParticipantProps } from '../interfaces'
 import { Link } from 'react-router-dom'
 import { Paths } from '../utils/paths'
-import { tempLeaders } from '../utils/constants';
 import { v4 as makeId } from 'uuid'
+import { useAppSelector } from '../store/hooks';
+import { selectLeaderboardData } from '../store/selectors/leaderboardSelectors';
 
 export function LeaderBoardPage() {
-    const [ leaders, setLeaders ] = useState(tempLeaders);
+    const leaderboard = useAppSelector(selectLeaderboardData);
+    const [ leaders, setLeaders ] = useState(leaderboard);
+
     function getLeaders(participants: ParticipantProps[]) {
         return participants.map(participant =>
             <ParticipantItem key={makeId()} id={participant.id} name={participant.name}

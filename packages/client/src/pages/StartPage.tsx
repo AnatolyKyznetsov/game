@@ -20,7 +20,7 @@ export const StartPage = () => {
         { title: 'Новая игра', url: Paths.game },
         { title: 'Форум', url: Paths.feed },
         { title: 'Профиль', url: Paths.profile },
-        { title: 'Таблица лилдеров', url: Paths.leaderBoard },
+        { title: 'Таблица лидеров', url: Paths.leaderBoard },
         { title: 'Выход', clickHandler: handleLogout }
     ].map(item => {
         return { ...item, id: makeId() }
