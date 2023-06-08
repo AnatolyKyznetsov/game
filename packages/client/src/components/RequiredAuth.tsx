@@ -15,9 +15,9 @@ export function RequiredAuth({ children }: {children: ReactElement}) {
         return children;
     } else {
         const dispatch = useAppDispatch()
+
         dispatch(getUserInfo()).then(() => {
             setLoading(false)
-
         })
 
         if (loading) {
