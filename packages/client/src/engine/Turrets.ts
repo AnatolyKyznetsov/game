@@ -8,7 +8,8 @@ export class Turrets {
     private bullet: Bullet;
     private time: number;
     private delay: number;
-    private image: string;
+    private imagePath: string;
+    private image?: CanvasImageSource;
 
     constructor(game: Game, data: TurretsItem) {
         this.game = game;
@@ -16,12 +17,16 @@ export class Turrets {
         this.bullet = new Bullet(this.game, this.data);
         this.time = new Date().getTime();
         this.delay = 1200;
-        this.image = this.data.image;
+        this.imagePath = this.data.image;
+        this.image = this.game.loadImage(this.imagePath);
     }
 
     public draw(): void {
-        this.game.ctx.fillStyle = 'magenta';
-        this.game.ctx.fillRect(this.data.x, this.data.y, this.data.width, this.data.height);
+        if (!this.image) {
+            return;
+        }
+
+        this.game.ctx.drawImage(this.image, this.data.x, this.data.y, this.data.width, this.data.height);
 
         this.bullet.draw();
     }

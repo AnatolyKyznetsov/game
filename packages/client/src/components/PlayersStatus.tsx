@@ -6,11 +6,10 @@ import { PlayersStatusProps } from '../interfaces';
 export function PlayersStatus({ players, stopTimer }: PlayersStatusProps) {
     return (
         <div className='players'>
-
             <div className="players__wrapper">
-                <div className="players__trash">
+                {/* <div className="players__trash">
                     <img src="/images/trash.svg" alt="Выбросить." />
-                </div>
+                </div> */}
                 {players.map(player => (
                     <PlayersStatusItem player={player} key={player.id} />
                 ))}

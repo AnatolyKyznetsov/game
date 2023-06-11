@@ -10,18 +10,17 @@ export class Map {
         this.data = data;
     }
 
-    drawItem(item: PosAndSize, color: string): void {
-        this.game.ctx.fillStyle = color;
+    drawItem(item: PosAndSize): void {
         this.game.ctx.fillRect(item.x, item.y, item.width, item.height);
     }
 
     draw(): void {
         this.data.stairs.forEach(item => {
-            this.drawItem(item, 'blue');
+            this.drawItem(item);
         });
 
         this.data.platforms.forEach(item => {
-            this.drawItem(item, 'red');
+            this.drawItem(item);
         });
     }
 }

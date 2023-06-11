@@ -1,18 +1,19 @@
 import { Game } from './Game';
-import { PosAndSize, Moving, Position, Size, CameraBox } from './interfaces';
+import { PosAndSize, Moving, Position, Size, CameraBox, Players } from './interfaces';
 import { v4 as makeId } from 'uuid'
 
 export abstract class Player {
     public id: string;
     public screen: Position;
 
-    protected game: Game;
+    public game: Game;
     private moving: Moving;
 
     public size: Size;
     public position: Position;
     public spritePath: string;
     public avatarPos: string;
+    public deadAvatar: string;
 
     protected maxSpeed: number;
 
@@ -34,24 +35,31 @@ export abstract class Player {
 
     public isDead: boolean;
 
-    constructor(game: Game, posAndSize: PosAndSize) {
+    private frameX: number;
+    private frameY: number;
+
+    private maxFrameX: number;
+    private isDirectionRight: boolean;
+    private animInProgress: boolean;
+
+    constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
         this.id = makeId();
 
         this.screen = {
-            x: this.game.getStartPointX(),
-            y: this.game.getStartPointY(),
+            x: this.game.getStartPointX(name),
+            y: this.game.getStartPointY(name),
         }
 
         this.size = {
-            width: posAndSize.width,
-            height: posAndSize.height,
+            width: 64,
+            height: 65,
         }
 
         this.firstAbilityInProgress = false;
         this.secondAbilityInProgress = false;
 
-        this.position = { x: posAndSize.x , y: posAndSize.y };
+        this.position = { x: position.x , y: position.y };
 
         this.maxSpeed = 4;
         this.velocity = { x: 0, y: 0 }
@@ -59,6 +67,7 @@ export abstract class Player {
 
         this.spritePath = '';
         this.avatarPos = '';
+        this.deadAvatar = '';
 
         this.moving = {
             left: false,
@@ -74,7 +83,7 @@ export abstract class Player {
             y: 0,
             width: this.game.screen.width / 1.2,
             height: 500,
-            bottomIndent: 10
+            bottomIndent: 80
         }
 
         this.bottomIndent = .01;
@@ -84,7 +93,14 @@ export abstract class Player {
         this.healPoints = 3;
         this.armorPoints = 0;
 
-        this.isDead = false
+        this.isDead = false;
+
+        this.frameX = 0;
+        this.frameY = 0;
+
+        this.maxFrameX = 0;
+        this.isDirectionRight = true;
+        this.animInProgress = false;
 
         this.addEvents();
     }
@@ -115,24 +131,52 @@ export abstract class Player {
     private addEvents(): void {
         this.game.eventBus.on('moveRight', (isMoving: boolean) => {
             if (this.isActivePlayer) {
+                this.isDirectionRight = true;
+
+                if (isMoving) {
+                    this.movingAnim();
+                } else {
+                    this.frameReset();
+                }
+
                 this.moving.right = isMoving;
             }
         });
 
         this.game.eventBus.on('moveLeft', (isMoving: boolean) => {
             if (this.isActivePlayer) {
+                this.isDirectionRight = false;
+
+                if (isMoving) {
+                    this.movingAnim();
+                } else {
+                    this.frameReset();
+                }
+
                 this.moving.left = isMoving;
             }
         });
 
         this.game.eventBus.on('moveUp', (isMoving: boolean) => {
             if (this.isActivePlayer) {
+                if (isMoving && this.canMoveY) {
+                    this.climbAnim();
+                } else {
+                    this.climbAnimReset();
+                }
+
                 this.moving.up = isMoving;
             }
         });
 
         this.game.eventBus.on('moveDown', (isMoving: boolean) => {
             if (this.isActivePlayer) {
+                if (isMoving && this.canMoveY) {
+                    this.climbAnim();
+                } else {
+                    this.climbAnimReset();
+                }
+
                 this.moving.down = isMoving;
             }
         });
@@ -219,6 +263,7 @@ export abstract class Player {
                 if (this.velocity.x > 0) {
                     this.velocity.x = 0;
 
+                    this.bumpAnim();
                     this.position.x -= this.maxSpeed;
                     break;
                 }
@@ -226,6 +271,7 @@ export abstract class Player {
                 if (this.velocity.x < 0) {
                     this.velocity.x = 0;
 
+                    this.bumpAnim();
                     this.position.x += this.maxSpeed;
                     break;
                 }
@@ -287,10 +333,65 @@ export abstract class Player {
 
         if (this.healPoints === 0) {
             this.isDead = true;
+            this.avatarPos = this.deadAvatar;
+            this.deathAnim();
             this.game.eventBus.emit('nextPlayer');
         }
 
         this.game.eventBus.emit('update');
+    }
+
+    private frameReset(): void {
+        this.animInProgress = false;
+        this.frameX = 0;
+        this.frameY = this.isDirectionRight ? 0 : 2;
+        this.maxFrameX = 0;
+    }
+
+    private frameChange(): void {
+        if (this.game.frameSettings.timer > this.game.frameSettings.interval) {
+            this.game.frameSettings.timer = 0;
+
+            if (this.frameX < this.maxFrameX) {
+                this.frameX++
+            } else {
+                if (!this.isDead) {
+                    this.frameX = 0
+                }
+            }
+        } else {
+            this.game.frameSettings.timer += this.game.frameSettings.delay
+        }
+    }
+
+    private movingAnim(): void {
+        if (this.animInProgress) {
+            return;
+        }
+
+        this.frameY = this.isDirectionRight ? 4 : 6;
+        this.maxFrameX = 7;
+    }
+
+    private deathAnim(): void {
+        this.frameY = this.isDirectionRight ? 14 : 16;
+        this.maxFrameX = 7;
+    }
+
+    private bumpAnim(): void {
+        this.animInProgress = true;
+        this.frameY = this.isDirectionRight ? 8 : 10;
+        this.maxFrameX = 3;
+    }
+
+    private climbAnim(): void {
+        this.animInProgress = true;
+        this.frameY = 12;
+        this.maxFrameX = 3;
+    }
+
+    private climbAnimReset(): void {
+        this.maxFrameX = 0;
     }
 
     public update(): void {
@@ -305,6 +406,7 @@ export abstract class Player {
         this.applyGraivty();
         this.сollisionDetectionVertical();
         this.collisionStairs();
+        this.frameChange();
     }
 
     public draw(): void {
@@ -314,9 +416,16 @@ export abstract class Player {
             return;
         }
 
-        this.game.ctx.fillStyle = 'green';
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
-
-        this.game.ctx.drawImage(this.sprite, 0, 0, this.size.width, this.size.height, this.position.x, this.position.y, this.size.width, this.size.height);
+        this.game.ctx.drawImage(
+            this.sprite,
+            this.size.width * this.frameX,
+            this.size.height * this.frameY,
+            this.size.width,
+            this.size.height,
+            this.position.x,
+            this.position.y,
+            this.size.width,
+            this.size.height
+        );
     }
 }

@@ -16,7 +16,7 @@
         padding: 10px;
         border-radius: $radius-small;
         background: #{HexToRGBA($color-main-dark, 0.7)};
-        width: 149px;
+        // width: 149px;
     }
 
     &__avatar {
@@ -57,5 +57,6 @@
         font-size: 22px;
         min-width: 89px;
         text-align: center;
+        width: 100%;
     }
 }
