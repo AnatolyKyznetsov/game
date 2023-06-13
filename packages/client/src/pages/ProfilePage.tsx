@@ -1,35 +1,22 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { ButtonBack } from '../components/ButtonBack'
 import { Paths } from '../utils/paths'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import {
-    selectIsLoadingUser,
-    selectUserData,
-} from '../store/selectors/userSelectors'
-import { getUserInfo, logoutUser } from '../store/slices/userSlice/actions'
-import { Loader } from '../components/Loader'
+import { selectUserData } from '../store/selectors/userSelectors'
+import { logoutUser } from '../store/slices/userSlice/actions'
 
 export const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const userData = useAppSelector(selectUserData)
-    const isLoading = useAppSelector(selectIsLoadingUser)
     const { first_name, second_name, login, email, phone, display_name } =
         userData
-
-    useEffect(() => {
-        dispatch(getUserInfo())
-    }, [ dispatch ])
 
     const handleLogout = () => {
         dispatch(logoutUser())
         navigate(Paths.main)
-    }
-
-    if (isLoading) {
-        return <div className='main'><Loader /></div> 
     }
 
     return (

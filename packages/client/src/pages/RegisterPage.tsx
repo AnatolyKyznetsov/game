@@ -8,6 +8,7 @@ import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo, registerUser } from '../store/slices/userSlice/actions'
+import { Loader } from '../components/Loader'
 
 export function RegisterPage() {
     const navigate = useNavigate()
@@ -22,6 +23,7 @@ export function RegisterPage() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const passwordRepeatRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    const [ loading, setLoading ] = useState(true)
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false,
@@ -35,6 +37,14 @@ export function RegisterPage() {
     useEffect(() => {
         if (isAuth) {
             navigate(Paths.startScreen)
+        } else {
+            dispatch(getUserInfo()).then(res => {
+                if (res.payload !== undefined) {
+                    navigate(Paths.startScreen)
+                } else {
+                    setLoading(false);
+                }
+            })
         }
 
         if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
@@ -75,6 +85,10 @@ export function RegisterPage() {
             email: !validator(emailRef.current?.value, 'email'),
             passwordRepeat: !validator(passwordRef.current?.value, 'passwordRepeat', passwordRepeatRef.current?.value)
         }
+    }
+
+    if (loading) {
+        return <main className='main'><Loader /></main>
     }
 
     return (

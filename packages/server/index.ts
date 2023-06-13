@@ -57,8 +57,10 @@ async function startSerever() {
                 render = (await import(require.resolve('../../client/dist-ssr/client.cjs'))).render
             }
 
-            const appHtml = await render(url)
-            const html = template.replace('<!--ssr-outlet-->', appHtml)
+            const [ appHtml, preloadedState ] = await render(url)
+            const html = template
+                .replace('<!--ssr-outlet-->', appHtml)
+                .replace('<!--preloaded-state-->', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}</script>`)
 
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
         } catch (e) {

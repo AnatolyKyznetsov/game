@@ -1,15 +1,29 @@
 import { useAuthorization } from '../hooks/useAuthorization';
 import { Navigate, useLocation } from 'react-router-dom';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { Paths } from '../utils/paths';
+import { useAppDispatch } from '../store/hooks';
+import { getUserInfo } from '../store/slices/userSlice/actions';
+import { Loader } from './Loader';
 
 export function RequiredAuth({ children }: {children: ReactElement}) {
-    const { isAuth } = useAuthorization();
+    const [ loading, setLoading ] = useState(true)
+    const { isAuth } = useAuthorization()
     const location = useLocation();
 
-    if (!isAuth) {
-        return <Navigate to={Paths.login} state={{ from: location }}/>
+    if (isAuth) {
+        return children;
+    } else {
+        const dispatch = useAppDispatch()
+
+        dispatch(getUserInfo()).then(() => {
+            setLoading(false)
+        })
+
+        if (loading) {
+            return <main className='main'><Loader /></main>
+        }
     }
 
-    return children;
+    return <Navigate to={Paths.login} state={{ from: location }}/>
 }

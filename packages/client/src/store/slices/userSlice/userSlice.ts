@@ -90,6 +90,7 @@ const userSlice = createSlice({
         ) => {
             state.isLoading = false
             state.userData = action.payload
+            state.isAuth = Boolean(action.payload)
         },
         [getUserInfo.pending.type]: (state: User) => {
             state.isLoading = true

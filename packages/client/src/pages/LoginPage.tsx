@@ -8,6 +8,7 @@ import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo } from '../store/slices/userSlice/actions'
+import { Loader } from '../components/Loader'
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ export function LoginPage() {
     const error = useAppSelector(state => state.user.error);
     const [ errorMessage, setErrorMessage ] = useState('');
     const { isAuth, signin } = useAuthorization();
+    const [ loading, setLoading ] = useState(true)
     const [ errorFields, setErrorFields ] = useState({
         login: false,
         password: false
@@ -25,6 +27,14 @@ export function LoginPage() {
     useEffect(() => {
         if (isAuth) {
             navigate(Paths.startScreen)
+        } else {
+            dispatch(getUserInfo()).then(res => {
+                if (res.payload !== undefined) {
+                    navigate(Paths.startScreen)
+                } else {
+                    setLoading(false);
+                }
+            })
         }
 
         if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
@@ -55,6 +65,10 @@ export function LoginPage() {
             login: !validator(loginRef.current?.value, 'login'),
             password: !validator(passwordRef.current?.value, 'password')
         }
+    }
+
+    if (loading) {
+        return <main className='main'><Loader /></main>
     }
 
     return (
