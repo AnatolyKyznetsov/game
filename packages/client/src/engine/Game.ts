@@ -3,9 +3,9 @@ import { Player } from './Player';
 import { Control } from './Control';
 import { Map } from './Map';
 import { Eric } from './players/Eric';
-import { Baelog } from './players/Baelog';
+import { Baleog } from './players/Baleog';
 import { Olaf } from './players/Olaf';
-import { LvlData, Size } from './interfaces';
+import { FrameSettings, LvlData, Size, Players } from './interfaces';
 import { Turrets } from './Turrets';
 
 export class Game {
@@ -26,6 +26,7 @@ export class Game {
     private prevPlayer: Player;
     private needChangePlayer: 'next' | 'prev' | null;
     private gameOver: boolean;
+    public frameSettings: FrameSettings;
 
     constructor(ctx: CanvasRenderingContext2D, lvls: LvlData[]) {
         this.ctx = ctx;
@@ -52,9 +53,9 @@ export class Game {
                 x: this.currentLvl?.playersPosition.eric.x,
                 y: this.currentLvl?.playersPosition.eric.y
             }),
-            new Baelog(this, {
-                x: this.currentLvl?.playersPosition.baelog.x,
-                y: this.currentLvl?.playersPosition.baelog.y
+            new Baleog(this, {
+                x: this.currentLvl?.playersPosition.baleog.x,
+                y: this.currentLvl?.playersPosition.baleog.y
             }),
             new Olaf(this, {
                 x: this.currentLvl?.playersPosition.olaf.x,
@@ -78,15 +79,29 @@ export class Game {
             this.turrets.push(new Turrets(this, item));
         });
 
+        this.frameSettings = {
+            delay: 0,
+            interval: 1000 / 25,
+            timer: 0
+        }
+
         this.addEvents();
     }
 
-    public getStartPointX(): number {
-        return this.currentLvl?.startPoint.x - window.innerWidth > 0 ? this.currentLvl.startPoint.x - window.innerWidth : 0;
+    public getStartPointX(name?: keyof Players<unknown>): number {
+        if (!name) {
+            return 0;
+        }
+
+        return this.currentLvl?.startPoint[name].x - window.innerWidth > 0 ? this.currentLvl.startPoint[name].x - window.innerWidth : 0;
     }
 
-    public getStartPointY(): number {
-        return this.currentLvl?.startPoint.y - window.innerHeight > 0 ? this.currentLvl.startPoint.y - window.innerHeight : 0;
+    public getStartPointY(name?: keyof Players<unknown>): number {
+        if (!name) {
+            return 0;
+        }
+
+        return this.currentLvl?.startPoint[name].y - window.innerHeight > 0 ? this.currentLvl.startPoint[name].y - window.innerHeight : 0;
     }
 
     public closeToScope(x: number, y: number): boolean {
@@ -190,6 +205,7 @@ export class Game {
     }
 
     public draw(delay: number): void {
+        this.frameSettings.delay = delay;
         this.ctx.clearRect(this.activePlayer.screen.x, this.activePlayer.screen.y, this.screen.width, this.screen.height);
 
         if (!this.lvlBackground && this.currentLvl.background) {

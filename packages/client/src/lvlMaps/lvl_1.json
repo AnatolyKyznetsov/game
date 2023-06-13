@@ -1,106 +1,164 @@
 {
-    "background": "/images/test_lvl_bg.jpg", 
+    "background": "/images/sprites/lvl_1.png", 
     "size": {
-        "width": 3000,
-        "height": 2000
+        "width": 2065,
+        "height": 1436
     },
     "startPoint": {
-        "x": 0, 
-        "y": 2010
+        "eric": {
+            "x": 0, 
+            "y": 1023
+        },
+        "baleog": {
+            "x": 1260, 
+            "y": 0
+        },
+        "olaf": {
+            "x": 0, 
+            "y": 0
+        }
     },
     "playersPosition": {
         "eric": {
-            "x": 20, 
-            "y": 1921
+            "x": 320, 
+            "y": 924
         },
-        "baelog": {
-            "x": 120, 
-            "y": 1912
+        "baleog": {
+            "x": 829, 
+            "y": 297
         },
         "olaf": {
-            "x": 220, 
-            "y": 1929
+            "x": 68, 
+            "y": 159
         }
     },
     "platforms": [
         {
+            "x": 516,
+            "y": 578,
+            "width": 32,
+            "height": 346
+        },
+        {
+            "x": 1031,
+            "y": 0,
+            "width": 32,
+            "height": 440
+        },
+        {
+            "x": 516,
+            "y": 32,
+            "width": 32,
+            "height": 346
+        },
+        {
+            "x": 174,
+            "y": 991,
+            "width": 202,
+            "height": 32
+        },
+        {
+            "x": 0,
+            "y": 233,
+            "width": 137,
+            "height": 32
+        },
+        {
+            "x": 0,
+            "y": 372,
+            "width": 220,
+            "height": 68
+        },
+        {
+            "x": 330,
+            "y": 372,
+            "width": 270,
+            "height": 68
+        },
+        {
+            "x": 705,
+            "y": 372,
+            "width": 346,
+            "height": 68
+        },
+        {
+            "x": 861,
+            "y": 440,
+            "width": 32,
+            "height": 170
+        },
+        {
+            "x": 0,
+            "y": 578,
+            "width": 430,
+            "height": 32
+        },
+        {
+            "x": 516,
+            "y": 578,
+            "width": 348,
+            "height": 32
+        },
+        {
             "x": 0,
             "y": 0,
-            "width": 3000,
-            "height": 10
-        },
-        {
-            "x": 0,
-            "y": 2000,
-            "width": 3000,
-            "height": 10
+            "width": 32,
+            "height": 924
         },
         {
             "x": 0,
             "y": 0,
-            "width": 10,
-            "height": 2000
+            "width": 1066,
+            "height": 32
         },
         {
-            "x": 2990,
-            "y": 0,
-            "width": 10,
-            "height": 2000
+            "x": 32,
+            "y": 922,
+            "width": 174,
+            "height": 32
         },
         {
-            "x": 130,
-            "y": 1300,
-            "width": 2640,
-            "height": 10
-        },
-        {
-            "x": 2870,
-            "y": 1300,
-            "width": 130,
-            "height": 10
-        },
-        {
-            "x": 240,
-            "y": 600,
-            "width": 2760,
-            "height": 10
+            "x": 344,
+            "y": 922,
+            "width": 174,
+            "height": 32
         }
     ],
     "stairs": [
         {
-            "x": 2770,
-            "y": 1290,
-            "width": 100,
-            "height": 710
+            "x": 445,
+            "y": 576,
+            "width": 70,
+            "height": 346
         },
         {
-            "x": 140,
-            "y": 590,
-            "width": 100,
-            "height": 710
+            "x": 615,
+            "y": 367,
+            "width": 70,
+            "height": 210
         },
         {
-            "x": 2770,
-            "y": 0,
-            "width": 100,
-            "height": 600
+            "x": 240,
+            "y": 367,
+            "width": 70,
+            "height": 210
         }
     ],
     "turrets": [
         {
-            "x": 1500,
-            "y": 1950,
-            "width": 50,
-            "height": 50,
+            "x": 436,
+            "y": 315,
+            "width": 71,
+            "height": 58,
             "direction": "left",
             "damage": 1,
-            "image": "",
+            "image": "/images/sprites/turret.png",
             "bullet": {
-                "x": 6,
-                "y": 6,
+                "x": 2,
+                "y": 10,
                 "width": 30,
                 "height": 10,
-                "image": ""
+                "image": "/images/sprites/bullet.png"
             }
         }
     ]

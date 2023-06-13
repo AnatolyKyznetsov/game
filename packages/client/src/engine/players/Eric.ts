@@ -6,13 +6,12 @@ export class Eric extends Player {
     constructor(game: Game, position: Position) {
         super(game, {
             x: position.x,
-            y: position.y,
-            width: 72,
-            height: 70
-        });
+            y: position.y
+        }, 'eric');
 
         this.spritePath = '/images/sprites/eric.png';
-        this.avatarPos = '-15px -7px';
+        this.avatarPos = '-4px 0';
+        this.deadAvatar = '-4px -911px'
         this.maxSpeed += 1;
 
         this.armorPoints = 1;

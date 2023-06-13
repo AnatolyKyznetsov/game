@@ -8,7 +8,8 @@ export class Bullet {
     private velocity: number;
     private size: Size;
     public destroyed: boolean;
-    private image: string;
+    private imagePath: string;
+    private image?: CanvasImageSource;
 
     constructor(game: Game, turret: TurretsItem) {
         this.game = game;
@@ -23,7 +24,8 @@ export class Bullet {
 
         this.velocity = 10;
         this.destroyed = false;
-        this.image = this.turret.bullet.image;
+        this.imagePath = this.turret.bullet.image;
+        this.image = this.game.loadImage(this.imagePath);
     }
 
     private getPosition(): Position {
@@ -73,13 +75,11 @@ export class Bullet {
     }
 
     public draw(): void {
-        if (this.destroyed) {
+        if (this.destroyed || !this.image) {
             return;
         }
 
-        this.game.ctx.fillStyle = 'white';
-        this.game.ctx.roundRect(10, 20, 150, 100, 0);
-        this.game.ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
+        this.game.ctx.drawImage(this.image, this.position.x, this.position.y, this.size.width, this.size.height);
     }
 
     public update(): void {

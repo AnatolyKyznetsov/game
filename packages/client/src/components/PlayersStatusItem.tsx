@@ -14,13 +14,13 @@ export function PlayersStatusItem({ player }: PlayersStatusItemProps ) {
     }
 
     return (
-        <div className={`players__item ${player.isActivePlayer ? 'players__item_active' : ''}` }>
-            <ul className="inventory">
-                <li className="inventory__item"></li> {/* inventory__item_focus */}
+        <div className={`players__item ${player.game.activePlayer === player ? 'players__item_active' : ''}` }>
+            {/* <ul className="inventory">
+                <li className="inventory__item inventory__item_focus "></li>
                 <li className="inventory__item"></li>
                 <li className="inventory__item"></li>
                 <li className="inventory__item"></li>
-            </ul>
+            </ul> */}
             <div className="players__inner">
                 <div className="players__avatar" style={{
                     backgroundImage: `url("${player.spritePath}")`,

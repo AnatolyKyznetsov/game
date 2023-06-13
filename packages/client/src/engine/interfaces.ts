@@ -25,14 +25,14 @@ export interface Damage {
 
 export interface Players<T> {
     eric: T,
-    baelog: T,
+    baleog: T,
     olaf: T,
 }
 
 export interface LvlData {
     background: string,
     size: Size,
-    startPoint: Position,
+    startPoint: Players<Position>,
     playersPosition: Players<Position>,
     platforms: PosAndSize[],
     stairs: PosAndSize[],
@@ -53,3 +53,9 @@ export interface TurretsItem extends Damage, Direction, Position, Size {
 }
 
 export interface PosAndSize extends Position, Size { }
+
+export interface FrameSettings {
+    delay: number,
+    interval: number,
+    timer: number
+}

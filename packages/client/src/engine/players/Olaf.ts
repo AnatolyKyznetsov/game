@@ -6,13 +6,12 @@ export class Olaf extends Player {
     constructor(game: Game, position: Position) {
         super(game, {
             x: position.x,
-            y: position.y,
-            width: 86,
-            height: 78
-        });
+            y: position.y
+        }, 'olaf');
 
         this.spritePath = '/images/sprites/olaf.png';
-        this.avatarPos = '-25px -10px';
+        this.avatarPos = '-5px 0px';
+        this.deadAvatar = '-10px -914px';
 
         this.healPoints = 2;
     }
