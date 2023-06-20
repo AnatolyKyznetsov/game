@@ -1,6 +1,5 @@
 import React, { JSX } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { v4 as makeId } from 'uuid'
 import { RequiredAuth } from './components/RequiredAuth';
 import { routes } from './utils/routes';
 
@@ -15,7 +14,7 @@ export const App = () => {
         <Routes location={location}>
             {routes.map(route => (
                 <Route
-                    key={makeId()}
+                    key={route.path}
                     path={route.path}
                     element={route.protected ? makeProtected(route.element) : route.element} />
             ))}

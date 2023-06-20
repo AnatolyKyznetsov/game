@@ -9,16 +9,20 @@ export class Turrets {
     private time: number;
     private delay: number;
     private imagePath: string;
+    private imagePathBullet: string;
     private image?: CanvasImageSource;
+    private imageBullet?: CanvasImageSource;
 
     constructor(game: Game, data: TurretsItem) {
         this.game = game;
         this.data = data;
-        this.bullet = new Bullet(this.game, this.data);
         this.time = new Date().getTime();
         this.delay = 1200;
         this.imagePath = this.data.image;
         this.image = this.game.loadImage(this.imagePath);
+        this.imagePathBullet = this.data.bullet.image;
+        this.imageBullet = this.game.loadImage(this.imagePathBullet);
+        this.bullet = new Bullet(this.game, this.data, this.imageBullet);
     }
 
     public draw(): void {
@@ -39,7 +43,7 @@ export class Turrets {
         const now = new Date().getTime();
 
         if (this.time + this.delay < now) {
-            this.bullet = new Bullet(this.game, this.data);
+            this.bullet = new Bullet(this.game, this.data, this.imageBullet);
             this.time = now;
         }
 
