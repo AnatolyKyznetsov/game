@@ -1,7 +1,10 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
+import axios from 'axios'
 import type { ViteDevServer } from 'vite';
 import { createServer as createViteServer } from 'vite'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+import { createClientAndConnect } from './db'
 
 dotenv.config()
 
@@ -22,6 +25,8 @@ async function startSerever() {
     const distPath = 'packages/client/dist'
     const srcPath = '../client/'
 
+    createClientAndConnect()
+
     if (isDev()) {
         vite = await createViteServer({
             server: { middlewareMode: true },
@@ -31,9 +36,19 @@ async function startSerever() {
 
         app.use(vite.middlewares)
     } else {
-        app.use('/assets', express.static(path.resolve(distPath, 'assets')))
-        app.use('/images', express.static(path.resolve(distPath, 'images')))
-        app.use('/fonts', express.static(path.resolve(distPath, 'fonts')))
+        const needProxy = (url?: string) => {
+            const dirs = ['assets', 'images', 'fonts']
+
+            dirs.forEach(dir => {
+                if (url) {
+                    app.use(`/${dir}`, createProxyMiddleware({target: `http://${url}`, changeOrigin: true}));
+                } else {
+                    app.use(`/${dir}`, express.static(path.resolve(distPath, dir)))
+                }
+            });
+        }
+
+        needProxy(process.env.CLIENT_URL)
     }
 
     app.use('*', async (req, res, next) => {
@@ -46,7 +61,13 @@ async function startSerever() {
                 template = fs.readFileSync(path.resolve(srcPath, 'index.html'), 'utf-8')
                 template = await vite!.transformIndexHtml(url, template)
             } else {
-                template = fs.readFileSync(path.resolve(distPath, 'index.html'), 'utf-8')
+                if (process.env.CLIENT_URL) {
+                    const response = await axios.get(`http://${process.env.CLIENT_URL}`)
+
+                    template = response.data
+                } else {
+                    template = fs.readFileSync(path.resolve(distPath, 'index.html'), 'utf-8')
+                }
             }
 
             let render: (url: string) => Promise<string>;
@@ -54,7 +75,11 @@ async function startSerever() {
             if (isDev()) {
                 render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render
             } else {
-                render = (await import(require.resolve('../../client/dist-ssr/client.cjs'))).render
+                if (process.env.CLIENT_URL) {
+                    render = render = (await import(require.resolve(`/app/ssr/client.cjs`))).render
+                } else {
+                    render = (await import(require.resolve('../../client/dist-ssr/client.cjs'))).render
+                }
             }
 
             const [ appHtml, preloadedState ] = await render(url)
