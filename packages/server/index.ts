@@ -14,6 +14,8 @@ import * as path from 'path'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
+createClientAndConnect()
+
 async function startSerever() {
     let vite: ViteDevServer | undefined;
 
@@ -25,8 +27,6 @@ async function startSerever() {
     const distPath = 'packages/client/dist'
     const srcPath = '../client/'
 
-    createClientAndConnect()
-
     if (isDev()) {
         vite = await createViteServer({
             server: { middlewareMode: true },
@@ -37,11 +37,11 @@ async function startSerever() {
         app.use(vite.middlewares)
     } else {
         const needProxy = (url?: string) => {
-            const dirs = ['assets', 'images', 'fonts']
+            const dirs = [ 'assets', 'images', 'fonts' ]
 
             dirs.forEach(dir => {
                 if (url) {
-                    app.use(`/${dir}`, createProxyMiddleware({target: `http://${url}`, changeOrigin: true}));
+                    app.use(`/${dir}`, createProxyMiddleware({ target: `http://${url}`, changeOrigin: true }));
                 } else {
                     app.use(`/${dir}`, express.static(path.resolve(distPath, dir)))
                 }
@@ -76,7 +76,7 @@ async function startSerever() {
                 render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render
             } else {
                 if (process.env.CLIENT_URL) {
-                    render = render = (await import(require.resolve(`/app/ssr/client.cjs`))).render
+                    render = render = (await import(require.resolve('/app/ssr/client.cjs'))).render
                 } else {
                     render = (await import(require.resolve('../../client/dist-ssr/client.cjs'))).render
                 }
