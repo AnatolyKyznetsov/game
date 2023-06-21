@@ -8,7 +8,9 @@ import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { getUserInfo } from '../store/slices/userSlice/actions'
 import { Loader } from '../components/Loader'
-import { clientId, redirectUri } from '../utils/authorizationConstants';
+import { redirectUri } from '../utils/authorizationConstants';
+import { Urls } from '../utils/api';
+import { request } from '../utils/request';
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -38,12 +40,7 @@ export function LoginPage() {
                 })
             }
 
-            // if (window.location.href) {
-            //     //
-            // } else {
             getUser();
-            // }
-
         }
 
         if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
@@ -77,7 +74,11 @@ export function LoginPage() {
     }
 
     const onYandexAuthorization = () => {
-        window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+        request(`${Urls.baseUrl}${Urls.clientId}`).then(response => {
+            return response.json()
+        }).then(data => {
+            window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data.service_id}&redirect_uri=${redirectUri}`;
+        })
     }
 
     if (loading) {

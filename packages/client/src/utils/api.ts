@@ -9,5 +9,7 @@ export enum Urls {
     leaderBoards = '/leaderboard/all',
     userProfile = '/user/profile',
     userAvatar = '/user/profile/avatar',
-    userPassword = '/user/password'
+    userPassword = '/user/password',
+    clientId= '/oauth/yandex/service-id',
+    oAuth = '/oauth/yandex'
 }
