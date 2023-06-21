@@ -23,13 +23,17 @@ interface Routes {
     loader?: (dispatch: AppDispatch, data: DataSsr) => void
 }
 
+const dispatchChangeTheme = (dispatch: AppDispatch, data: DataSsr) => {
+    dispatch(changeTheme(data.isLightTheme))
+}
+
 export const routes: Routes[] = [
     {
         path: Paths.main,
         element: <MainPage />,
         protected: false,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -37,7 +41,7 @@ export const routes: Routes[] = [
         element: <RegisterPage />,
         protected: false,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -45,7 +49,7 @@ export const routes: Routes[] = [
         element: <LoginPage />,
         protected: false,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -53,7 +57,7 @@ export const routes: Routes[] = [
         element: <ErrorPage title="404" text="Не туда попали." />,
         protected: false,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -61,7 +65,7 @@ export const routes: Routes[] = [
         element: <ErrorPage title="500" text="Ошибка сервера, мы уже фиксим." />,
         protected: false,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -69,7 +73,7 @@ export const routes: Routes[] = [
         element: <EndScreenPage title="Поздравляем!" text="Ваше время 05:12" buttonText="Далее" />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -77,7 +81,7 @@ export const routes: Routes[] = [
         element: <EndScreenPage title="Game over" buttonText="Начать с начала" />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -85,7 +89,7 @@ export const routes: Routes[] = [
         element: <ForumPage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -93,7 +97,7 @@ export const routes: Routes[] = [
         element: <GamePage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -101,7 +105,7 @@ export const routes: Routes[] = [
         element: <StartPage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -109,7 +113,7 @@ export const routes: Routes[] = [
         element: <ProfilePage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -117,7 +121,7 @@ export const routes: Routes[] = [
         element: <EditProfilePage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -125,7 +129,7 @@ export const routes: Routes[] = [
         element: <EditPasswordPage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     },
     {
@@ -133,7 +137,7 @@ export const routes: Routes[] = [
         element: <LeaderBoardPage />,
         protected: true,
         loader: (dispatch, data) => {
-            dispatch(changeTheme(data.isLightTheme))
+            dispatchChangeTheme(dispatch, data)
         }
     }
 ]
