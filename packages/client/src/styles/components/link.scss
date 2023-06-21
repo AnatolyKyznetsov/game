@@ -1,15 +1,15 @@
 .link {
     font-size: 14px;
     line-height: 1.2;
-    transition: $transition;
-    color: $color-elem-first;
+    transition: var(--transition);
+    color: var(--color-elem-first);
     cursor: pointer;
 
     &_warning {
-        color: $color-warning;
+        color: var(--color-warning);
     }
 
     &:hover {
-        color: $color-elem-first-hover;
+        color: var(--color-elem-first-hover);
     }
 }

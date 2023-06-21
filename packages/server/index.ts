@@ -12,9 +12,16 @@ import express from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 
+interface Data {
+    isLightTheme: boolean
+}
+
 const isDev = () => process.env.NODE_ENV === 'development'
 
 createClientAndConnect()
+
+// Значение получить из бд
+const isLightTheme = false;
 
 async function startSerever() {
     let vite: ViteDevServer | undefined;
@@ -51,6 +58,16 @@ async function startSerever() {
         needProxy(process.env.CLIENT_URL)
     }
 
+    app.post('/set_theme', express.json(), (req, res) => {
+        // Запись темы в бд
+        console.log(req.body.data);
+        res.send('ok')
+    })
+
+    app.get('/get_theme', (_, res) => {
+        res.send(isLightTheme)
+    })
+
     app.use('*', async (req, res, next) => {
         const url = req.originalUrl;
 
@@ -70,7 +87,7 @@ async function startSerever() {
                 }
             }
 
-            let render: (url: string) => Promise<string>;
+            let render: (url: string, data: Data) => Promise<string>;
 
             if (isDev()) {
                 render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render
@@ -82,8 +99,9 @@ async function startSerever() {
                 }
             }
 
-            const [ appHtml, preloadedState ] = await render(url)
+            const [ appHtml, preloadedState ] = await render(url, { isLightTheme })
             const html = template
+                .replace('<body>', isLightTheme ? '<body class="light-theme">' : '<body>')
                 .replace('<!--ssr-outlet-->', appHtml)
                 .replace('<!--preloaded-state-->', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}</script>`)
 

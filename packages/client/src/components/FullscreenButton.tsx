@@ -25,7 +25,7 @@ export function FullscreenButton() {
 
     if (document.fullscreenEnabled) {
         return (
-            <button className='fullscreen-button' onClick={toggleFullscreen}>
+            <button className='round-button' onClick={toggleFullscreen}>
                 <img src={`/images/fullscreen-${fullscreenOn ? 'off' : 'on'}.svg`} alt="Полноэкранный режим." />
             </button>
         )

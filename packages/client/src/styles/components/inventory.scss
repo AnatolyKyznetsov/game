@@ -11,11 +11,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: $radius-small;
-        border: 1px solid $color-additional-first;
+        border-radius: var(--radius-smal)l;
+        border: 1px solid var(--color-additional-first);
 
         &_focus {
-            border: 1px solid $color-elem-first;
+            border: 1px solid var(--color-elem-first);
         }
     }
 }

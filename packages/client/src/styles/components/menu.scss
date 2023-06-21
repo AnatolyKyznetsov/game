@@ -1,21 +1,24 @@
 .menu {
-    margin-top: 60px;
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: var(--radius);
     display: flex;
     flex-direction: column;
     gap: 25px;
     justify-content: center;
     align-items: center;
     text-align: center;
+    border: 2px solid transparent;
 
     &__link {
-        font-family: $font-second;
+        font-family: var(--font-second);
         line-height: 1.5;
         font-size: 28px;
         text-transform: uppercase;
         position: relative;
 
         &_active {
-            color: $color-elem-first-hover;
+            color: var(--color-elem-first-hover);
 
             &::after,
             &::before {
@@ -36,5 +39,14 @@
                 left: -50px;
             }
         }
+    }
+}
+
+.light-theme {
+    .menu {
+        background: rgba(255, 255, 255, .8);
+        border-radius: var(--radius);
+        border: 2px solid var(--color-elem-first);
+        padding: 30px 80px;
     }
 }

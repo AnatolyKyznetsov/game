@@ -51,3 +51,7 @@ export interface ParticipantProps {
     time: string,
     level: number
 }
+
+export interface DataSsr {
+    isLightTheme: boolean
+}

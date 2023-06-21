@@ -9,14 +9,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #ddd;
+        background-color: var(--color-additional-first);
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
         cursor: pointer;
         border-radius: 50%;
-    
+
         img {
             width: 100%;
             height: 100%;
@@ -51,7 +51,7 @@
 
     &__placeholder {
         font-size: 40px;
-        color: #aaa;
+        color: var(--color-text-thurd);
     }
 
     &__message {

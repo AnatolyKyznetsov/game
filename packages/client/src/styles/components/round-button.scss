@@ -1,0 +1,23 @@
+.round-button {
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 100%;
+    background: var(--color-elem-first);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    width: 44px;
+    height: 44px;
+
+    &_top {
+        bottom: auto;
+        top: 20px;
+    }
+
+    &:hover {
+        background: var(--color-elem-first-hover);
+    }
+}
