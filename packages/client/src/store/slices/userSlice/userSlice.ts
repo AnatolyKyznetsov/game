@@ -8,19 +8,26 @@ import {
     registerUser,
     logoutUser,
     signinUser,
-    postTheme,
+    saveTheme,
+    getTheme,
+    saveInnerUser
 } from './actions'
 
 interface User {
     isAuth: boolean
     userData: UserData
-    isLoading: boolean,
-    error: string,
+    isLoading: boolean
+    error: string
     isLightTheme: boolean
+    innerId: number | null
 }
 
 interface Data {
     data: boolean
+}
+
+interface InnerUser {
+    userId: number
 }
 
 const initialState: User = {
@@ -35,6 +42,7 @@ const initialState: User = {
         phone: '',
         avatar: '',
     },
+    innerId: null,
     isLightTheme: false,
     isLoading: false,
     error: ''
@@ -148,11 +156,25 @@ const userSlice = createSlice({
             state.isLoading = false
         },
 
-        [postTheme.fulfilled.type]: (
+        [saveTheme.fulfilled.type]: (
             state: User,
             action: PayloadAction<Data>
         ) => {
             state.isLightTheme = action.payload.data
+        },
+
+        [getTheme.fulfilled.type]: (
+            state: User,
+            action: PayloadAction<Data>
+        ) => {
+            state.isLightTheme = action.payload.data
+        },
+
+        [saveInnerUser.fulfilled.type]: (
+            state: User,
+            action: PayloadAction<InnerUser>
+        ) => {
+            state.innerId = action.payload.userId
         },
     },
 })

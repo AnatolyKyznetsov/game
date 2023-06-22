@@ -6,11 +6,8 @@ import { Paths } from '../utils/paths'
 import { Button } from '../components/Button'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import {
-    selectIsLoadingUser,
-    selectUserData,
-} from '../store/selectors/userSelectors'
-import { changeUser, getUserInfo } from '../store/slices/userSlice/actions'
+import { selectIsLoadingUser, selectUserData } from '../store/selectors/userSelectors'
+import { changeUser, editInnerUser } from '../store/slices/userSlice/actions'
 import { Loader } from '../components/Loader'
 
 export const EditProfilePage = () => {
@@ -24,6 +21,7 @@ export const EditProfilePage = () => {
     const dispatch = useAppDispatch()
     const userData = useAppSelector(selectUserData)
     const isLoading = useAppSelector(selectIsLoadingUser)
+    const innerId = useAppSelector((state) => state.user.innerId);
     const { first_name, second_name, display_name, login, email, phone } =
         userData
 
@@ -56,6 +54,15 @@ export const EditProfilePage = () => {
                 .unwrap()
                 .then(res => {
                     if (res.success) {
+                        if (loginRef.current?.value && innerId) {
+                            dispatch(
+                                editInnerUser({
+                                    login: loginRef.current?.value,
+                                    id: innerId
+                                })
+                            )
+                        }
+
                         navigate(Paths.profile)
                     } else {
                         setErrorMessage(res.reason)
@@ -81,10 +88,6 @@ export const EditProfilePage = () => {
 
         return !Object.values(newErrorFields).includes(true)
     }
-
-    useEffect(() => {
-        dispatch(getUserInfo())
-    }, [ dispatch ])
 
     if (isLoading) {
         return <div className='main'><Loader /></div>

@@ -10,5 +10,8 @@ export enum Urls {
     userProfile = '/user/profile',
     userAvatar = '/user/profile/avatar',
     userPassword = '/user/password',
-    setTheme = '/set_theme',
+    themeSet = '/local/theme_set',
+    themeGet = '/local/theme_get',
+    innerUserSet = '/local/user_set',
+    innerUserEdit = '/local/user_eidt',
 }

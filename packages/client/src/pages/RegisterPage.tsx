@@ -70,7 +70,7 @@ export function RegisterPage() {
                 second_name: secondNameRef.current?.value as string,
                 password: passwordRef.current?.value as string
             })).then(() => {
-                dispatch(getUserInfo());
+                navigate(Paths.login)
             })
         }
     }

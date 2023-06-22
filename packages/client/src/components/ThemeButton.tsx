@@ -1,47 +1,48 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { postTheme } from '../store/slices/userSlice/actions';
+import { saveTheme } from '../store/slices/userSlice/actions';
+import { changeTheme } from '../store/slices/userSlice/userSlice';
 import { useAuthorization } from '../hooks/useAuthorization';
 
 export function ThemeButton() {
     const dispatch = useAppDispatch();
     const { isAuth } = useAuthorization()
     const isLightTheme = useAppSelector(state => state.user.isLightTheme);
-    const [ lightTheme, setLightTheme ] = useState(isLightTheme);
+    const userId = useAppSelector(state => state.user.innerId);
 
-    const changeTheme = () => {
-        const result = !lightTheme
+    const toggleTheme = () => {
+        const newValue = !isLightTheme
 
-        setLightTheme(result);
+        dispatch(changeTheme(newValue))
 
-        if (isAuth) {
-            dispatch(postTheme(result));
+        if (isAuth && userId) {
+            dispatch(saveTheme({ isLightTheme: newValue, userId }));
         }
 
-        localStorage.setItem('lightTheme', String(result ? true : ''));
+        localStorage.setItem('lightTheme', String(newValue ? true : ''));
     }
 
     useEffect(() => {
         if (!isAuth) {
-            const lightTheme = Boolean(localStorage.getItem('lightTheme'));
-            setLightTheme(lightTheme);
+            const storageValue = Boolean(localStorage.getItem('lightTheme'));
+            dispatch(changeTheme(storageValue))
         } else {
-            setLightTheme(isLightTheme);
-            localStorage.setItem('lightTheme', String(lightTheme ? true : ''));
+            dispatch(changeTheme(isLightTheme))
+            localStorage.setItem('lightTheme', String(isLightTheme ? true : ''));
         }
     }, [])
 
     useEffect(() => {
-        if (lightTheme) {
+        if (isLightTheme) {
             document.body.classList.add('light-theme');
         } else {
             document.body.classList.remove('light-theme');
         }
-    }, [ lightTheme ])
+    }, [ isLightTheme ])
 
     return (
-        <button className='round-button round-button_top' onClick={changeTheme}>
-            <img src={`/images/${ lightTheme ? 'sun' : 'moon' }.svg`} alt="Сменить тему." />
+        <button className='round-button round-button_top' onClick={toggleTheme}>
+            <img src={`/images/${ isLightTheme ? 'sun' : 'moon' }.svg`} alt="Сменить тему." />
         </button>
     )
 }
