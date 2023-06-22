@@ -9,8 +9,9 @@ import { configureStore } from '@reduxjs/toolkit';
 import { forumReducer } from './src/store/slices/forumSlice/forumSlice';
 import { leaderBoardReducer } from './src/store/slices/leaderBoardSlice/leaderBoardSlice';
 import { userReducer } from './src/store/slices/userSlice/userSlice';
+import { DataSsr } from './src/interfaces';
 
-export async function render(url: string) {
+export async function render(url: string, data: DataSsr) {
     const [ pathname ] = url.split('?')
     const currentRoute = routes.find(route => pathname === route.path)
     const store = configureStore({
@@ -22,7 +23,7 @@ export async function render(url: string) {
     })
 
     if (currentRoute && currentRoute.loader) {
-        await currentRoute.loader(store.dispatch)
+        await currentRoute.loader(store.dispatch, data);
     }
 
     const appHtml = renderToString(

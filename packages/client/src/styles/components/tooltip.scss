@@ -27,9 +27,9 @@
 
     &::before {
         content: '?';
-        font-family: $font;
-        color: $color-text-light;
-        background: $color-additional-first;
+        font-family: var(--font);
+        color: var(--color-text-third);
+        background: var(--color-additional-first);
         font-weight: 500;
         font-size: 12px;
         border-radius: 100%;
@@ -47,20 +47,20 @@
         content: attr(data-text);
         opacity: 0;
         pointer-events: none;
-        transition: $transition;
+        transition: var(--transition);
         position: absolute;
-        background: $color-text-light;
+        background: var(--color-text-third);
         padding: 8px;
-        border: 1px solid $color-additional-third;
-        color: $color-text-middle;
-        border-radius: $radius-small;
+        border: 1px solid var(--color-additional-third);
+        color: var(--color-text-second);
+        border-radius: var(--radius-small);
         width: 280px;
         z-index: 1;
     }
 
     &:hover {
         &::before {
-            background: $color-additional-third;
+            background: var(--color-additional-third);
         }
 
         &::after {

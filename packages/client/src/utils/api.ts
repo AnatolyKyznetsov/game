@@ -9,5 +9,6 @@ export enum Urls {
     leaderBoards = '/leaderboard/all',
     userProfile = '/user/profile',
     userAvatar = '/user/profile/avatar',
-    userPassword = '/user/password'
+    userPassword = '/user/password',
+    setTheme = '/set_theme',
 }

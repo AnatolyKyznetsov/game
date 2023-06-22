@@ -146,3 +146,24 @@ export const changePassword = createAsyncThunk(
         }
     }
 )
+export const postTheme = createAsyncThunk(
+    'user/post_theme',
+    async (data: boolean) => {
+        const { setTheme } = Urls
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        }
+
+        const response = await request(setTheme, options)
+
+        if (response.ok) {
+            return { data }
+        } else {
+            throw new Error('Post theme request failed')
+        }
+    }
+)

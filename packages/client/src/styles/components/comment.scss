@@ -3,7 +3,7 @@
     padding: 8px;
     gap: 16px;
     width: 100%;
-    background: $color-elem-first;
+    background: var(--color-elem-first);
     box-sizing: border-box;
     border-radius: 16px;
     min-height: 120px;
@@ -21,7 +21,7 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        background: $color-elem-second;
+        background: var(--color-elem-second);
         padding: 8px;
         width: 100%;
         border-radius: 16px;

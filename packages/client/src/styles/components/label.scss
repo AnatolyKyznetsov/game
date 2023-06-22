@@ -1,6 +1,6 @@
 .label {
     position: relative;
-    color: $color-text-middle;
+    color: var(--color-text-second);
     display: block;
     padding: 20px 0;
     width: 100%;
@@ -16,13 +16,13 @@
         position: absolute;
         left: 0;
         top: 20px;
-        transition: $transition;
+        transition: var(--transition);
     }
 
     &__line {
         height: 2px;
         width: 100%;
-        background: $color-additional-first;
+        background: var(--color-additional-first);
         border-radius: 2px;
         display: flex;
         justify-content: center;
@@ -30,10 +30,10 @@
 
         &::before {
             content: '';
-            transition: $transition;
+            transition: var(--transition);
             width: 0;
             height: 100%;
-            background: $color-elem-first;
+            background: var(--color-elem-first);
         }
     }
 
@@ -43,11 +43,11 @@
         background: transparent;
         width: 100%;
         margin-bottom: 6px;
-        font-family: $font;
+        font-family: var(--font);
         font-weight: 400;
         font-size: 14px;
         line-height: 1.2;
-        color: $color-text-dark;
+        color: var(--color-text-first);
         padding-right: 20px;
 
         &.not-empty,
@@ -72,7 +72,7 @@
         font-size: 12px;
         opacity: 0;
         pointer-events: none;
-        transition: $transition;
+        transition: var(--transition);
     }
 
     &__tooltip {
@@ -86,23 +86,23 @@
         margin-top: 10px;
         position: relative;
         text-align: center;
-        color: $color-warning;
+        color: var(--color-warning);
     }
 
     &.error {
         .label__line {
             &::before {
                 width: 100%;
-                background: $color-warning;
+                background: var(--color-warning);
             }
         }
 
         .label__input {
-            color: $color-warning;
+            color: var(--color-warning);
         }
 
         .label__message {
-            color: $color-warning;
+            color: var(--color-warning);
             opacity: 1;
             pointer-events: auto;
         }

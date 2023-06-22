@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserData } from '../../../types/user'
 import {
     changeAvatar,
     changePassword,
@@ -7,13 +8,19 @@ import {
     registerUser,
     logoutUser,
     signinUser,
+    postTheme,
 } from './actions'
-import { UserData } from '../../../types/user'
+
 interface User {
     isAuth: boolean
     userData: UserData
     isLoading: boolean,
-    error: string
+    error: string,
+    isLightTheme: boolean
+}
+
+interface Data {
+    data: boolean
 }
 
 const initialState: User = {
@@ -28,6 +35,7 @@ const initialState: User = {
         phone: '',
         avatar: '',
     },
+    isLightTheme: false,
     isLoading: false,
     error: ''
 }
@@ -38,6 +46,9 @@ const userSlice = createSlice({
     reducers: {
         changeUserEmail: (state, { payload }) => {
             state.userData.email = payload
+        },
+        changeTheme: (state, { payload }) => {
+            state.isLightTheme = payload
         },
     },
     extraReducers: {
@@ -136,9 +147,16 @@ const userSlice = createSlice({
         [changePassword.rejected.type]: (state: User) => {
             state.isLoading = false
         },
+
+        [postTheme.fulfilled.type]: (
+            state: User,
+            action: PayloadAction<Data>
+        ) => {
+            state.isLightTheme = action.payload.data
+        },
     },
 })
 
-export const { changeUserEmail } = userSlice.actions
+export const { changeUserEmail, changeTheme } = userSlice.actions
 
 export const userReducer = userSlice.reducer
