@@ -14,4 +14,7 @@ export enum Urls {
     themeGet = '/local/theme_get',
     innerUserSet = '/local/user_set',
     innerUserEdit = '/local/user_eidt',
+    clientId= '/oauth/yandex/service-id',
+    oAuth = '/oauth/yandex',
+    redirectUri = 'http://localhost:3000',
 }

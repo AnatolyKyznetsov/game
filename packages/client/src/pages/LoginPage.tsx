@@ -1,14 +1,14 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react'
-import { Input } from '../components/Input'
-import { INPUT_TOOLTIPS } from '../components/Input'
+import { Input, INPUT_TOOLTIPS } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { getUserInfo } from '../store/slices/userSlice/actions'
+import { getClientId, getUserInfo } from '../store/slices/userSlice/actions'
 import { Loader } from '../components/Loader'
+import { Urls } from '../utils/api';
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -67,6 +67,12 @@ export function LoginPage() {
         }
     }
 
+    const onYandexAuthorization = () => {
+        dispatch(getClientId()).then(res => {
+            window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.payload.service_id}&redirect_uri=${Urls.redirectUri}`;
+        })
+    }
+
     if (loading) {
         return <main className='main'><Loader /></main>
     }
@@ -98,6 +104,7 @@ export function LoginPage() {
                         <Button type='submit' text='Войти' buttonClass='form__button'/>
                     </form>
                     <p className='text error label__error'>{errorMessage}</p>
+                    <Button type='button' text='Войти с помощью Яндекс' buttonClass='form__button' onClick={onYandexAuthorization}/>
                     <Link to={Paths.register} className='link shape__link'>Еще не зарегестрированы?</Link>
                 </div>
             </div>
