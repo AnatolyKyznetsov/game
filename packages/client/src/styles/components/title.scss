@@ -2,7 +2,7 @@
     text-transform: uppercase;
     font-weight: 500;
     line-height: 1.2;
-    color: $color-text-dark;
+    color: var(--color-text-first);
 
     &_main {
         font-size: 28px;
@@ -21,13 +21,13 @@
         display: block;
         max-width: 75%;
         font-size: 48px;
-        color: $color-text-light;
+        color: var(--color-text-third);
     }
 
     &__comment {
         @extend .title;
         display: flex;
-        color: $color-text-light;
+        color: var(--color-text-third);
         align-items: center;
         justify-content: space-between;
         gap: 16px;
@@ -37,7 +37,7 @@
         font-weight: 500;
         font-size: 60px;
         margin-bottom: 20px;
-        color: $color-text-dark;
+        color: var(--color-text-first);
     }
 
     &_centered {

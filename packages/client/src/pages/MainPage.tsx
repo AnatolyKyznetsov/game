@@ -43,7 +43,7 @@ export const MainPage = () => {
                     y: '80vh'
                 },
                 duration: 1,
-                y: '-=75vh',
+                y: '-=78vh',
                 onComplete: () => setIsActiveButton(true),
                 repeat: 0,
                 overwrite: true,

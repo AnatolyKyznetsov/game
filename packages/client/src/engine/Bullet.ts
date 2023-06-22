@@ -8,10 +8,9 @@ export class Bullet {
     private velocity: number;
     private size: Size;
     public destroyed: boolean;
-    private imagePath: string;
     private image?: CanvasImageSource;
 
-    constructor(game: Game, turret: TurretsItem) {
+    constructor(game: Game, turret: TurretsItem, image?: CanvasImageSource) {
         this.game = game;
         this.turret = turret;
 
@@ -24,8 +23,7 @@ export class Bullet {
 
         this.velocity = 10;
         this.destroyed = false;
-        this.imagePath = this.turret.bullet.image;
-        this.image = this.game.loadImage(this.imagePath);
+        this.image = image;
     }
 
     private getPosition(): Position {
