@@ -41,3 +41,11 @@ export const tempLeaders = [
         level: 3
     },
 ]
+
+export const tempForumTopics = [
+    {
+        id: '123',
+        date: 123,
+        text: 'test'
+    }
+]

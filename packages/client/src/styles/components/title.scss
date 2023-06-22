@@ -24,7 +24,7 @@
         color: var(--color-text-third);
     }
 
-    &__comment {
+    &__topic {
         @extend .title;
         display: flex;
         color: var(--color-text-third);
