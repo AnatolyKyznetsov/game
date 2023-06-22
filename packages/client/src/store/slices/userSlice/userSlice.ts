@@ -8,6 +8,8 @@ import {
     registerUser,
     logoutUser,
     signinUser,
+    oAuthYandex,
+    getClientId,
     postTheme,
 } from './actions'
 
@@ -66,6 +68,36 @@ const userSlice = createSlice({
             state.error = '';
         },
         [registerUser.rejected.type]: (state: User, action) => {
+            state.isLoading = false
+            state.error = action.error.message;
+        },
+
+        [oAuthYandex.fulfilled.type]: (
+            state: User
+        ) => {
+            state.isLoading = false
+            state.error = '';
+        },
+        [oAuthYandex.pending.type]: (state: User) => {
+            state.isLoading = true
+            state.error = '';
+        },
+        [oAuthYandex.rejected.type]: (state: User, action) => {
+            state.isLoading = false
+            state.error = action.error.message;
+        },
+
+        [getClientId.fulfilled.type]: (
+            state: User
+        ) => {
+            state.isLoading = false
+            state.error = '';
+        },
+        [getClientId.pending.type]: (state: User) => {
+            state.isLoading = true
+            state.error = '';
+        },
+        [getClientId.rejected.type]: (state: User, action) => {
             state.isLoading = false
             state.error = action.error.message;
         },
