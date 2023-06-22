@@ -4,10 +4,7 @@ import { Button } from '../components/Button'
 import { Paths } from '../utils/paths'
 import { gsap } from 'gsap'
 import { gameDescription } from '../utils/constants'
-import { request } from '../utils/request';
-import { Urls } from '../utils/api';
-import { redirectUri } from '../utils/authorizationConstants';
-import { getUserInfo } from '../store/slices/userSlice/actions';
+import { getUserInfo, oAuthYandex } from '../store/slices/userSlice/actions';
 import { useAppDispatch } from '../store/hooks';
 
 export const MainPage = () => {
@@ -25,22 +22,17 @@ export const MainPage = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            request(`${Urls.baseUrl}${Urls.oAuth}`, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'code': code,
-                    'redirect_uri': redirectUri
-                })
-            }).then(res => {
-                if (res.ok) {
+            dispatch(oAuthYandex(code)).then(response => {
+                if (response.payload !== undefined) {
                     dispatch(getUserInfo()).then(res => {
                         if (res.payload !== undefined) {
-                            navigate(Paths.game);
+                            navigate(Paths.startScreen);
+                        } else {
+                            navigate(Paths.login);
                         }
                     })
+                } else {
+                    navigate(Paths.login);
                 }
             })
         }

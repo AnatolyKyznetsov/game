@@ -11,5 +11,6 @@ export enum Urls {
     userAvatar = '/user/profile/avatar',
     userPassword = '/user/password',
     clientId= '/oauth/yandex/service-id',
-    oAuth = '/oauth/yandex'
+    oAuth = '/oauth/yandex',
+    redirectUri = 'http://localhost:3000'
 }

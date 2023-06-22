@@ -6,11 +6,9 @@ import { validator } from '../utils/validator'
 import { Paths } from '../utils/paths'
 import { useAuthorization } from '../hooks/useAuthorization'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { getUserInfo } from '../store/slices/userSlice/actions'
+import { getClientId, getUserInfo } from '../store/slices/userSlice/actions'
 import { Loader } from '../components/Loader'
-import { redirectUri } from '../utils/authorizationConstants';
 import { Urls } from '../utils/api';
-import { request } from '../utils/request';
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -30,17 +28,13 @@ export function LoginPage() {
         if (isAuth) {
             navigate(Paths.startScreen)
         } else {
-            const getUser = () => {
-                dispatch(getUserInfo()).then(res => {
-                    if (res.payload !== undefined) {
-                        navigate(Paths.startScreen)
-                    } else {
-                        setLoading(false);
-                    }
-                })
-            }
-
-            getUser();
+            dispatch(getUserInfo()).then(res => {
+                if (res.payload !== undefined) {
+                    navigate(Paths.startScreen)
+                } else {
+                    setLoading(false);
+                }
+            })
         }
 
         if (error && !errorMessage && !Object.values(getErrorFields()).includes(true)) {
@@ -74,10 +68,8 @@ export function LoginPage() {
     }
 
     const onYandexAuthorization = () => {
-        request(`${Urls.baseUrl}${Urls.clientId}`).then(response => {
-            return response.json()
-        }).then(data => {
-            window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data.service_id}&redirect_uri=${redirectUri}`;
+        dispatch(getClientId()).then(res => {
+            window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.payload.service_id}&redirect_uri=${Urls.redirectUri}`;
         })
     }
 

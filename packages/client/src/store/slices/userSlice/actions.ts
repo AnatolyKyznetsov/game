@@ -33,6 +33,49 @@ export const registerUser = createAsyncThunk(
     }
 )
 
+export const getClientId = createAsyncThunk(
+    'user/client_id',
+    async () => {
+        const { baseUrl, clientId } = Urls
+        const options = {
+            method: 'GET'
+        }
+        const response = await request(`${baseUrl}${clientId}`, options)
+        if (response.ok) {
+            return await response.json()
+        } else {
+            await response.json().then(result => {
+                throw new Error(result.reason)
+            })
+        }
+    }
+)
+
+export const oAuthYandex = createAsyncThunk(
+    'user/oauth_yandex',
+    async (code: string | number) => {
+        const { baseUrl, oAuth } = Urls
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'code': code,
+                'redirect_uri': Urls.redirectUri
+            })
+        }
+        const response = await request(`${baseUrl}${oAuth}`, options)
+        if (response.ok) {
+            return response.ok;
+        } else {
+            await response.json().then(result => {
+                throw new Error(result.reason)
+            })
+        }
+    }
+)
+
 export const getUserInfo = createAsyncThunk('user/get_user', async () => {
     const { baseUrl, userInfo } = Urls
     const options = {
