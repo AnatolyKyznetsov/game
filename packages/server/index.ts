@@ -16,7 +16,7 @@ import * as path from 'path'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
-async function startSerever() {
+async function startServer() {
     let vite: ViteDevServer | undefined;
 
     const app = express()
@@ -105,5 +105,5 @@ async function startSerever() {
 }
 
 dbConnect().then(() => {
-    startSerever()
+    startServer()
 })
