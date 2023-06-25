@@ -10,8 +10,11 @@ export enum Urls {
     userProfile = '/user/profile',
     userAvatar = '/user/profile/avatar',
     userPassword = '/user/password',
+    themeSet = '/local/theme_set',
+    themeGet = '/local/theme_get',
+    innerUserSet = '/local/user_set',
+    innerUserEdit = '/local/user_eidt',
     clientId= '/oauth/yandex/service-id',
     oAuth = '/oauth/yandex',
     redirectUri = 'http://localhost:3000',
-    setTheme = '/set_theme',
 }

@@ -1,28 +1,54 @@
-import { Client } from 'pg'
+import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import { userThemeModel } from './models/userThemeModel';
+import { userModel } from './models/userModel';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, POSTGRES_HOST } =
     process.env
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
-    try {
-        const client = new Client({
-            user: POSTGRES_USER,
-            host: POSTGRES_HOST,
-            database: POSTGRES_DB,
-            password: POSTGRES_PASSWORD,
-            port: Number(POSTGRES_PORT),
-        })
+const sequelizeOptions: SequelizeOptions = {
+    username: POSTGRES_USER,
+    host: POSTGRES_HOST,
+    database: POSTGRES_DB,
+    password: POSTGRES_PASSWORD,
+    port: Number(POSTGRES_PORT),
+};
 
-        await client.connect()
+export const sequelize = new Sequelize(sequelizeOptions);
 
-        const res = await client.query('SELECT NOW()')
-        console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now)
-        client.end()
-
-        return client
-    } catch (e) {
-        console.error(e)
+export const UserTheme = sequelize.define(
+    'UserTheme',
+    userThemeModel,
+    {
+        timestamps: false
     }
+);
 
-    return null
+export const User = sequelize.define(
+    'User',
+    userModel,
+    {
+        timestamps: false,
+        indexes: [
+            {
+                unique: true,
+                fields: [ 'login' ]
+            },
+        ]
+    }
+);
+
+UserTheme.belongsTo(User, {
+    onDelete: 'CASCADE',
+    foreignKey: 'userId'
+})
+
+export async function dbConnect() {
+    try {
+        await sequelize.authenticate();
+        await sequelize.sync();
+
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
 }

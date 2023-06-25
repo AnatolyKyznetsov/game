@@ -10,6 +10,17 @@ type ChangePasswordData = {
     oldPassword: string
     newPassword: string
 }
+type SaveThemeData = {
+    isLightTheme: boolean
+    userId: number
+}
+type InnerUser = {
+    login: string
+    id?: number
+}
+type GetThemeData = {
+    userId: number
+}
 
 export const registerUser = createAsyncThunk(
     'user/register',
@@ -138,11 +149,11 @@ export const changeUser = createAsyncThunk(
             credentials: 'include',
         }
         const response = await request(`${baseUrl}${userProfile}`, options)
+        const responseParse = await response.json()
+
         if (response.ok) {
-            return {
-                response: response.json(),
-                success: true,
-            }
+            responseParse.success = true
+            return responseParse
         } else {
             return await response.json()
         }
@@ -189,10 +200,11 @@ export const changePassword = createAsyncThunk(
         }
     }
 )
-export const postTheme = createAsyncThunk(
-    'user/post_theme',
-    async (data: boolean) => {
-        const { setTheme } = Urls
+
+export const saveTheme = createAsyncThunk(
+    'user/save_theme',
+    async (data: SaveThemeData) => {
+        const { themeSet } = Urls
         const options = {
             method: 'POST',
             headers: {
@@ -201,12 +213,76 @@ export const postTheme = createAsyncThunk(
             body: JSON.stringify({ data }),
         }
 
-        const response = await request(setTheme, options)
+        const response = await request(themeSet, options)
 
         if (response.ok) {
-            return { data }
+            return await response.json()
         } else {
-            throw new Error('Post theme request failed')
+            throw new Error('Save theme request failed')
+        }
+    }
+)
+export const getTheme = createAsyncThunk(
+    'user/get_theme',
+    async (data: GetThemeData) => {
+        const { themeGet } = Urls
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        }
+
+        const response = await request(themeGet, options)
+
+        if (response.ok) {
+            return await response.json()
+        } else {
+            throw new Error('Get theme request failed')
+        }
+    }
+)
+
+export const saveInnerUser = createAsyncThunk(
+    'user/save_inner_user',
+    async (data: InnerUser) => {
+        const { innerUserSet } = Urls
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        }
+
+        const response = await request(innerUserSet, options)
+
+        if (response.ok) {
+            return await response.json()
+        } else {
+            throw new Error('Save inner user request failed')
+        }
+    }
+)
+export const editInnerUser = createAsyncThunk(
+    'user/edit_inner_user',
+    async (data: InnerUser) => {
+        const { innerUserEdit } = Urls
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        }
+
+        const response = await request(innerUserEdit, options)
+
+        if (response.ok) {
+            return await response.json()
+        } else {
+            throw new Error('Edit inner user request failed')
         }
     }
 )

@@ -4,7 +4,9 @@ import axios from 'axios'
 import type { ViteDevServer } from 'vite';
 import { createServer as createViteServer } from 'vite'
 import { createProxyMiddleware } from 'http-proxy-middleware'
-import { createClientAndConnect } from './db'
+import { addThemeRouters } from './routes/addThemeRouters';
+import { addUserRouters } from './routes/addUserRouters';
+import { dbConnect } from './db'
 
 dotenv.config()
 
@@ -12,18 +14,9 @@ import express from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 
-interface Data {
-    isLightTheme: boolean
-}
-
 const isDev = () => process.env.NODE_ENV === 'development'
 
-createClientAndConnect()
-
-// Значение получить из бд
-const isLightTheme = false;
-
-async function startSerever() {
+async function startServer() {
     let vite: ViteDevServer | undefined;
 
     const app = express()
@@ -58,15 +51,8 @@ async function startSerever() {
         needProxy(process.env.CLIENT_URL)
     }
 
-    app.post('/set_theme', express.json(), (req, res) => {
-        // Запись темы в бд
-        console.log(req.body.data);
-        res.send('ok')
-    })
-
-    app.get('/get_theme', (_, res) => {
-        res.send(isLightTheme)
-    })
+    addThemeRouters(app)
+    addUserRouters(app)
 
     app.use('*', async (req, res, next) => {
         const url = req.originalUrl;
@@ -87,7 +73,7 @@ async function startSerever() {
                 }
             }
 
-            let render: (url: string, data: Data) => Promise<string>;
+            let render: (url: string) => Promise<string>;
 
             if (isDev()) {
                 render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render
@@ -99,9 +85,8 @@ async function startSerever() {
                 }
             }
 
-            const [ appHtml, preloadedState ] = await render(url, { isLightTheme })
+            const [ appHtml, preloadedState ] = await render(url)
             const html = template
-                .replace('<body>', isLightTheme ? '<body class="light-theme">' : '<body>')
                 .replace('<!--ssr-outlet-->', appHtml)
                 .replace('<!--preloaded-state-->', `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}</script>`)
 
@@ -119,4 +104,6 @@ async function startSerever() {
     })
 }
 
-startSerever()
+dbConnect().then(() => {
+    startServer()
+})
