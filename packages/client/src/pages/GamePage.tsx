@@ -8,6 +8,7 @@ export const GamePage = () => {
     let game: Game | null = null
     const [ stopTimer, setStopTimer ] = useState(false)
     const [ players, setPlayers ] = useState<Player[]>([])
+    const [ pointerLocked, setPointerLocked ] = useState<boolean>(false)
     const refCanvas = useRef<HTMLCanvasElement>(null)
     const lvls = [ lvl_1 ]
 
@@ -41,10 +42,25 @@ export const GamePage = () => {
         }
 
         animate(0)
+
+        document.addEventListener('pointerlockchange', handlePointerLockChange)
+
+        document.documentElement.requestPointerLock()
+    }
+
+    const handlePointerLockChange = () => {
+        setPointerLocked(document.pointerLockElement === refCanvas.current)
     }
 
     useEffect(() => {
         init()
+
+        return () => {
+            document.removeEventListener(
+                'pointerlockchange',
+                handlePointerLockChange
+            )
+        }
     }, [])
 
     return (
@@ -52,10 +68,13 @@ export const GamePage = () => {
             <canvas
                 ref={refCanvas}
                 width={window.innerWidth}
-                height={window.innerHeight}>
+                height={window.innerHeight}
+                onClick={() => refCanvas.current?.requestPointerLock()}>
                 Необходимо включить поддержку JavaScript в вашем браузере
             </canvas>
-            <PlayersStatus players={players} stopTimer={stopTimer} />
+            {pointerLocked && (
+                <PlayersStatus players={players} stopTimer={stopTimer} />
+            )}
         </div>
     )
 }
