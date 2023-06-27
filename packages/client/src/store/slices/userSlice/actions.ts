@@ -74,7 +74,8 @@ export const oAuthYandex = createAsyncThunk(
             body: JSON.stringify({
                 'code': code,
                 'redirect_uri': Urls.redirectUri
-            })
+            }),
+            credentials: 'include'
         }
         const response = await request(`${baseUrl}${oAuth}`, options)
         if (response.ok) {
