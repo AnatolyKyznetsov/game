@@ -8,5 +8,5 @@ export interface RequestOptions {
 }
 
 export const request = async (url: string, options?: RequestOptions) => {
-    return await fetch(url, { ...options, credentials: 'include' })
+    return await fetch(url, options)
 }
