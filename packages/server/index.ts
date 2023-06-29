@@ -79,7 +79,7 @@ async function startServer() {
                 render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).render
             } else {
                 if (process.env.CLIENT_URL) {
-                    render = render = (await import(require.resolve('/app/ssr/client.cjs'))).render
+                    render = (await import(require.resolve('/app/ssr/client.cjs'))).render
                 } else {
                     render = (await import(require.resolve('../../client/dist-ssr/client.cjs'))).render
                 }
