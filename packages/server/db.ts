@@ -11,6 +11,7 @@ const sequelizeOptions: SequelizeOptions = {
     database: POSTGRES_DB,
     password: POSTGRES_PASSWORD,
     port: Number(POSTGRES_PORT),
+    dialect: 'postgres'
 };
 
 export const sequelize = new Sequelize(sequelizeOptions);
