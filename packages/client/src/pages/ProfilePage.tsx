@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { ButtonBack } from '../components/ButtonBack'
@@ -6,6 +6,7 @@ import { Paths } from '../utils/paths'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { selectUserData } from '../store/selectors/userSelectors'
 import { logoutUser } from '../store/slices/userSlice/actions'
+import axios from 'axios'
 
 export const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
@@ -18,6 +19,10 @@ export const ProfilePage: FC = () => {
         dispatch(logoutUser())
         navigate(Paths.main)
     }
+
+    useEffect(() => {
+        axios.post('http://localhost:3000/api/topics')
+    }, [])
 
     return (
         <main className="main">
