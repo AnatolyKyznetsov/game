@@ -3,17 +3,13 @@ import { gsap } from 'gsap'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../utils/paths'
 import { Button } from '../components/Button'
+import { useAppSelector } from '../store/hooks'
 
-interface EndScreenPageProps {
-    title: string
-    buttonText: string
-    text?: string
-}
-
-export const EndScreenPage = ({ title, text, buttonText }: EndScreenPageProps) => {
+export const EndScreenPage = () => {
     const titleRef = useRef(null)
     const [ isActiveButton, setIsActiveButton ] = useState(false)
     const navigate = useNavigate()
+    const { success, time } = useAppSelector((state) => state.game)
 
     const handleEndButton = () => {
         navigate(Paths.game)
@@ -38,14 +34,21 @@ export const EndScreenPage = ({ title, text, buttonText }: EndScreenPageProps) =
 
     return (
         <main className='main'>
-            <h1 className='title__main title_centered' ref={titleRef}>
-                {title} <br /> {text ? text : ''}
-            </h1>
+            <div className='end-game' ref={titleRef}>
+                <h1 className='title__main title_centered' >
+                    {success ? 'Поздравляем!' : 'Game over'}
+                </h1>
+                <br />
+                {success &&
+                <p className="text">
+                    Уровень пройден за {time}
+                </p>}
+            </div>
 
             {isActiveButton && <Button
                 onClick={handleEndButton}
                 type='button'
-                text={buttonText}
+                text={success ? 'Далее' : 'Начать с начала'}
                 buttonClass='button__start' />}
         </main>
     )

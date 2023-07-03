@@ -11,10 +11,21 @@
     transition: var(--transition);
     width: 44px;
     height: 44px;
+    z-index: 99;
+
+    img {
+        max-width: 24px;
+        height: auto;
+    }
 
     &_top {
         bottom: auto;
         top: 20px;
+    }
+
+    &_left {
+        right: auto;
+        left: 20px;
     }
 
     &:hover {

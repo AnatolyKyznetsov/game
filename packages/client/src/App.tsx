@@ -1,8 +1,9 @@
 import React, { JSX } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { RequiredAuth } from './components/RequiredAuth';
-import { routes } from './utils/routes';
+import { routes, Routes as IRoutes } from './utils/routes';
 import { ThemeButton } from './components/ThemeButton';
+import { Paths } from './utils/paths';
 
 export const App = () => {
     const location = useLocation()
@@ -11,8 +12,8 @@ export const App = () => {
         return <RequiredAuth>{element}</RequiredAuth>
     }
 
-    const addThemeBtn = (element: JSX.Element) => {
-        return <>{element} <ThemeButton /> </>
+    const addThemeBtn = (route: IRoutes) => {
+        return <>{route.element} {route.path === Paths.game ? null : <ThemeButton />}</>
     }
 
     return (
@@ -22,8 +23,8 @@ export const App = () => {
                     key={route.path}
                     path={route.path}
                     element={route.protected ?
-                        makeProtected( addThemeBtn(route.element) ) :
-                        addThemeBtn(route.element)}
+                        makeProtected( addThemeBtn(route) ) :
+                        addThemeBtn(route)}
                 />
             ))}
         </Routes>
