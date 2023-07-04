@@ -44,23 +44,20 @@ export const registerUser = createAsyncThunk(
     }
 )
 
-export const getClientId = createAsyncThunk(
-    'user/client_id',
-    async () => {
-        const { baseUrl, clientId } = Urls
-        const options = {
-            method: 'GET'
-        }
-        const response = await request(`${baseUrl}${clientId}`, options)
-        if (response.ok) {
-            return await response.json()
-        } else {
-            await response.json().then(result => {
-                throw new Error(result.reason)
-            })
-        }
+export const getClientId = createAsyncThunk('user/client_id', async () => {
+    const { baseUrl, clientId } = Urls
+    const options = {
+        method: 'GET',
     }
-)
+    const response = await request(`${baseUrl}${clientId}`, options)
+    if (response.ok) {
+        return await response.json()
+    } else {
+        await response.json().then(result => {
+            throw new Error(result.reason)
+        })
+    }
+})
 
 export const oAuthYandex = createAsyncThunk(
     'user/oauth_yandex',
@@ -69,17 +66,17 @@ export const oAuthYandex = createAsyncThunk(
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                'code': code,
-                'redirect_uri': Urls.redirectUri
+                code: code,
+                redirect_uri: Urls.redirectUri,
             }),
-            credentials: 'include'
+            credentials: 'include',
         }
         const response = await request(`${baseUrl}${oAuth}`, options)
         if (response.ok) {
-            return response.ok;
+            return response.ok
         } else {
             await response.json().then(result => {
                 throw new Error(result.reason)
@@ -105,24 +102,27 @@ export const getUserInfo = createAsyncThunk('user/get_user', async () => {
     }
 })
 
-export const signinUser = createAsyncThunk('user/signin',async (data: SigninData) => {
-    const { baseUrl, signin } = Urls
-    const options = {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    }
+export const signinUser = createAsyncThunk(
+    'user/signin',
+    async (data: SigninData) => {
+        const { baseUrl, signin } = Urls
+        const options = {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }
 
-    const response = await request(`${baseUrl}${signin}`, options);
-    if (!response.ok) {
-        await response.json().then(result => {
-            throw new Error(result.reason)
-        })
+        const response = await request(`${baseUrl}${signin}`, options)
+        if (!response.ok) {
+            await response.json().then(result => {
+                throw new Error(result.reason)
+            })
+        }
     }
-})
+)
 
 export const logoutUser = createAsyncThunk('user/logout', async () => {
     const { baseUrl, logout } = Urls
@@ -266,6 +266,7 @@ export const saveInnerUser = createAsyncThunk(
         }
     }
 )
+
 export const editInnerUser = createAsyncThunk(
     'user/edit_inner_user',
     async (data: InnerUser) => {
