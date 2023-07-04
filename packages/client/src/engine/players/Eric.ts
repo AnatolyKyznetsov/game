@@ -18,7 +18,11 @@ export class Eric extends Player {
     }
 
     protected firstAbility(): void {
+        if (!this.firstAbilityInProgress) {
+            return;
+        }
 
+        this.firstAbilityInProgress = false
     }
 
     protected secondAbility(): void {

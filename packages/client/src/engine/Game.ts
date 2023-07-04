@@ -7,6 +7,7 @@ import { Baleog } from './players/Baleog';
 import { Olaf } from './players/Olaf';
 import { FrameSettings, LvlData, Size, Players } from './interfaces';
 import { Turrets } from './Turrets';
+import { Enemy } from './Enemy';
 
 export class Game {
     public size: Size;
@@ -18,6 +19,7 @@ export class Game {
     public currentLvl: LvlData;
     public players: Player[];
     public turrets: Turrets[];
+    public enemies: Enemy[];
     private control: Control;
     private currentLvlIndex: number;
     private activePlayerIndex: number;
@@ -66,6 +68,7 @@ export class Game {
         this.prevPlayer = this.players[0];
 
         this.turrets = [];
+        this.enemies = [];
 
         this.activePlayerIndex = 0;
         this.activePlayer = this.players[this.activePlayerIndex];
@@ -79,9 +82,13 @@ export class Game {
             this.turrets.push(new Turrets(this, item));
         });
 
+        this.currentLvl?.enemies.forEach(item => {
+            this.enemies.push(new Enemy(this, item));
+        });
+
         this.frameSettings = {
             delay: 0,
-            interval: 1000 / 25,
+            interval: 1000 / 20,
             timer: 0
         }
 
@@ -185,6 +192,10 @@ export class Game {
         this.turrets.forEach(turret => {
             turret.update();
         });
+
+        this.enemies.forEach(enemy => {
+            enemy.update();
+        });
     }
 
     public loadImage(path: string): CanvasImageSource | undefined {
@@ -231,6 +242,10 @@ export class Game {
 
         this.turrets.forEach(turret => {
             turret.draw();
+        });
+
+        this.enemies.forEach(enemy => {
+            enemy.draw();
         });
 
         this.update();

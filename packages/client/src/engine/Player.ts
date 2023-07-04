@@ -35,12 +35,12 @@ export abstract class Player {
 
     public isDead: boolean;
 
-    private frameX: number;
-    private frameY: number;
+    protected frameX: number;
+    protected frameY: number;
 
-    private maxFrameX: number;
-    private isDirectionRight: boolean;
-    private animInProgress: boolean;
+    protected maxFrameX: number;
+    protected isDirectionRight: boolean;
+    protected animInProgress: boolean;
 
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
@@ -61,7 +61,7 @@ export abstract class Player {
 
         this.position = { x: position.x , y: position.y };
 
-        this.maxSpeed = 4;
+        this.maxSpeed = 3;
         this.velocity = { x: 0, y: 0 }
         this.gravity = .5;
 
@@ -341,7 +341,7 @@ export abstract class Player {
         this.game.eventBus.emit('update');
     }
 
-    private frameReset(): void {
+    protected frameReset(): void {
         this.animInProgress = false;
         this.frameX = 0;
         this.frameY = this.isDirectionRight ? 0 : 2;
