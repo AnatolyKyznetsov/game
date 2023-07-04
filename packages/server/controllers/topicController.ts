@@ -1,13 +1,20 @@
 import { Request, Response } from 'express'
 import { TopicService } from '../services/TopicService'
 
-// Создание топика
 export const createTopic = async (
     req: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const { text }: { text: string } = req.body.data
+        const { data } = req.body
+
+        if (!data || !data.text) {
+            res.status(400).json({ error: 'Missing required fields' })
+            return
+        }
+
+        const { text }: { text: string } = data
+
         const topic = await TopicService.create(text)
         res.status(201).send(topic)
     } catch (error) {
@@ -16,7 +23,6 @@ export const createTopic = async (
     }
 }
 
-// Получение списка топиков
 export const getTopics = async (
     _req: Request,
     res: Response
@@ -30,7 +36,6 @@ export const getTopics = async (
     }
 }
 
-// Получение топика по ID
 export const getTopicById = async (
     req: Request<{ id: string }>,
     res: Response
@@ -50,14 +55,20 @@ export const getTopicById = async (
     }
 }
 
-// Обновление топика
 export const updateTopic = async (
     req: Request<{ id: string }>,
     res: Response
 ): Promise<void> => {
     try {
-        const { id } = req.body.data
-        const { text }: { text: string } = req.body.data
+        const { id }: { id: string } = req.params
+        const { data } = req.body
+
+        if (!data || !data.text) {
+            res.status(400).json({ error: 'Missing required fields' })
+            return
+        }
+
+        const { text } = data
         const topic = await TopicService.find(id)
         if (topic) {
             await topic.update({ id, text })
@@ -71,7 +82,6 @@ export const updateTopic = async (
     }
 }
 
-// Удаление топика
 export const deleteTopic = async (
     req: Request<{ id: string }>,
     res: Response

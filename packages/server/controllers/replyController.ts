@@ -6,6 +6,19 @@ export const createReply = async (
     res: Response
 ): Promise<void> => {
     try {
+        const { data } = req.body
+
+        if (
+            !data ||
+            !data.text ||
+            !data.userId ||
+            !data.topicId ||
+            !data.commentId
+        ) {
+            res.status(400).json({ error: 'Missing required fields' })
+            return
+        }
+
         const {
             text,
             userId,
@@ -16,7 +29,8 @@ export const createReply = async (
             userId: number
             topicId: number
             commentId: number
-        } = req.body.data
+        } = data
+
         const comment = await ReplyService.create(
             text,
             userId,

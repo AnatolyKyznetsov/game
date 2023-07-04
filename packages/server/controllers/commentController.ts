@@ -6,19 +6,34 @@ export const createComment = async (
     res: Response
 ): Promise<void> => {
     try {
+        const { data } = req.body
+
+        if (
+            !data ||
+            !data.text ||
+            !data.userId ||
+            !data.topicId ||
+            !data.replyId
+        ) {
+            res.status(400).json({ error: 'Missing required fields' })
+            return
+        }
+
         const {
             text,
             userId,
             topicId,
             replyId,
         }: { text: string; userId: number; topicId: number; replyId: number } =
-            req.body.data
+            data
+
         const comment = await CommentService.createComment(
             text,
             userId,
             topicId,
             replyId
         )
+
         res.status(201).send(comment)
     } catch (error) {
         console.error('Error creating comment:', error)
@@ -29,6 +44,12 @@ export const createComment = async (
 export const getCommentsByTopic = async (req: Request, res: Response) => {
     try {
         const { topicId } = req.params
+
+        if (!topicId) {
+            res.status(400).json({ error: 'Missing required field: topicId' })
+            return
+        }
+
         const comments = await CommentService.getCommentsByTopic(
             Number(topicId)
         )
@@ -42,6 +63,12 @@ export const getCommentsByTopic = async (req: Request, res: Response) => {
 export const getRepliesByComment = async (req: Request, res: Response) => {
     try {
         const { commentId } = req.params
+
+        if (!commentId) {
+            res.status(400).json({ error: 'Missing required field: commentId' })
+            return
+        }
+
         const replies = await CommentService.getRepliesByComment(
             Number(commentId)
         )
