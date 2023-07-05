@@ -97,8 +97,8 @@ export class Bullet {
 
             if (this.collision({ ...player.position, ...player.size })) {
                 if (player.shield &&
-                    player.isDirectionRight && this.turret.direction === 'left' ||
-                    !player.isDirectionRight && this.turret.direction === 'right') {
+                    (player.isDirectionRight && this.turret.direction === 'left' ||
+                    !player.isDirectionRight && this.turret.direction === 'right')) {
                     this.destroyed = true;
                     break;
                 }

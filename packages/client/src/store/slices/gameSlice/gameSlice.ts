@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface Game {
+    deadPlayer: boolean,
     success: boolean,
     time: string | null,
 }
 
 const initialState: Game = {
+    deadPlayer: false,
     success: false,
     time: null
 }
@@ -20,9 +22,12 @@ const gameSlice = createSlice({
         setFinishTime: (state, { payload }) => {
             state.time = payload
         },
+        setDeadPlayer: (state, { payload }) => {
+            state.deadPlayer = payload
+        },
     },
 })
 
-export const { setFinishStatus, setFinishTime } = gameSlice.actions
+export const { setFinishStatus, setFinishTime, setDeadPlayer } = gameSlice.actions
 
 export const gameReducer = gameSlice.reducer

@@ -9,7 +9,7 @@ export const EndScreenPage = () => {
     const titleRef = useRef(null)
     const [ isActiveButton, setIsActiveButton ] = useState(false)
     const navigate = useNavigate()
-    const { success, time } = useAppSelector((state) => state.game)
+    const { success, time, deadPlayer } = useAppSelector((state) => state.game)
 
     const handleEndButton = () => {
         navigate(Paths.game)
@@ -42,6 +42,11 @@ export const EndScreenPage = () => {
                 {success &&
                 <p className="text">
                     Уровень пройден за {time}
+                </p>}
+
+                {deadPlayer &&
+                <p className="text">
+                    Не все персонажи выжили
                 </p>}
             </div>
 

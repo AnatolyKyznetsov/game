@@ -28,7 +28,7 @@ export class Enemy {
     private position: Position;
     private velocity: Position;
 
-    private olaf?: Player;
+    private playerCanAttak?: Player;
     private isDirectionRight: boolean;
 
     constructor(game: Game, data: EnemyItem) {
@@ -60,7 +60,7 @@ export class Enemy {
         this.time = new Date().getTime();
         this.delay = 1200;
 
-        this.olaf = this.game.players.find(e => e.canAttack);
+        this.playerCanAttak = this.game.players.find(e => e.canAttack);
         this.isDead = false;
     }
 
@@ -135,12 +135,12 @@ export class Enemy {
     }
 
     private collisionPlayer(): void {
-        if (!this.olaf) {
+        if (!this.playerCanAttak) {
             return;
         }
 
-        if (this.collision({ ...this.olaf.position, ...this.olaf.size }) ) {
-            if (this.olaf.attack) {
+        if (this.collision({ ...this.playerCanAttak.position, ...this.playerCanAttak.size }) ) {
+            if (this.playerCanAttak.attack) {
                 this.isDead = true
                 this.frameY = 8;
                 this.maxFrameX = 11;

@@ -231,10 +231,11 @@ export class Game {
     }
 
     private finishLevel(): void {
-        const canFinish = this.players.every(player => player.canFinish);
+        const canFinish = this.players.every(player => player.canFinish || player.isDead);
 
         if (canFinish) {
-            this.eventBus.emit('finishLvl');
+            const isAnbDead = this.players.some(player => player.isDead);
+            this.eventBus.emit('finishLvl', isAnbDead);
         }
     }
 
