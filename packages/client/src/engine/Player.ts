@@ -30,6 +30,7 @@ export abstract class Player {
 
     private cameraBox: CameraBox;
 
+    public maxHealPoints: number;
     public healPoints: number;
     public armorPoints: number;
 
@@ -39,8 +40,15 @@ export abstract class Player {
     protected frameY: number;
 
     protected maxFrameX: number;
-    protected isDirectionRight: boolean;
+    public isDirectionRight: boolean;
     protected animInProgress: boolean;
+
+    protected noGravity: boolean;
+    protected jumpSpeed: number;
+
+    public canAttack: boolean;
+    public attack: boolean;
+    public shield: boolean;
 
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
@@ -90,7 +98,8 @@ export abstract class Player {
 
         this.isActivePlayer = true;
 
-        this.healPoints = 3;
+        this.maxHealPoints = 3;
+        this.healPoints = this.maxHealPoints;
         this.armorPoints = 0;
 
         this.isDead = false;
@@ -101,6 +110,13 @@ export abstract class Player {
         this.maxFrameX = 0;
         this.isDirectionRight = true;
         this.animInProgress = false;
+
+        this.noGravity = false;
+        this.jumpSpeed = 0;
+
+        this.attack = false;
+        this.canAttack = false;
+        this.shield = false;
 
         this.addEvents();
     }
@@ -125,6 +141,10 @@ export abstract class Player {
             this.velocity.x = 0
             this.firstAbilityInProgress = false;
             this.secondAbilityInProgress = false;
+
+            if (!this.isDead) {
+                this.frameReset();
+            }
         }
     }
 
@@ -210,7 +230,7 @@ export abstract class Player {
         }
     }
 
-    private collision(block: PosAndSize) {
+    protected collision(block: PosAndSize) {
         return (
             this.position.y + this.size.height >= block.y &&
             this.position.y <= block.y + block.height &&
@@ -219,11 +239,26 @@ export abstract class Player {
         )
     }
 
+    private collisionTraps(): void {
+        if (this.isDead) {
+            return;
+        }
+
+        for (let i = 0; i < this.game.map.data.traps.length; i++) {
+            const block = this.game.map.data.traps[i];
+
+            if (this.collision(block)) {
+                this.getDamage(1);
+            }
+        }
+    }
     private collisionStairs(): void {
         for (let i = 0; i < this.game.map.data.stairs.length; i++) {
             const block = this.game.map.data.stairs[i];
 
-            this.canMoveY = this.collision(block);
+            if (!this.firstAbilityInProgress) {
+                this.canMoveY = this.collision(block);
+            }
 
             if (this.canMoveY) {
                 break;
@@ -244,8 +279,12 @@ export abstract class Player {
                     break;
                 }
 
-                if (this.velocity.y < 0) {
+                if (this.velocity.y <= 0) {
                     this.velocity.y = 0;
+                    this.jumpSpeed = 0;
+                    this.noGravity = false;
+                    this.firstAbilityInProgress = false;
+                    this.frameReset();
 
                     this.position.y = block.y + block.height + this.bottomIndent;
                     break;
@@ -281,7 +320,7 @@ export abstract class Player {
     }
 
     private applyGraivty(): void {
-        if (this.canMoveY) {
+        if (this.canMoveY || this.noGravity) {
             return;
         }
 
@@ -303,6 +342,10 @@ export abstract class Player {
     }
 
     private shouldMoveCamera(): void {
+        if (this.velocity.y !== 0 && !this.canMoveY) {
+            return;
+        }
+
         if ((this.cameraBox.x + this.cameraBox.width < this.game.size.width &&
             this.cameraBox.x + this.cameraBox.width > this.screen.x + this.game.screen.width) ||
             (this.cameraBox.x > 0 && this.cameraBox.x < this.screen.x)) {
@@ -319,6 +362,14 @@ export abstract class Player {
             if (this.cameraBox.y + this.cameraBox.height - this.cameraBox.bottomIndent + this.bottomIndent === this.game.currentLvl.size.height &&
                 this.screen.y + this.game.screen.height < this.game.currentLvl.size.height + this.cameraBox.bottomIndent) {
                 this.game.eventBus.emit('moveCameraY', 2);
+            }
+
+            if (this.cameraBox.x <= this.screen.x && this.cameraBox.x > 0) {
+                this.game.eventBus.emit('moveCameraX', -10);
+            }
+
+            if (this.cameraBox.x + this.cameraBox.width >= this.screen.x + this.game.screen.width) {
+                this.game.eventBus.emit('moveCameraX', 10);
             }
         }
     }
@@ -406,6 +457,7 @@ export abstract class Player {
         this.applyGraivty();
         this.сollisionDetectionVertical();
         this.collisionStairs();
+        this.collisionTraps();
         this.frameChange();
     }
 

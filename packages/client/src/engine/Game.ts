@@ -8,6 +8,7 @@ import { Olaf } from './players/Olaf';
 import { FrameSettings, LvlData, Size, Players } from './interfaces';
 import { Turrets } from './Turrets';
 import { Enemy } from './Enemy';
+import { Heals } from './Heals';
 
 export class Game {
     public size: Size;
@@ -20,6 +21,7 @@ export class Game {
     public players: Player[];
     public turrets: Turrets[];
     public enemies: Enemy[];
+    public heals: Heals[];
     private control: Control;
     private currentLvlIndex: number;
     private activePlayerIndex: number;
@@ -69,6 +71,7 @@ export class Game {
 
         this.turrets = [];
         this.enemies = [];
+        this.heals = [];
 
         this.activePlayerIndex = 0;
         this.activePlayer = this.players[this.activePlayerIndex];
@@ -84,6 +87,10 @@ export class Game {
 
         this.currentLvl?.enemies.forEach(item => {
             this.enemies.push(new Enemy(this, item));
+        });
+
+        this.currentLvl?.heals.forEach(item => {
+            this.heals.push(new Heals(this, item));
         });
 
         this.frameSettings = {
@@ -185,6 +192,10 @@ export class Game {
             this.changePlayer();
         }
 
+        this.heals.forEach(heal => {
+            heal.update();
+        });
+
         this.players.forEach(player => {
             player.update();
         });
@@ -231,7 +242,6 @@ export class Game {
 
         if (!this.drawnOnce) {
             this.firstDraw();
-
         }
 
         this.map.draw();
@@ -246,6 +256,10 @@ export class Game {
 
         this.enemies.forEach(enemy => {
             enemy.draw();
+        });
+
+        this.heals.forEach(heal => {
+            heal.draw();
         });
 
         this.update();

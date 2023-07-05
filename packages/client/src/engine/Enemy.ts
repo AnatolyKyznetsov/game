@@ -1,6 +1,7 @@
 import { Bullet } from './Bullet';
 import { Game } from './Game';
-import { EnemyItem, Position } from './interfaces'
+import { Player } from './Player';
+import { EnemyItem, PosAndSize, Position } from './interfaces'
 
 export class Enemy {
     private game: Game;
@@ -27,6 +28,7 @@ export class Enemy {
     private position: Position;
     private velocity: Position;
 
+    private olaf?: Player;
     private isDirectionRight: boolean;
 
     constructor(game: Game, data: EnemyItem) {
@@ -58,10 +60,15 @@ export class Enemy {
         this.time = new Date().getTime();
         this.delay = 1200;
 
+        this.olaf = this.game.players.find(e => e.canAttack);
         this.isDead = false;
     }
 
     private moving(): void {
+        if (this.isDead) {
+            return;
+        }
+
         if (this.position.x > this.data.x + this.data.distance) {
             this.isDirectionRight = false;
         }
@@ -118,9 +125,39 @@ export class Enemy {
         this.bullet.draw();
     }
 
+    protected collision(block: PosAndSize) {
+        return (
+            this.position.y + this.data.height >= block.y &&
+            this.position.y <= block.y + block.height &&
+            this.position.x <= block.x + block.width &&
+            this.position.x + this.data.width >= block.x
+        )
+    }
+
+    private collisionPlayer(): void {
+        if (!this.olaf) {
+            return;
+        }
+
+        if (this.collision({ ...this.olaf.position, ...this.olaf.size }) ) {
+            if (this.olaf.attack) {
+                this.isDead = true
+                this.frameY = 8;
+                this.maxFrameX = 11;
+            }
+        }
+    }
+
     public update(): void {
-        this.moving();
         this.frameChange();
+
+        if (this.isDead) {
+            this.bullet.destroyed = true
+            return;
+        }
+
+        this.moving();
+        this.collisionPlayer();
 
         if (!this.game.closeToScope(this.data.x, this.data.y)) {
             return;

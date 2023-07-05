@@ -4,10 +4,12 @@ import { LvlData, PosAndSize } from './interfaces';
 export class Map {
     private game: Game;
     public data: LvlData;
+    private drawnOnce: boolean
 
     constructor(game: Game, data: LvlData) {
         this.game = game;
         this.data = data;
+        this.drawnOnce = false
     }
 
     drawItem(item: PosAndSize): void {
@@ -15,6 +17,10 @@ export class Map {
     }
 
     draw(): void {
+        if (this.drawnOnce) {
+            return;
+        }
+
         this.data.stairs.forEach(item => {
             this.drawItem(item);
         });
@@ -22,5 +28,7 @@ export class Map {
         this.data.platforms.forEach(item => {
             this.drawItem(item);
         });
+
+        this.drawnOnce = true;
     }
 }

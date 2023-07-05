@@ -96,6 +96,13 @@ export class Bullet {
             const player = this.game.players[i];
 
             if (this.collision({ ...player.position, ...player.size })) {
+                if (player.shield &&
+                    player.isDirectionRight && this.turret.direction === 'left' ||
+                    !player.isDirectionRight && this.turret.direction === 'right') {
+                    this.destroyed = true;
+                    break;
+                }
+
                 if (!this.destroyed && !player.isDead) {
                     this.destroyed = true;
                     player.getDamage(this.turret.damage);

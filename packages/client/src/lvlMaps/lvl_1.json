@@ -20,7 +20,7 @@
     },
     "playersPosition": {
         "eric": {
-            "x": 340, 
+            "x": 80, 
             "y": 924
         },
         "baleog": {
@@ -178,6 +178,32 @@
                 "height": 10,
                 "image": "/images/sprites/bullet.png"
             }
+        }
+    ],
+    "traps": [
+        {
+            "x": 207,
+            "y": 944,
+            "width": 136,
+            "height": 44 
+        }
+    ],
+    "heals": [
+        {
+            "image": "/images/sprites/heal.png",
+            "type": "HP",
+            "x": 52,
+            "y": 546,
+            "width": 30,
+            "height": 32 
+        },
+        {
+            "image": "/images/sprites/armor.png",
+            "type": "AP",
+            "x": 572,
+            "y": 340,
+            "width": 30,
+            "height": 32 
         }
     ]
 }
