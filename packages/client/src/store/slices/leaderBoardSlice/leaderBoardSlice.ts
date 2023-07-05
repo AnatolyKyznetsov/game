@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { addUser, getLeaderboards, getTeamLeaderboard } from './actions';
-import { ParticipantProps } from '../../../interfaces';
+import { ParticipantData } from '../../../interfaces';
 
 export interface LeaderBoard {
-    data: ParticipantProps[],
+    data: ParticipantData[],
     ratingFieldName: string
     cursor: number | null
     limit: number | null,
@@ -41,7 +41,7 @@ const leaderBoardSlice = createSlice({
         [getLeaderboards.fulfilled.type]: (state: LeaderBoard, action) => {
             state.isLoading = false;
             state.error = '';
-            state.data = action.payload.data;
+            state.data = action.payload;
         },
         [getLeaderboards.pending.type]: (state: LeaderBoard) => {
             state.isLoading = true;
@@ -55,7 +55,7 @@ const leaderBoardSlice = createSlice({
         [getTeamLeaderboard.fulfilled.type]: (state: LeaderBoard, action) => {
             state.isLoading = false;
             state.error = '';
-            state.data = action.payload.data;
+            state.data = action.payload;
         },
         [getTeamLeaderboard.pending.type]: (state: LeaderBoard) => {
             state.isLoading = true;

@@ -22,6 +22,7 @@ export const addUser = createAsyncThunk('leaderboard/add_user', async (data: lea
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+        credentials: 'include'
     }
     const response = await request(`${baseUrl}${leaderBoard}`, options);
     if (!response.ok) {
@@ -39,6 +40,7 @@ export const getLeaderboards = createAsyncThunk('leaderboard/all', async (data: 
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+        credentials: 'include'
     }
     const response = await request(`${baseUrl}${leaderBoards}`, options);
     if (response.ok) {
@@ -56,6 +58,7 @@ export const getTeamLeaderboard = createAsyncThunk('leaderboard/all', async ({ d
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+        credentials: 'include'
     }
     const response = await request(`${baseUrl}${leaderBoard}/${teamName}`, options);
     if (response.ok) {

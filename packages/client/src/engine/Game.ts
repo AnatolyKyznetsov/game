@@ -5,7 +5,7 @@ import { Map } from './Map';
 import { Eric } from './players/Eric';
 import { Baleog } from './players/Baleog';
 import { Olaf } from './players/Olaf';
-import { FrameSettings, LvlData, Size, Players } from './interfaces';
+import { FrameSettings, LvlData, Size, Players, PosAndSize } from './interfaces';
 import { Turrets } from './Turrets';
 
 export class Game {
@@ -19,6 +19,7 @@ export class Game {
     public players: Player[];
     public turrets: Turrets[];
     private control: Control;
+    public finishArea: PosAndSize;
     private currentLvlIndex: number;
     private activePlayerIndex: number;
     private drawnOnce: boolean;
@@ -84,6 +85,8 @@ export class Game {
             interval: 1000 / 25,
             timer: 0
         }
+
+        this.finishArea = this.currentLvl?.finishArea;
 
         this.addEvents();
     }
@@ -167,9 +170,10 @@ export class Game {
     }
 
     public update(): void {
+        this.finishLevel();
+
         if (this.gameOver) {
             this.eventBus.emit('gameOver');
-            console.log('GAME OVER');
 
             return;
         }
@@ -202,6 +206,14 @@ export class Game {
     private firstDraw(): void {
         this.ctx.translate(-this.activePlayer.screen.x, -this.activePlayer.screen.y);
         this.drawnOnce = true;
+    }
+
+    private finishLevel(): void {
+        const canFinish = this.players.every(player => player.canFinish);
+
+        if (canFinish) {
+            this.eventBus.emit('finishLvl');
+        }
     }
 
     public draw(delay: number): void {

@@ -46,8 +46,13 @@ export interface SigninData {
 }
 
 export interface ParticipantProps {
-    id: string,
+    id: number | null,
+    score?: number,
     name: string,
     time: string,
     level: number
+}
+
+export interface ParticipantData {
+    data: ParticipantProps,
 }

@@ -42,6 +42,8 @@ export abstract class Player {
     private isDirectionRight: boolean;
     private animInProgress: boolean;
 
+    public canFinish: boolean;
+
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
         this.id = makeId();
@@ -101,6 +103,8 @@ export abstract class Player {
         this.maxFrameX = 0;
         this.isDirectionRight = true;
         this.animInProgress = false;
+
+        this.canFinish = false;
 
         this.addEvents();
     }
@@ -394,6 +398,10 @@ export abstract class Player {
         this.maxFrameX = 0;
     }
 
+    private canPlayerFinish(): void {
+        this.canFinish = this.collision(this.game.finishArea);
+    }
+
     public update(): void {
         this.checkActivePlayer();
         this.moveCameraBox();
@@ -407,6 +415,8 @@ export abstract class Player {
         this.сollisionDetectionVertical();
         this.collisionStairs();
         this.frameChange();
+
+        this.canPlayerFinish()
     }
 
     public draw(): void {

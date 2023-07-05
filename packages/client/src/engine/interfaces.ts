@@ -32,6 +32,7 @@ export interface Players<T> {
 export interface LvlData {
     background: string,
     size: Size,
+    finishArea: PosAndSize,
     startPoint: Players<Position>,
     playersPosition: Players<Position>,
     platforms: PosAndSize[],

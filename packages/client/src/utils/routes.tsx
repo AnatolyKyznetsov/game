@@ -14,7 +14,7 @@ import { EditProfilePage } from '../pages/EditProfilePage'
 import { EditPasswordPage } from '../pages/EditPasswordPage'
 import { AppDispatch } from '../store/store'
 
-interface Routes {
+export interface Routes {
     path: string,
     element: JSX.Element,
     protected: boolean,
@@ -48,13 +48,8 @@ export const routes: Routes[] = [
         protected: false,
     },
     {
-        path: Paths.endScreenSuccess,
-        element: <EndScreenPage title="Поздравляем!" text="Ваше время 05:12" buttonText="Далее" />,
-        protected: true,
-    },
-    {
-        path: Paths.endScreenFail,
-        element: <EndScreenPage title="Game over" buttonText="Начать с начала" />,
+        path: Paths.endScreen,
+        element: <EndScreenPage />,
         protected: true,
     },
     {
