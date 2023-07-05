@@ -7,6 +7,8 @@ import { Baleog } from './players/Baleog';
 import { Olaf } from './players/Olaf';
 import { FrameSettings, LvlData, Size, Players, PosAndSize } from './interfaces';
 import { Turrets } from './Turrets';
+import { Enemy } from './Enemy';
+import { Heals } from './Heals';
 
 export class Game {
     public size: Size;
@@ -18,6 +20,8 @@ export class Game {
     public currentLvl: LvlData;
     public players: Player[];
     public turrets: Turrets[];
+    public enemies: Enemy[];
+    public heals: Heals[];
     private control: Control;
     public finishArea: PosAndSize;
     private currentLvlIndex: number;
@@ -67,6 +71,8 @@ export class Game {
         this.prevPlayer = this.players[0];
 
         this.turrets = [];
+        this.enemies = [];
+        this.heals = [];
 
         this.activePlayerIndex = 0;
         this.activePlayer = this.players[this.activePlayerIndex];
@@ -80,9 +86,17 @@ export class Game {
             this.turrets.push(new Turrets(this, item));
         });
 
+        this.currentLvl?.enemies.forEach(item => {
+            this.enemies.push(new Enemy(this, item));
+        });
+
+        this.currentLvl?.heals.forEach(item => {
+            this.heals.push(new Heals(this, item));
+        });
+
         this.frameSettings = {
             delay: 0,
-            interval: 1000 / 25,
+            interval: 1000 / 20,
             timer: 0
         }
 
@@ -182,12 +196,20 @@ export class Game {
             this.changePlayer();
         }
 
+        this.heals.forEach(heal => {
+            heal.update();
+        });
+
         this.players.forEach(player => {
             player.update();
         });
 
         this.turrets.forEach(turret => {
             turret.update();
+        });
+
+        this.enemies.forEach(enemy => {
+            enemy.update();
         });
     }
 
@@ -209,10 +231,11 @@ export class Game {
     }
 
     private finishLevel(): void {
-        const canFinish = this.players.every(player => player.canFinish);
+        const canFinish = this.players.every(player => player.canFinish || player.isDead);
 
         if (canFinish) {
-            this.eventBus.emit('finishLvl');
+            const isAnbDead = this.players.some(player => player.isDead);
+            this.eventBus.emit('finishLvl', isAnbDead);
         }
     }
 
@@ -232,7 +255,6 @@ export class Game {
 
         if (!this.drawnOnce) {
             this.firstDraw();
-
         }
 
         this.map.draw();
@@ -243,6 +265,14 @@ export class Game {
 
         this.turrets.forEach(turret => {
             turret.draw();
+        });
+
+        this.enemies.forEach(enemy => {
+            enemy.draw();
+        });
+
+        this.heals.forEach(heal => {
+            heal.draw();
         });
 
         this.update();

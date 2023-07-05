@@ -40,6 +40,7 @@ export class Control {
     private abilitiesEvents(e: KeyboardEvent): void {
         switch(e.code) {
         case 'KeyA':
+        case 'Space':
             this.game.eventBus.emit('firstAbility');
             break;
         case 'KeyS':

@@ -4,7 +4,7 @@ import { PlayersStatus } from '../components/PlayersStatus'
 import { Player } from '../engine/Player'
 import lvl_1 from '../lvlMaps/lvl_1.json'
 import { useAppDispatch } from '../store/hooks'
-import { setFinishStatus } from '../store/slices/gameSlice/gameSlice'
+import { setFinishStatus, setDeadPlayer } from '../store/slices/gameSlice/gameSlice'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../utils/paths'
 
@@ -48,11 +48,13 @@ export const GamePage = () => {
         })
 
         game.eventBus.on('gameOver', () => {
+            dispatch(setDeadPlayer(false))
             finishLvl(false)
         })
 
-        game.eventBus.on('finishLvl', () => {
-            finishLvl(true)
+        game.eventBus.on('finishLvl', (isAnbDead: boolean) => {
+            dispatch(setDeadPlayer(isAnbDead))
+            finishLvl(!isAnbDead)
         })
 
         game.eventBus.emit('update')

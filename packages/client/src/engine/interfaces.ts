@@ -38,6 +38,9 @@ export interface LvlData {
     platforms: PosAndSize[],
     stairs: PosAndSize[],
     turrets: TurretsItem[],
+    enemies: EnemyItem[],
+    traps: PosAndSize[],
+    heals: HealsItem[],
 }
 
 export interface CameraBox extends PosAndSize {
@@ -51,6 +54,17 @@ export interface BullestItem extends PosAndSize {
 export interface TurretsItem extends Damage, Direction, Position, Size {
     bullet: BullestItem,
     image: string,
+}
+
+export interface EnemyItem extends Damage, Position, Size {
+    bullet: BullestItem,
+    image: string,
+    distance: number,
+}
+
+export interface HealsItem extends Position, Size {
+    image: string,
+    type: string,
 }
 
 export interface PosAndSize extends Position, Size { }

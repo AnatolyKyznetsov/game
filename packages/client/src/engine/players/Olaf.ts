@@ -13,14 +13,12 @@ export class Olaf extends Player {
         this.avatarPos = '-5px 0px';
         this.deadAvatar = '-10px -914px';
 
-        this.healPoints = 2;
+        this.shield = true;
     }
 
     protected firstAbility(): void {
-
+        this.firstAbilityInProgress = false;
     }
 
-    protected secondAbility(): void {
-
-    }
+    protected secondAbility(): void { }
 }
