@@ -211,6 +211,8 @@ export class Game {
         this.enemies.forEach(enemy => {
             enemy.update();
         });
+
+        this.control.gamePadContol();
     }
 
     public loadImage(path: string): CanvasImageSource | undefined {
