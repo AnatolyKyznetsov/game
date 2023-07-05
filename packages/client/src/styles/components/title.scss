@@ -19,7 +19,6 @@
     &__main {
         @extend .title;
         display: block;
-        max-width: 75%;
         font-size: 48px;
         color: var(--color-text-third);
     }

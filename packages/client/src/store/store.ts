@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userReducer, } from './slices/userSlice/userSlice'
 import { leaderBoardReducer } from './slices/leaderBoardSlice/leaderBoardSlice'
 import { forumReducer } from './slices/forumSlice/forumSlice'
+import { gameReducer } from './slices/gameSlice/gameSlice'
 
 declare global {
     interface Window {
@@ -14,6 +15,7 @@ export const store = configureStore({
         user: userReducer,
         leaderBoard: leaderBoardReducer,
         forum: forumReducer,
+        game: gameReducer,
     },
     preloadedState: window.__PRELOADED_STATE__
 })

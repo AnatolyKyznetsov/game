@@ -4,6 +4,12 @@
         "width": 2065,
         "height": 1436
     },
+    "finishArea": {
+        "x": 787, 
+        "y": 441,
+        "width": 74,
+        "height": 169
+    },
     "startPoint": {
         "eric": {
             "x": 0, 

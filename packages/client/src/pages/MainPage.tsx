@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { Paths } from '../utils/paths'
 import { gsap } from 'gsap'
-import { gameDescription } from '../utils/constants'
 import { getUserInfo, oAuthYandex } from '../store/slices/userSlice/actions';
 import { useAppDispatch } from '../store/hooks';
 
@@ -56,7 +55,19 @@ export const MainPage = () => {
     return (
         <main className='main'>
             <img className="main__logo" src="/images/logo.png" alt="Логотип." />
-            <p className='text__main' ref={description}>{gameDescription}</p>
+            <p className='text__main' ref={description}>
+                Томатор,
+                злой повелитель галактической империи
+                крутонианцев, имел хобби —
+                коллекционировал уникальные формы жизни. Однажды
+                он решил пополнить свою коллекцию экземплярами с планеты Земля,
+                для чего похитил трёх викингов. Они не растерялись и предприняли
+                попытку побега из «зверинца», в результате чего очутились в неизвестном
+                им пространстве и времени. Теперь они должны найти дорогу домой,
+                в родную деревню, и расправиться с тем, кто заставил их бегать как
+                угорелых через пространство и время. Помоги героям вернуться к родным
+                или отправиться в Вальхаллу!
+            </p>
             {isActiveButton && <Button
                 onClick={handleStartButton}
                 type='button'

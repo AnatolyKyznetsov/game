@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { getDateToLocale } from '../../../utils/getDateToLocale'
 import { useWindowSize } from '../../../utils/hooks/useWindowSize'
 interface TopicItemProps {
-    id: string
+    id: number
     login: string
     avatar: string
     text: string
     userId: number
-    date: number
+    date: Date
 }
 
 interface TopicReactions {
@@ -18,14 +18,15 @@ interface TopicReactions {
 }
 
 export const TopicItem = ({
-    id,
-    userId,
+    // id,
+    // userId,
     login,
     avatar,
     text,
     date }: TopicItemProps) => {
     const { width } = useWindowSize()
-    const formattedDate = getDateToLocale(date)
+    const timestamp = new Date(date).getTime()
+    const formattedDate = getDateToLocale(timestamp)
 
     // get reactions from get request to db
     const [ topicReactions, setTopicReactions ] = useState<TopicReactions>({

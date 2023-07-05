@@ -30,7 +30,11 @@
     }
 
     &__leaders {
-        min-width: 100px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100px;
+        width: 100%;
     }
 
     &__back {

@@ -50,6 +50,8 @@ export abstract class Player {
     public attack: boolean;
     public shield: boolean;
 
+    public canFinish: boolean;
+
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
         this.id = makeId();
@@ -117,6 +119,7 @@ export abstract class Player {
         this.attack = false;
         this.canAttack = false;
         this.shield = false;
+        this.canFinish = false;
 
         this.addEvents();
     }
@@ -445,6 +448,10 @@ export abstract class Player {
         this.maxFrameX = 0;
     }
 
+    private canPlayerFinish(): void {
+        this.canFinish = this.collision(this.game.finishArea);
+    }
+
     public update(): void {
         this.checkActivePlayer();
         this.moveCameraBox();
@@ -459,6 +466,8 @@ export abstract class Player {
         this.collisionStairs();
         this.collisionTraps();
         this.frameChange();
+
+        this.canPlayerFinish()
     }
 
     public draw(): void {
