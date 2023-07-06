@@ -1,5 +1,5 @@
 export enum Urls {
-    baseUrl = 'https://ya-praktikum.tech/api/v2',
+    baseUrl = 'http://localhost:3000/api/v2',
     signup = '/auth/signup',
     signin = '/auth/signin',
     userInfo = '/auth/user',

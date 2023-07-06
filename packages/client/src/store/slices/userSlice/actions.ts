@@ -85,15 +85,21 @@ export const oAuthYandex = createAsyncThunk(
     }
 )
 
-export const getUserInfo = createAsyncThunk('user/get_user', async () => {
+export const getUserInfo = createAsyncThunk('user/get_user', async (cookie: string | undefined) => {
     const { baseUrl, userInfo } = Urls
     const options = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Cookie': ''
         },
         credentials: 'include',
     }
+
+    if (cookie) {
+        options.headers['Cookie'] = cookie;
+    }
+
     const response = await request(`${baseUrl}${userInfo}`, options)
     if (response.ok) {
         return await response.json()

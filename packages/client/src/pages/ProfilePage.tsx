@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { selectUserData } from '../store/selectors/userSelectors'
 import { logoutUser } from '../store/slices/userSlice/actions'
 import axios from 'axios'
+import { BackIcon } from '../assets/icons/Back'
 
 export const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
@@ -20,6 +21,10 @@ export const ProfilePage: FC = () => {
         navigate(Paths.main)
     }
 
+    const handleBack = () => {
+        navigate(Paths.startScreen)
+    }
+
     useEffect(() => {
         axios.post('http://localhost:3000/api/topics')
     }, [])
@@ -27,7 +32,9 @@ export const ProfilePage: FC = () => {
     return (
         <main className="main">
             <div className="shape">
-                <ButtonBack />
+                <button className="shape__back" onClick={handleBack}>
+                    <BackIcon />
+                </button>
                 <div className="shape__wrapper">
                     <div className="profile">
                         <div className="profile__inner">

@@ -64,6 +64,12 @@ async function startServer() {
         needProxy(process.env.CLIENT_URL)
     }
 
+    app.use('/api/v2', createProxyMiddleware({
+        changeOrigin: true,
+        cookieDomainRewrite: { '*': '' },
+        target: 'https://ya-praktikum.tech',
+    }))
+
     addThemeRouters(app)
     addUserRouters(app)
     topicsRouters(app)
@@ -73,6 +79,10 @@ async function startServer() {
 
     app.use('*', async (req, res, next) => {
         const url = req.originalUrl
+        const authCookie = req.rawHeaders.find((e: string) => {
+            const reg = new RegExp('authCookie');
+            return reg.test(e);
+        });
 
         try {
             let template: string
@@ -98,7 +108,7 @@ async function startServer() {
                 }
             }
 
-            let render: (url: string) => Promise<string>
+            let render: (url: string, authCookie: string | undefined) => Promise<string>
 
             if (isDev()) {
                 render = (
@@ -118,7 +128,7 @@ async function startServer() {
                 }
             }
 
-            const [ appHtml, preloadedState ] = await render(url)
+            const [ appHtml, preloadedState ] = await render(url, authCookie)
             const html = template
                 .replace('<!--ssr-outlet-->', appHtml)
                 .replace(
