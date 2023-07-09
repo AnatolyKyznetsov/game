@@ -1,4 +1,4 @@
-export const serverUrl = __DOCKER_BUILD__ ? 'http://game-machine.ya-praktikum.tech:3000/' : 'http://localhost:3000';
+export const serverUrl = __DOCKER_BUILD__ ? 'http://game-machine.ya-praktikum.tech:3000' : 'http://localhost:3000';
 
 export const Urls = {
     baseUrl: `${serverUrl}/api/v2`,
