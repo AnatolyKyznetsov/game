@@ -128,7 +128,12 @@ async function startServer() {
                 }
             }
 
-            const [ appHtml, preloadedState ] = await render(url, authCookie)
+            const [ appHtml, preloadedState, isLightTheme ] = await render(url, authCookie)
+
+            if (isLightTheme) {
+                template = template.replace('<body>', '<body class="light-theme">')
+            }
+
             const html = template
                 .replace('<!--ssr-outlet-->', appHtml)
                 .replace(

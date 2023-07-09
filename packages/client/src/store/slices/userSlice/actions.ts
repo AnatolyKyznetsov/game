@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { Urls } from '../../../utils/api'
+import { Urls, serverUrl } from '../../../utils/api'
 import { request } from '../../../utils/request'
 import { UserData } from '../../../types/user'
 import { SigninData } from '../../../interfaces'
@@ -220,7 +220,7 @@ export const saveTheme = createAsyncThunk(
             body: JSON.stringify({ data }),
         }
 
-        const response = await request(themeSet, options)
+        const response = await request(`${serverUrl}${themeSet}`, options)
 
         if (response.ok) {
             return await response.json()
@@ -241,7 +241,7 @@ export const getTheme = createAsyncThunk(
             body: JSON.stringify({ data }),
         }
 
-        const response = await request(themeGet, options)
+        const response = await request(`${serverUrl}${themeGet}`, options)
 
         if (response.ok) {
             return await response.json()
@@ -263,7 +263,7 @@ export const saveInnerUser = createAsyncThunk(
             body: JSON.stringify({ data }),
         }
 
-        const response = await request(innerUserSet, options)
+        const response = await request(`${serverUrl}${innerUserSet}`, options)
 
         if (response.ok) {
             return await response.json()
@@ -285,7 +285,7 @@ export const editInnerUser = createAsyncThunk(
             body: JSON.stringify({ data }),
         }
 
-        const response = await request(innerUserEdit, options)
+        const response = await request(`${serverUrl}${innerUserEdit}`, options)
 
         if (response.ok) {
             return await response.json()

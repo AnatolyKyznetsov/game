@@ -12,6 +12,8 @@ import { changeTheme, userReducer } from './src/store/slices/userSlice/userSlice
 import { getTheme, getUserInfo, saveInnerUser } from './src/store/slices/userSlice/actions';
 
 export async function render(url: string, authCookie: string) {
+    let isLightTheme = false;
+
     const [ pathname ] = url.split('?')
     const currentRoute = routes.find(route => pathname === route.path)
     const store = configureStore({
@@ -39,13 +41,13 @@ export async function render(url: string, authCookie: string) {
             return;
         }
 
-        const { isLightTheme } = theme.payload
+        isLightTheme = theme.payload.isLightTheme
 
         store.dispatch(changeTheme(isLightTheme))
     }
 
     if (userDataRes.payload !== undefined) {
-        setTheme()
+        await setTheme()
     }
 
     if (currentRoute && currentRoute.loader) {
@@ -66,5 +68,5 @@ export async function render(url: string, authCookie: string) {
 
     const preloadedState = store.getState();
 
-    return [ appHtml, preloadedState ]
+    return [ appHtml, preloadedState, isLightTheme ]
 }
