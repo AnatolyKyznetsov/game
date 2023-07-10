@@ -7,6 +7,7 @@ import { useAppDispatch } from '../store/hooks'
 import { setFinishStatus, setDeadPlayer } from '../store/slices/gameSlice/gameSlice'
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../utils/paths'
+import { MobileControl } from '../components/MobileControl'
 
 interface ScreenSize {
     width: number,
@@ -23,6 +24,14 @@ export const GamePage = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [ screenSize, setScreenSize ] = useState<ScreenSize>({ width: 0, height: 0 })
+    const mobileControl = {
+        right: useRef<HTMLDivElement>(null),
+        left: useRef<HTMLDivElement>(null),
+        down: useRef<HTMLDivElement>(null),
+        up: useRef<HTMLDivElement>(null),
+        next_player: useRef<HTMLDivElement>(null),
+        first_ability: useRef<HTMLDivElement>(null),
+    }
 
     const finishLvl = (status: boolean) => {
         document.exitPointerLock()
@@ -47,7 +56,7 @@ export const GamePage = () => {
         }
 
         const ctx = refCanvas.current.getContext('2d')
-        game = new Game(ctx as CanvasRenderingContext2D, lvls)
+        game = new Game(ctx as CanvasRenderingContext2D, lvls, mobileControl)
 
         game.eventBus.on('update', () => {
             setPlayers([ ...game!.players ])
@@ -119,6 +128,7 @@ export const GamePage = () => {
             <button className='round-button round-button_top round-button_left' onClick={toStartScreen}>
                 <img src='/images/exit.svg' alt="В меню." />
             </button>
+            <MobileControl controls={mobileControl}/>
             {pointerLocked}
         </div>
     )
