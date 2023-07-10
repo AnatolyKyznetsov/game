@@ -16,6 +16,7 @@ interface ScreenSize {
 
 export const GamePage = () => {
     let game: Game | null = null
+    const [ test, setTest ] = useState(false)
     const [ stopTimer, setStopTimer ] = useState(false)
     const [ players, setPlayers ] = useState<Player[]>([])
     const [ pointerLocked, setPointerLocked ] = useState<boolean>(false)
@@ -96,10 +97,20 @@ export const GamePage = () => {
         setPointerLocked(document.pointerLockElement === refCanvas.current)
     }
 
+    const resizeScreen = () => {
+        setScreenSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+        })
+    }
+
     useEffect(() => {
         if (screenSize.width !== 0 && screenSize.height !== 0) {
             window.addEventListener('keydown', handleKeyPressEsc);
-            init()
+            if (!test) {
+                init()
+                setTest(true)
+            }
         }
 
         return () => {
@@ -109,10 +120,12 @@ export const GamePage = () => {
     }, [ screenSize ])
 
     useEffect(() => {
-        setScreenSize({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        })
+        resizeScreen();
+        window.addEventListener('resize', resizeScreen);
+
+        return () => {
+            window.removeEventListener('resize', resizeScreen)
+        }
     }, [])
 
     return (

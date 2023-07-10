@@ -148,6 +148,15 @@ export class Game {
             this.prevPlayer = this.activePlayer;
             this.nextPlayerIndex();
         });
+
+        window.addEventListener('resize', () => {
+            this.screen = {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            }
+            this.ctx.clearRect(0, 0, this.size.width, this.size.height);
+            this.eventBus.emit('resizeScreen');
+        });
     }
 
     private prevPlayerIndex(): void {

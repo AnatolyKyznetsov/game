@@ -5,6 +5,7 @@ import { v4 as makeId } from 'uuid'
 export abstract class Player {
     public id: string;
     public screen: Position;
+    private name: keyof Players<unknown>
 
     public game: Game;
     private moving: Moving;
@@ -55,6 +56,7 @@ export abstract class Player {
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
         this.id = makeId();
+        this.name = name;
 
         this.screen = {
             x: this.game.getStartPointX(name),
@@ -92,7 +94,7 @@ export abstract class Player {
             x: 0,
             y: 0,
             width: this.game.screen.width / 1.2,
-            height: 500,
+            height: this.game.screen.height / 1.2,
             bottomIndent: 80
         }
 
@@ -213,6 +215,20 @@ export abstract class Player {
         this.game.eventBus.on('secondAbility', () => {
             if (this.isActivePlayer) {
                 this.secondAbilityInProgress = true;
+            }
+        });
+
+        this.game.eventBus.on('resizeScreen', () => {
+            this.cameraBox.width = this.game.screen.width / 1.2
+            this.cameraBox.height = this.game.screen.height / 1.2
+
+            if (this.isActivePlayer) {
+                this.screen = {
+                    x: this.game.getStartPointX(this.name),
+                    y: this.game.getStartPointY(this.name),
+                }
+
+                console.log(this.cameraBox);
             }
         });
     }
@@ -337,7 +353,7 @@ export abstract class Player {
         this.cameraBox.y = this.position.y - this.cameraBox.height + this.size.height + this.cameraBox.bottomIndent;
 
         if (this.isActivePlayer) {
-            this.game.ctx.fillStyle = 'rgba(0,0,0,0)';
+            this.game.ctx.fillStyle = 'rgba(0,0,0,.3)';
             this.game.ctx.fillRect(this.cameraBox.x, this.cameraBox.y, this.cameraBox.width, this.cameraBox.height);
         }
 

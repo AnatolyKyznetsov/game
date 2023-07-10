@@ -28,7 +28,7 @@
         z-index: 99;
         bottom: 20px;
         right: 210px;
-        background-image: url('./public/images/control/player.svg');
+        background-image: url('/images/control/player.svg');
     }
 
     &__ability {
@@ -36,7 +36,7 @@
         left: 20px;
         bottom: 20px;
         z-index: 99;
-        background-image: url('./public/images/control/action.svg');
+        background-image: url('/images/control/action.svg');
     }
 
     &__moves {
@@ -55,7 +55,7 @@
     }
 
     &__move {
-        background-image: url('./public/images/control/arrow.svg');
+        background-image: url('/images/control/arrow.svg');
 
         &_up {
             @extend .mobile-control__move;
