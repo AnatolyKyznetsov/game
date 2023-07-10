@@ -1,11 +1,11 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Avatar } from '../components/Avatar'
 import { Paths } from '../utils/paths'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { selectUserData } from '../store/selectors/userSelectors'
 import { logoutUser } from '../store/slices/userSlice/actions'
-import { BackIcon } from '../assets/icons/Back'
+import { ButtonBack } from '../components/ButtonBack'
 
 export const ProfilePage: FC = () => {
     const dispatch = useAppDispatch()
@@ -19,16 +19,10 @@ export const ProfilePage: FC = () => {
         navigate(Paths.main)
     }
 
-    const handleBack = () => {
-        navigate(Paths.startScreen)
-    }
-
     return (
         <main className="main">
             <div className="shape">
-                <button className="shape__back" onClick={handleBack}>
-                    <BackIcon />
-                </button>
+                <ButtonBack path={Paths.startScreen} />
                 <div className="shape__wrapper">
                     <div className="profile">
                         <div className="profile__inner">
