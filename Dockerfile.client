@@ -1,4 +1,4 @@
-ARG NODE_VERSION=16
+ARG NODE_VERSION=18
 ARG CLIENT_PORT=3001
 
 FROM node:$NODE_VERSION-buster as base
@@ -15,7 +15,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn lerna bootstrap
+RUN yarn install
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=client
 
 
