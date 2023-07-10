@@ -91,13 +91,9 @@ export const getUserInfo = createAsyncThunk('user/get_user', async (cookie: stri
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Cookie': ''
+            'Cookie': cookie ? cookie : ''
         },
         credentials: 'include',
-    }
-
-    if (cookie) {
-        options.headers['Cookie'] = cookie;
     }
 
     const response = await request(`${baseUrl}${userInfo}`, options)
