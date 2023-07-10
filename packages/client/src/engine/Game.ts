@@ -5,7 +5,7 @@ import { Map } from './Map';
 import { Eric } from './players/Eric';
 import { Baleog } from './players/Baleog';
 import { Olaf } from './players/Olaf';
-import { FrameSettings, LvlData, Size, Players, PosAndSize } from './interfaces';
+import { FrameSettings, LvlData, Size, Players, PosAndSize, Controls } from './interfaces';
 import { Turrets } from './Turrets';
 import { Enemy } from './Enemy';
 import { Heals } from './Heals';
@@ -33,7 +33,9 @@ export class Game {
     private gameOver: boolean;
     public frameSettings: FrameSettings;
 
-    constructor(ctx: CanvasRenderingContext2D, lvls: LvlData[]) {
+    private static instance: Game;
+
+    constructor(ctx: CanvasRenderingContext2D, lvls: LvlData[], mobileControls?: Controls) {
         this.ctx = ctx;
 
         this.currentLvlIndex = 0;
@@ -50,7 +52,7 @@ export class Game {
         }
 
         this.eventBus = new EventBus();
-        this.control = new Control(this);
+        this.control = new Control(this, mobileControls);
         this.map = new Map(this, this.currentLvl);
 
         this.players = [

@@ -1,4 +1,5 @@
 import { Game } from './Game';
+import { Controls } from './interfaces';
 
 enum EVENTS {
     RIGHT = 'moveRight',
@@ -14,10 +15,12 @@ enum EVENTS {
 export class Control {
     private game: Game;
     private gamePadHistory: Record<string, boolean>;
+    private mobileControls: Controls | undefined
 
-    constructor(game: Game) {
+    constructor(game: Game, mobileControls?: Controls) {
         this.game = game;
         this.gamePadHistory = {};
+        this.mobileControls = mobileControls
 
         this.addEvents();
     }
@@ -28,7 +31,7 @@ export class Control {
             this.game.eventBus.emit(EVENTS.RIGHT, isMoving);
             break;
         case 'ArrowLeft':
-            this.game.eventBus.emit(EVENTS.RIGHT, isMoving);
+            this.game.eventBus.emit(EVENTS.LEFT, isMoving);
             break;
         case 'ArrowUp':
             this.game.eventBus.emit(EVENTS.UP, isMoving);
@@ -111,7 +114,44 @@ export class Control {
         this.gamePadMoves(EVENTS.UP, buttons[12].pressed || axes[3] < 0);
     }
 
+    private sceenGamePadEvents(button: Element | undefined | null, event: string, type: 'moves' | 'action'): void {
+        if(!button) {
+            return;
+        }
+
+        button.addEventListener('touchstart', () => {
+            if (type === 'moves') {
+                this.gamePadMoves(event, true);
+            }
+
+            if (type === 'action') {
+                this.gamePadActions(event, true);
+            }
+        });
+
+        button.addEventListener('touchend', () => {
+            if (type === 'moves') {
+                this.gamePadMoves(event, false);
+            }
+
+            if (type === 'action') {
+                this.gamePadActions(event, false);
+            }
+        });
+    }
+
+    private addMobileControl() {
+        this.sceenGamePadEvents(this.mobileControls?.right.current, EVENTS.RIGHT, 'moves');
+        this.sceenGamePadEvents(this.mobileControls?.left.current, EVENTS.LEFT, 'moves');
+        this.sceenGamePadEvents(this.mobileControls?.up.current, EVENTS.UP, 'moves');
+        this.sceenGamePadEvents(this.mobileControls?.down.current, EVENTS.DOWN, 'moves');
+        this.sceenGamePadEvents(this.mobileControls?.first_ability.current, EVENTS.FIRST_ABILITY, 'action');
+        this.sceenGamePadEvents(this.mobileControls?.next_player.current, EVENTS.NEXT_PLAYER, 'action');
+    }
+
     private addEvents(): void {
+        this.addMobileControl();
+
         window.addEventListener('keydown', e => {
             this.moveEvents(e, true);
         });
