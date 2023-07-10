@@ -10,6 +10,7 @@ export default defineConfig({
     },
     define: {
         __SERVER_PORT__: process.env.SERVER_PORT,
+        __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
     },
     plugins: [ react() ],
 })
