@@ -12,5 +12,12 @@ export default defineConfig({
         __SERVER_PORT__: 80,
         __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
     },
+    build: {
+        rollupOptions: {
+            output: {
+                entryFileNames: 'assets/[name].js',
+            }
+        }
+    },
     plugins: [ react() ],
 })
