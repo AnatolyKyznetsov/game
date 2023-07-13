@@ -1,4 +1,4 @@
-export const serverUrl = 'http://localhost:3000';
+export const serverUrl = __DOCKER_BUILD__ ? `http://game-machine.ya-praktikum.tech:${__SERVER_PORT__}` : `http://localhost:${__SERVER_PORT__}`;
 
 export const Urls = {
     baseUrl: `${serverUrl}/api/v2`,
@@ -18,7 +18,7 @@ export const Urls = {
     innerUserEdit: '/local/user_eidt',
     clientId: '/oauth/yandex/service-id',
     oAuth: '/oauth/yandex',
-    redirectUri: __DOCKER_BUILD__ ? 'http://game-machine.ya-praktikum.tech:3000' : serverUrl,
+    redirectUri: serverUrl,
     topics: '/topics',
     comments: '/comments'
 }

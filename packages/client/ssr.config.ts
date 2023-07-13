@@ -5,7 +5,7 @@ import * as path from 'path'
 export default defineConfig({
     plugins: [ react() ],
     define: {
-        __SERVER_PORT__: process.env.SERVER_PORT,
+        __SERVER_PORT__: 3000,
         __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
     },
     build: {
