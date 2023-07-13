@@ -22,7 +22,7 @@ const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
     let vite: ViteDevServer | undefined
-    let key, cert;
+    let key, cert, ca;
 
     if (process.env.DOCKER_BUILD) {
         key = fs.readFileSync(
@@ -31,11 +31,19 @@ async function startServer() {
         cert = fs.readFileSync(
             path.resolve('../etc/letsencrypt/live/game-machine.ya-praktikum.tech', 'cert.crt')
         )
+        ca = fs.readFileSync(
+            path.resolve('../etc/letsencrypt/live/game-machine.ya-praktikum.tech', 'chain.pem')
+        )
     }
 
     const app = express()
 
-    app.use(cors())
+    const corsOptions = {
+        credentials: true,
+        origin: [ 'https://ya-praktikum.tech' ]
+    };
+
+    app.use(cors(corsOptions))
 
     const port = Number(process.env.SERVER_PORT) || 3000
     const distPath = 'packages/client/dist'
@@ -147,7 +155,7 @@ async function startServer() {
     })
 
     if (process.env.DOCKER_BUILD) {
-        const httpsServer = https.createServer({ key, cert }, app);
+        const httpsServer = https.createServer({ key, cert, ca }, app);
 
         httpsServer.listen(port, () => {
             console.log(`  ➜ 🎸 HTTPS Server is listening on port: ${port}`)
