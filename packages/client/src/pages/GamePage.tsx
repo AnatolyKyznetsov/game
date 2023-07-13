@@ -8,6 +8,7 @@ import { setFinishStatus, setDeadPlayer } from '../store/slices/gameSlice/gameSl
 import { useNavigate } from 'react-router-dom'
 import { Paths } from '../utils/paths'
 import { MobileControl } from '../components/MobileControl'
+import { useMobile } from '../hooks/useMobile'
 
 interface ScreenSize {
     width: number,
@@ -16,7 +17,6 @@ interface ScreenSize {
 
 export const GamePage = () => {
     let game: Game | null = null
-    const [ test, setTest ] = useState(false)
     const [ stopTimer, setStopTimer ] = useState(false)
     const [ players, setPlayers ] = useState<Player[]>([])
     const [ pointerLocked, setPointerLocked ] = useState<boolean>(false)
@@ -25,6 +25,7 @@ export const GamePage = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const [ screenSize, setScreenSize ] = useState<ScreenSize>({ width: 0, height: 0 })
+    const { isMobile, landscapeMode } = useMobile();
     const mobileControl = {
         right: useRef<HTMLDivElement>(null),
         left: useRef<HTMLDivElement>(null),
@@ -97,20 +98,10 @@ export const GamePage = () => {
         setPointerLocked(document.pointerLockElement === refCanvas.current)
     }
 
-    const resizeScreen = () => {
-        setScreenSize({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        })
-    }
-
     useEffect(() => {
         if (screenSize.width !== 0 && screenSize.height !== 0) {
             window.addEventListener('keydown', handleKeyPressEsc);
-            if (!test) {
-                init()
-                setTest(true)
-            }
+            init()
         }
 
         return () => {
@@ -120,12 +111,10 @@ export const GamePage = () => {
     }, [ screenSize ])
 
     useEffect(() => {
-        resizeScreen();
-        window.addEventListener('resize', resizeScreen);
-
-        return () => {
-            window.removeEventListener('resize', resizeScreen)
-        }
+        setScreenSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+        })
     }, [])
 
     return (
@@ -141,7 +130,7 @@ export const GamePage = () => {
             <button className='round-button round-button_top round-button_left' onClick={toStartScreen}>
                 <img src='/images/exit.svg' alt="В меню." />
             </button>
-            <MobileControl controls={mobileControl}/>
+            {isMobile && <MobileControl controls={mobileControl}/>}
             {pointerLocked}
         </div>
     )

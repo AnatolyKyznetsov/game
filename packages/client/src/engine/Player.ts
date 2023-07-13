@@ -217,20 +217,6 @@ export abstract class Player {
                 this.secondAbilityInProgress = true;
             }
         });
-
-        this.game.eventBus.on('resizeScreen', () => {
-            this.cameraBox.width = this.game.screen.width / 1.2
-            this.cameraBox.height = this.game.screen.height / 1.2
-
-            if (this.isActivePlayer) {
-                this.screen = {
-                    x: this.game.getStartPointX(this.name),
-                    y: this.game.getStartPointY(this.name),
-                }
-
-                console.log(this.cameraBox);
-            }
-        });
     }
 
     private move(): void {
@@ -353,7 +339,7 @@ export abstract class Player {
         this.cameraBox.y = this.position.y - this.cameraBox.height + this.size.height + this.cameraBox.bottomIndent;
 
         if (this.isActivePlayer) {
-            this.game.ctx.fillStyle = 'rgba(0,0,0,.3)';
+            this.game.ctx.fillStyle = 'rgba(0,0,0,0)';
             this.game.ctx.fillRect(this.cameraBox.x, this.cameraBox.y, this.cameraBox.width, this.cameraBox.height);
         }
 

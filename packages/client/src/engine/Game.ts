@@ -33,8 +33,6 @@ export class Game {
     private gameOver: boolean;
     public frameSettings: FrameSettings;
 
-    private static instance: Game;
-
     constructor(ctx: CanvasRenderingContext2D, lvls: LvlData[], mobileControls?: Controls) {
         this.ctx = ctx;
 
@@ -147,15 +145,6 @@ export class Game {
             this.needChangePlayer = 'next';
             this.prevPlayer = this.activePlayer;
             this.nextPlayerIndex();
-        });
-
-        window.addEventListener('resize', () => {
-            this.screen = {
-                width: window.innerWidth,
-                height: window.innerHeight,
-            }
-            this.ctx.clearRect(0, 0, this.size.width, this.size.height);
-            this.eventBus.emit('resizeScreen');
         });
     }
 
