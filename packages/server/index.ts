@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
+import https from 'https'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
 import { createProxyMiddleware } from 'http-proxy-middleware'
@@ -21,6 +22,16 @@ const isDev = () => process.env.NODE_ENV === 'development'
 
 async function startServer() {
     let vite: ViteDevServer | undefined
+    let key, cert;
+
+    if (process.env.DOCKER_BUILD) {
+        key = fs.readFileSync(
+            path.resolve('../etc/letsencrypt/live/game-machine.ya-praktikum.tech', 'privkey.key')
+        )
+        cert = fs.readFileSync(
+            path.resolve('../etc/letsencrypt/live/game-machine.ya-praktikum.tech', 'cert.crt')
+        )
+    }
 
     const app = express()
 
@@ -135,9 +146,17 @@ async function startServer() {
         }
     })
 
-    app.listen(port, () => {
-        console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
-    })
+    if (process.env.DOCKER_BUILD) {
+        const httpsServer = https.createServer({ key, cert }, app);
+
+        httpsServer.listen(port, () => {
+            console.log(`  ➜ 🎸 HTTPS Server is listening on port: ${port}`)
+        })
+    } else {
+        app.listen(port, () => {
+            console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
+        })
+    }
 }
 
 dbConnect().then(() => {
