@@ -1,4 +1,4 @@
-const prodUrl = 'http://game-machine.ya-praktikum.tech';
+const prodUrl = 'https://game-machine.ya-praktikum.tech';
 
 export const serverUrl = __DOCKER_BUILD__ ? `${prodUrl}:${__SERVER_PORT__}` : 'http://localhost:3000';
 
