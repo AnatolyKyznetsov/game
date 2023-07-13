@@ -9,7 +9,7 @@ export default defineConfig({
         port: Number(process.env.CLIENT_PORT) || 3001,
     },
     define: {
-        __SERVER_PORT__: 80,
+        __SERVER_PORT__: 443,
         __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
     },
     build: {
