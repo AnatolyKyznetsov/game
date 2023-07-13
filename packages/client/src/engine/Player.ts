@@ -5,6 +5,7 @@ import { v4 as makeId } from 'uuid'
 export abstract class Player {
     public id: string;
     public screen: Position;
+    private name: keyof Players<unknown>
 
     public game: Game;
     private moving: Moving;
@@ -55,6 +56,7 @@ export abstract class Player {
     constructor(game: Game, position: Position, name: keyof Players<unknown>) {
         this.game = game;
         this.id = makeId();
+        this.name = name;
 
         this.screen = {
             x: this.game.getStartPointX(name),
@@ -92,7 +94,7 @@ export abstract class Player {
             x: 0,
             y: 0,
             width: this.game.screen.width / 1.2,
-            height: 500,
+            height: this.game.screen.height / 1.2,
             bottomIndent: 80
         }
 
