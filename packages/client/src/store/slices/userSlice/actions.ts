@@ -45,11 +45,11 @@ export const registerUser = createAsyncThunk(
 )
 
 export const getClientId = createAsyncThunk('user/client_id', async () => {
-    const { baseUrl, clientId } = Urls
+    const { baseUrl, clientId, redirectUri } = Urls
     const options = {
         method: 'GET',
     }
-    const response = await request(`${baseUrl}${clientId}`, options)
+    const response = await request(`${baseUrl}${clientId}?redirect_uri=${redirectUri}`, options)
     if (response.ok) {
         return await response.json()
     } else {
