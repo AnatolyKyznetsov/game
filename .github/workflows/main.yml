@@ -1,0 +1,62 @@
+name: Deploy Yandex Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push client image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.client
+          push: true
+          tags: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/client:${{ github.sha }}
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile.server
+          push: true
+          tags: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
+
+      - name: Deploy COI VM
+        id: deploy-coi
+        uses: yc-actions/yc-coi-deploy@v1
+        env:
+          CLIENT_IMAGE: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/client:${{ github.sha }}
+          SERVER_IMAGE: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          folder-id: b1grv5nsl48ik4bkm2bj
+          vm-name: game-machine
+          vm-service-account-name: group
+          vm-subnet-id: e2lel02sgpf0pglb9jpv
+          vm-cores: 2
+          vm-memory: 2GB
+          vm-core-fraction: 50
+          vm-disk-size: 30GB
+          vm-zone-id: ru-central1-b
+          vm-platform-id: standard-v3
+          user-data-path: yandex-cloud/user-data.yml
+          docker-compose-path: ./yandex-cloud/docker-compose.yml
