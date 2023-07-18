@@ -1,9 +1,8 @@
-const prodUrl = 'https://game-machine.ya-praktikum.tech';
-
-export const serverUrl = process.env.VITE_DOCKER_BUILD ? `${prodUrl}:${process.env.SERVER_PORT}` : 'http://localhost:3000';
-
+export const prodUrl = 'https://game-machine.ya-praktikum.tech';
+export const serverUrl = __DOCKER_BUILD__ ? prodUrl : 'http://localhost:3000';
+export const baseUrl = __SSR__ ? 'https://ya-praktikum.tech' : serverUrl;
 export const Urls = {
-    baseUrl: `${serverUrl}/api/v2`,
+    baseUrl: `${baseUrl}/api/v2`,
     signup: '/auth/signup',
     signin: '/auth/signin',
     userInfo: '/auth/user',

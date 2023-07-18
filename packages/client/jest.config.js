@@ -5,5 +5,6 @@ export default {
     globals: {
         __SERVER_PORT__: 3000,
         __DOCKER_BUILD__: true,
+        __SSR__: true,
     },
 }
