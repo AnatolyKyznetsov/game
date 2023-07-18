@@ -1,11 +1,15 @@
 import express, { Express } from 'express'
 import { UserService } from '../services/UserService';
 
+export const addUserSet = async (login: string) => {
+    return await UserService.create(login);
+}
+
 export function addUserRouters(app: Express) {
     app.post('/local/user_set', express.json(), async (req, res) => {
         try {
             const { login } = req.body.data
-            const user = await UserService.create(login);
+            const user = await addUserSet(login);
             res.send({ userId: user[0].dataValues.id })
         } catch {
             res.send({ userId: null })

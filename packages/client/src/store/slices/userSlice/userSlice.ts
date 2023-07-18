@@ -60,6 +60,9 @@ const userSlice = createSlice({
         changeTheme: (state, { payload }) => {
             state.isLightTheme = payload
         },
+        changeInnerId: (state, { payload }) => {
+            state.innerId = payload
+        },
     },
     extraReducers: {
         [registerUser.fulfilled.type]: (
@@ -211,6 +214,6 @@ const userSlice = createSlice({
     },
 })
 
-export const { changeUserEmail, changeTheme } = userSlice.actions
+export const { changeUserEmail, changeTheme, changeInnerId } = userSlice.actions
 
 export const userReducer = userSlice.reducer

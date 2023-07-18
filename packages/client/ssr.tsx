@@ -8,10 +8,14 @@ import { routes } from './src/utils/routes';
 import { configureStore } from '@reduxjs/toolkit';
 import { forumReducer } from './src/store/slices/forumSlice/forumSlice';
 import { leaderBoardReducer } from './src/store/slices/leaderBoardSlice/leaderBoardSlice';
-import { changeTheme, userReducer } from './src/store/slices/userSlice/userSlice';
-import { getTheme, getUserInfo, saveInnerUser } from './src/store/slices/userSlice/actions';
+import { changeTheme, userReducer, changeInnerId } from './src/store/slices/userSlice/userSlice';
+import { getUserInfo } from './src/store/slices/userSlice/actions';
 
-export async function render(url: string, authCookie: string) {
+export async function render(
+    url: string,
+    authCookie: string,
+    dbReqs: Record<string, (...arg: any[]) => Promise<unknown>>
+) {
     let isLightTheme = false;
 
     const [ pathname ] = url.split('?')
@@ -28,21 +32,21 @@ export async function render(url: string, authCookie: string) {
 
     const setTheme = async () => {
         const { login } = userDataRes.payload
-        const innerUser = await store.dispatch(saveInnerUser({ login }))
+        const innerUser = await dbReqs.setUser(login)
 
-        if (innerUser.payload === undefined) {
+        if (!innerUser) {
             return;
         }
 
-        const { userId } = innerUser.payload
-        const theme = await store.dispatch(getTheme({ userId }))
-
-        if (theme.payload === undefined) {
-            return;
+        if (innerUser[0]) {
+            store.dispatch(changeInnerId(innerUser[0].dataValues.id))
         }
 
-        isLightTheme = theme.payload.isLightTheme
+        const { id } = innerUser[0].dataValues
+        const themeData = await dbReqs.getTheme(id)
+        const dataValues = (themeData as any).dataValues
 
+        isLightTheme = dataValues.isLightTheme
         store.dispatch(changeTheme(isLightTheme))
     }
 

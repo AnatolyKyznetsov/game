@@ -4,8 +4,8 @@ import https from 'https'
 import type { ViteDevServer } from 'vite'
 import { createServer as createViteServer } from 'vite'
 import { createProxyMiddleware } from 'http-proxy-middleware'
-import { addThemeRouters } from './routes/addThemeRouters'
-import { addUserRouters } from './routes/addUserRouters'
+import { addThemeGet, addThemeRouters } from './routes/addThemeRouters'
+import { addUserRouters, addUserSet } from './routes/addUserRouters'
 import { topicsRouters } from './routes/topicRouters'
 import { commentRouters } from './routes/commentRouters'
 import { replyRouters } from './routes/replyRouters'
@@ -110,7 +110,11 @@ async function startServer() {
                 }
             }
 
-            let render: (url: string, authCookie: string | undefined) => Promise<string>
+            let render: (
+                url: string,
+                authCookie: string | undefined,
+                dbReqs?: Record<string, (...arg: any[]) => Promise<unknown>>
+            ) => Promise<string>
 
             if (isDev()) {
                 render = (
@@ -130,7 +134,12 @@ async function startServer() {
                 }
             }
 
-            const [ appHtml, preloadedState, isLightTheme ] = await render(url, authCookie)
+            const dbReqs = {
+                getTheme: addThemeGet,
+                setUser: addUserSet
+            }
+
+            const [ appHtml, preloadedState, isLightTheme ] = await render(url, authCookie, dbReqs)
 
             if (isLightTheme) {
                 template = template.replace('<body>', '<body class="light-theme">')
