@@ -8,6 +8,7 @@ export default defineConfig({
         __SERVER_PORT__: 3000,
         __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
         __SSR__: true,
+        'process.env': {},
     },
     build: {
         lib: {
