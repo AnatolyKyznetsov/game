@@ -12,7 +12,6 @@ export default defineConfig({
         __SERVER_PORT__: process.env.NODE_ENV === 'development' ? 3000 : 443,
         __DOCKER_BUILD__: process.env.VITE_DOCKER_BUILD,
         __SSR__: false,
-        'process.env': {},
     },
     build: {
         rollupOptions: {
