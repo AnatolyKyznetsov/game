@@ -1,3 +1,5 @@
+import { RefObject } from 'react'
+
 export interface Position {
     x: number,
     y: number,
@@ -73,4 +75,15 @@ export interface FrameSettings {
     delay: number,
     interval: number,
     timer: number
+}
+
+export interface Controls {
+    right: RefObject<HTMLDivElement>,
+    left: RefObject<HTMLDivElement>,
+    down: RefObject<HTMLDivElement>,
+    up: RefObject<HTMLDivElement>,
+    next_player: RefObject<HTMLDivElement>,
+    prev_player?: RefObject<HTMLDivElement>,
+    first_ability: RefObject<HTMLDivElement>,
+    second_ability?: RefObject<HTMLDivElement>
 }
