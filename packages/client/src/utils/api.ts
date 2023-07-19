@@ -1,5 +1,5 @@
 export const prodUrl = 'https://game-machine.ya-praktikum.tech';
-export const serverUrl = __DOCKER_BUILD__ ? prodUrl : 'http://localhost:3000';
+export const serverUrl = import.meta.env['PROD'] ? prodUrl : 'http://localhost:3000';
 export const baseUrl = __SSR__ ? 'https://ya-praktikum.tech' : serverUrl;
 export const Urls = {
     baseUrl: `${baseUrl}/api/v2`,
