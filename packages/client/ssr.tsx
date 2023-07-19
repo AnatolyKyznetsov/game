@@ -44,6 +44,11 @@ export async function render(
 
         const { id } = innerUser[0].dataValues
         const themeData = await dbReqs.getTheme(id)
+
+        if (!themeData) {
+            return;
+        }
+
         const dataValues = (themeData as any).dataValues
 
         isLightTheme = dataValues.isLightTheme
